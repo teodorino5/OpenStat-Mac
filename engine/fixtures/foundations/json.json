@@ -1,0 +1,39 @@
+{
+  "feature_ids": ["DATA-031"],
+  "provenance": "Original fixture authored for this project, 2026-10-14. No external vendor or sample data.",
+  "independent_method": "Hand-calculated JSON openstat-data interchange contract. Verifies exact schema metadata preservation, distinct representation of null, empty string, and empty response list, 64-bit integer limits, float precision, value labels, user-coded missing strings, and stable row IDs across JSON export and re-import via independent store.",
+  "tolerance": {"comparison": "exact typed rows, zero losses, exact string/empty distinction, and schema metadata"},
+  "test_selector": "engine/tests/test_interchange.py::test_json_hand_calculated_contract",
+  "input": {
+    "name": "JSON interchange fixture",
+    "context": "sample",
+    "observation_unit": "encounter",
+    "fields": [
+      {"id": "id", "name": "ID", "storage": "int64", "measurement": "discrete", "role": "identifier"},
+      {"id": "score", "name": "Score", "storage": "float64", "measurement": "continuous", "role": "characteristic"},
+      {"id": "text", "name": "Text", "storage": "string", "measurement": "nominal", "role": "characteristic", "missing_codes": ["NA"]},
+      {"id": "status", "name": "Status", "storage": "string", "measurement": "ordinal", "role": "characteristic", "levels": ["draft", "final"], "value_labels": {"draft": "Draft record", "final": "Finalized record"}},
+      {"id": "verified", "name": "Verified", "storage": "bool", "measurement": "binary", "role": "characteristic"},
+      {"id": "tags", "name": "Tags", "storage": "multiple_response", "measurement": "multiple_response", "role": "characteristic", "levels": ["urgent", "reviewed"]}
+    ],
+    "rows": [
+      [9223372036854775807, 10.5, "valid text", "draft", true, ["urgent", "reviewed"]],
+      [-9223372036854775808, 0.0, "", "final", false, []],
+      [null, null, "NA", null, null, null]
+    ]
+  },
+  "expected": {
+    "losses": [],
+    "row_count": 3,
+    "row_ids": [0, 1, 2],
+    "context": "sample",
+    "observation_unit": "encounter",
+    "rows": [
+      [9223372036854775807, 10.5, "valid text", "draft", true, ["urgent", "reviewed"]],
+      [-9223372036854775808, 0.0, "", "final", false, []],
+      [null, null, "NA", null, null, null]
+    ],
+    "envelope_format": "openstat-data",
+    "envelope_version": 1
+  }
+}

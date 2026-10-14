@@ -7,7 +7,7 @@
     "DATA-020"
   ],
   "provenance": "Original nine-case fixture authored for OpenStat Mac, 2026-10-14. No vendor or course data.",
-  "independent_method": "Labels assigned by hand to literal endpoints. Exclusive table tally: A low/middle/high = 1/1/1; B = 0/1/1. Response membership tally: A red/blue = 3/1; B = 1/1. Missing states counted case by case, with null precedence for table exclusion counts. Expectations are literal, never produced by the implementation. Derived classes encode both source missing states as null; original source codes remain unchanged. The exclusive table excludes derived null on cases 5 and 6 plus group null on case 7, and coded group missing on case 8.",
+  "independent_method": "Labels assigned by hand to literal endpoints. Exclusive table tally: A low/middle/high = 1/1/1; B = 0/1/1. Response membership tally: A red/blue = 3/1; B = 1/1. Missing states counted case by case, with null precedence for table exclusion counts. Expectations are literal, never produced by the implementation. Derived classes encode both source missing states as null; original source codes remain unchanged. The exclusive table excludes derived null on cases 5 and 6 plus group null on case 7, and coded group missing on case 8. Missing patterns are enumerated case by case across amount, group, and response: four complete cases and five distinct single-case missing patterns.",
   "tolerance": {
     "comparison": "exact labels, integer counts, row IDs and missing-state counts"
   },
@@ -289,6 +289,98 @@
         "empty_response": 2
       }
     },
-    "complete_cases": 4
+    "complete_cases": 4,
+    "pattern_fields": [
+      "amount",
+      "group",
+      "response"
+    ],
+    "patterns": [
+      {
+        "pattern": {
+          "amount": "valid",
+          "group": "valid",
+          "response": "valid"
+        },
+        "kinds": [
+          "valid",
+          "valid",
+          "valid"
+        ],
+        "count": 4,
+        "complete": true
+      },
+      {
+        "pattern": {
+          "amount": "coded_missing",
+          "group": "valid",
+          "response": "valid"
+        },
+        "kinds": [
+          "coded_missing",
+          "valid",
+          "valid"
+        ],
+        "count": 1,
+        "complete": false
+      },
+      {
+        "pattern": {
+          "amount": "null",
+          "group": "valid",
+          "response": "valid"
+        },
+        "kinds": [
+          "null",
+          "valid",
+          "valid"
+        ],
+        "count": 1,
+        "complete": false
+      },
+      {
+        "pattern": {
+          "amount": "valid",
+          "group": "coded_missing",
+          "response": "valid"
+        },
+        "kinds": [
+          "valid",
+          "coded_missing",
+          "valid"
+        ],
+        "count": 1,
+        "complete": false
+      },
+      {
+        "pattern": {
+          "amount": "valid",
+          "group": "null",
+          "response": "coded_missing"
+        },
+        "kinds": [
+          "valid",
+          "null",
+          "coded_missing"
+        ],
+        "count": 1,
+        "complete": false
+      },
+      {
+        "pattern": {
+          "amount": "valid",
+          "group": "valid",
+          "response": "null"
+        },
+        "kinds": [
+          "valid",
+          "valid",
+          "null"
+        ],
+        "count": 1,
+        "complete": false
+      }
+    ]
   }
 }
+

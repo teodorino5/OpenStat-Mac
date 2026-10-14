@@ -1,0 +1,38 @@
+{
+  "feature_ids": ["DATA-036"],
+  "provenance": "Original fixture authored for this project, 2026-10-14. No external vendor or sample data.",
+  "independent_method": "Hand-calculated SQLite interchange contract. Verifies exact schema metadata preservation in _openstat_metadata, zero information loss, IEEE negative zero preservation via 8-byte little-endian BLOB in _openstat_data, 64-bit integer limits, user-coded missing strings, multiple-response JSON-encoded lists, boolean 0/1 integers, and stable row IDs across SQLite export and re-import via independent store.",
+  "tolerance": {"comparison": "exact typed rows, zero losses, bit-exact floats, and schema metadata"},
+  "test_selector": "engine/tests/test_interchange.py::test_sqlite_hand_calculated_contract",
+  "input": {
+    "name": "SQLite interchange fixture",
+    "context": "sample",
+    "observation_unit": "specimen",
+    "fields": [
+      {"id": "i64", "name": "Count", "storage": "int64", "measurement": "discrete", "role": "identifier"},
+      {"id": "f64", "name": "Value", "storage": "float64", "measurement": "continuous", "role": "characteristic"},
+      {"id": "str", "name": "Label", "storage": "string", "measurement": "ordinal", "role": "characteristic", "levels": ["low", "medium", "high"], "value_labels": {"low": "Low level", "medium": "Medium level"}, "missing_codes": ["MISSING"]},
+      {"id": "flag", "name": "Active", "storage": "bool", "measurement": "binary", "role": "characteristic"},
+      {"id": "tags", "name": "Tags", "storage": "multiple_response", "measurement": "multiple_response", "role": "characteristic", "levels": ["alpha", "beta"]}
+    ],
+    "rows": [
+      [9223372036854775807, -0.0, "low", true, ["alpha", "beta"]],
+      [-9223372036854775808, 3.141592653589793, "medium", false, []],
+      [null, null, "MISSING", null, null]
+    ]
+  },
+  "expected": {
+    "losses": [],
+    "row_count": 3,
+    "row_ids": [0, 1, 2],
+    "context": "sample",
+    "observation_unit": "specimen",
+    "rows": [
+      [9223372036854775807, -0.0, "low", true, ["alpha", "beta"]],
+      [-9223372036854775808, 3.141592653589793, "medium", false, []],
+      [null, null, "MISSING", null, null]
+    ],
+    "sqlite_tables": ["_openstat_data", "_openstat_metadata"],
+    "float_blob_hex": "0000000000000080"
+  }
+}
