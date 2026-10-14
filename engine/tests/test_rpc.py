@@ -128,3 +128,33 @@ def test_frame_preserves_foundation_negative_zero_and_integer_precision() -> Non
     assert struct.pack("<d", decoded["value"]) == b"\0\0\0\0\0\0\0\x80"
     assert type(decoded["integer"]) is int and decoded["integer"] == 2**63 - 1
     assert type(decoded["zero"]) is int and decoded["zero"] == 0
+
+
+def test_columns_expression_catalog_over_rpc(tmp_path: Path) -> None:
+    service = Service(tmp_path)
+    created = service.dispatch(
+        request(
+            "dataset.create",
+            {
+                "name": "CalcTest",
+                "fields": [
+                    {
+                        "id": "num",
+                        "name": "Number",
+                        "storage": "float64",
+                        "measurement": "continuous",
+                    },
+                    {"id": "txt", "name": "Text", "storage": "string", "measurement": "nominal"},
+                ],
+                "rows": [[1.0, "a"]],
+            },
+        )
+    )
+    assert created is not None
+    rev = created["result"]["revision"]
+
+    res = service.dispatch(request("columns.expression_catalog", {"revision": rev}))
+    assert res is not None
+    assert len(res["result"]["functions"]) == 9
+    assert [f["id"] for f in res["result"]["fields"]] == ["num"]
+

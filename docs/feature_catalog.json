@@ -175,12 +175,16 @@
       "name": "Compute variables",
       "method": "Typed expression tree; function allowlist and autocomplete",
       "reference": "M08",
-      "library": "Original safe numeric expression tree; autocomplete pending",
+      "library": "Original safe numeric expression tree with function allowlist and autocomplete discovery",
       "phase": 0,
-      "status": "in progress",
-      "evidence": "brief",
-      "tests": [],
-      "fixtures": []
+      "status": "verified against reference values",
+      "evidence": "test",
+      "tests": [
+        "engine/tests/test_columns.py::test_original_columns_contract"
+      ],
+      "fixtures": [
+        "engine/fixtures/foundations/columns.json"
+      ]
     },
     {
       "id": "DATA-012",

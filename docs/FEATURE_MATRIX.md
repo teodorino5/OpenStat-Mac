@@ -2,7 +2,7 @@
 
 Audit date: 2026-10-14 (Europe/Prague). Phase 0 active; implementation authorized.
 
-**Coverage: 24 of 353 planned functions implemented, 19 verified against reference values.**
+**Coverage: 25 of 353 planned functions implemented, 20 verified against reference values.**
 
 ## Scope and evidence limits
 
@@ -22,7 +22,7 @@ The five accepted rows are engine data foundations. The three verified rows shar
 
 | Phase | Planned functions | Implemented | Verified |
 | --- | ---: | ---: | ---: |
-| 0 | 47 | 24 | 19 |
+| 0 | 47 | 25 | 20 |
 | 1 | 65 | 0 | 0 |
 | 2 | 37 | 0 | 0 |
 | 3 | 62 | 0 | 0 |
@@ -46,7 +46,7 @@ The five accepted rows are engine data foundations. The three verified rows shar
 | DATA-008 | Sort cases | Stable sort with explicit missing placement | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original safe predicates and stable bounded external merge; see docs/VIEWS.md | 0 | verified against reference values | brief | `engine/tests/test_views.py::test_original_case_contract` | `engine/fixtures/foundations/cases.json` |
 | DATA-009 | Filter cases | Predicate evaluation and retained row identities | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original safe predicates and stable bounded external merge; see docs/VIEWS.md | 0 | verified against reference values | brief | `engine/tests/test_views.py::test_original_case_contract` | `engine/fixtures/foundations/cases.json` |
 | DATA-010 | Recode values | Versioned explicit mapping and unmatched-value policy | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original immutable column operations; global operations bounded to 100k cases | 0 | verified against reference values | brief | `engine/tests/test_columns.py::test_original_columns_contract` | `engine/fixtures/foundations/columns.json` |
-| DATA-011 | Compute variables | Typed expression tree; function allowlist and autocomplete | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original safe numeric expression tree; autocomplete pending | 0 | in progress | brief | — | — |
+| DATA-011 | Compute variables | Typed expression tree; function allowlist and autocomplete | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original safe numeric expression tree with function allowlist and autocomplete discovery | 0 | verified against reference values | brief | `engine/tests/test_columns.py::test_original_columns_contract` | `engine/fixtures/foundations/columns.json` |
 | DATA-012 | Transpose table | Dimension exchange with size checks and metadata policy | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original typed table operations; see docs/TABLE_OPERATIONS.md for limits | 0 | verified against reference values | brief | `engine/tests/test_tables.py::test_hand_calculated_table_contract` | `engine/fixtures/foundations/tables.json` |
 | DATA-013 | Join tables | Keyed join with cardinality and unmatched-row checks | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original typed table operations; see docs/TABLE_OPERATIONS.md for limits | 0 | verified against reference values | brief | `engine/tests/test_tables.py::test_hand_calculated_table_contract` | `engine/fixtures/foundations/tables.json` |
 | DATA-014 | Stack tables | Schema-compatible row concatenation | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original typed table operations; see docs/TABLE_OPERATIONS.md for limits | 0 | verified against reference values | brief | `engine/tests/test_tables.py::test_hand_calculated_table_contract` | `engine/fixtures/foundations/tables.json` |

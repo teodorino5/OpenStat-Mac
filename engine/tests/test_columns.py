@@ -510,3 +510,50 @@ def test_multiple_response_coded_missing_policy(store: Store) -> None:
         include_missing_codes=True,
     )
     assert values(store, retained_lead) == [[], ["a"], ["?"], ["a", "?"], None]
+
+
+def test_expression_catalog_allowlist_and_autocomplete(store: Store) -> None:
+    fields = [
+        {
+            "id": "id_col",
+            "name": "ID",
+            "storage": "string",
+            "measurement": "nominal",
+            "role": "identifier",
+        },
+        {"id": "score", "name": "Score", "storage": "float64", "measurement": "continuous"},
+        {"id": "count", "name": "Count", "storage": "int64", "measurement": "discrete"},
+        {"id": "label", "name": "Label", "storage": "string", "measurement": "nominal"},
+    ]
+    data = [["A1", 10.5, 3, "foo"]]
+    dataset = store.create("Test", fields, data)
+    catalog = columns.expression_catalog(store, dataset["revision"])
+
+    function_names = [f["name"] for f in catalog["functions"]]
+    assert function_names == [
+        "negate",
+        "abs",
+        "sqrt",
+        "log",
+        "exp",
+        "add",
+        "subtract",
+        "multiply",
+        "divide",
+    ]
+    field_ids = [f["id"] for f in catalog["fields"]]
+    assert field_ids == ["score", "count"]
+    assert catalog["max_depth"] == 16
+    assert catalog["max_nodes"] == 256
+
+    filtered_fn = columns.expression_catalog(store, dataset["revision"], prefix="sq")
+    assert [f["name"] for f in filtered_fn["functions"]] == ["sqrt"]
+    assert len(filtered_fn["fields"]) == 0
+
+    filtered_field = columns.expression_catalog(store, dataset["revision"], prefix="sc")
+    assert len(filtered_field["functions"]) == 0
+    assert [f["id"] for f in filtered_field["fields"]] == ["score"]
+
+    with pytest.raises(EngineError, match="error.operation_options"):
+        columns.expression_catalog(store, dataset["revision"], prefix=123)  # type: ignore[arg-type]
+

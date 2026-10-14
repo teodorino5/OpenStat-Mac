@@ -18,6 +18,17 @@ GLOBAL_LIMIT = 100_000
 BATCH_SIZE = 8192
 MAX_EXPRESSION_DEPTH = 16
 MAX_EXPRESSION_NODES = 256
+EXPRESSION_FUNCTIONS: tuple[dict[str, Any], ...] = (
+    {"name": "negate", "arity": 1, "description": "Unary negation (-x)"},
+    {"name": "abs", "arity": 1, "description": "Absolute value (|x|)"},
+    {"name": "sqrt", "arity": 1, "description": "Square root (sqrt(x))"},
+    {"name": "log", "arity": 1, "description": "Natural logarithm (ln(x))"},
+    {"name": "exp", "arity": 1, "description": "Exponential function (e^x)"},
+    {"name": "add", "arity": 2, "description": "Addition (x + y)"},
+    {"name": "subtract", "arity": 2, "description": "Subtraction (x - y)"},
+    {"name": "multiply", "arity": 2, "description": "Multiplication (x * y)"},
+    {"name": "divide", "arity": 2, "description": "Division (x / y)"},
+)
 
 
 def _source(item: Revision, field: str, numeric: bool = False) -> Field:
@@ -265,6 +276,34 @@ def compute(
             for index in range(len(batch[ROW_ID]))
         ],
     )
+
+
+def expression_catalog(store: Store, revision: str, prefix: str = "") -> dict[str, Any]:
+    """Return function allowlist and eligible numeric fields for expression autocomplete."""
+    if not isinstance(prefix, str):
+        raise EngineError("error.operation_options")
+    item = store.get(revision)
+    eligible_fields = [
+        {"id": f.id, "name": f.name, "storage": f.storage, "measurement": f.measurement}
+        for f in item.fields
+        if f.storage in {"int64", "float64"} and f.role != "identifier"
+    ]
+    query = prefix.lower().strip()
+    matched_functions = [
+        fn for fn in EXPRESSION_FUNCTIONS if not query or query in fn["name"].lower()
+    ]
+    matched_fields = [
+        f
+        for f in eligible_fields
+        if not query or query in f["name"].lower() or query in f["id"].lower()
+    ]
+    return {
+        "revision": revision,
+        "functions": list(matched_functions),
+        "fields": list(matched_fields),
+        "max_depth": MAX_EXPRESSION_DEPTH,
+        "max_nodes": MAX_EXPRESSION_NODES,
+    }
 
 
 def rank(
