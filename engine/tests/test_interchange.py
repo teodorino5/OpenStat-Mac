@@ -5,6 +5,7 @@ import json
 import math
 import sqlite3
 import struct
+from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
@@ -429,3 +430,52 @@ def test_numeric_flat_text_import_export(
         [None, None],
     ]
     assert math.copysign(1.0, values[1][1]) == -1.0
+
+
+@pytest.mark.feature("DATA-028")
+@pytest.mark.feature("DATA-029")
+def test_csv_tsv_hand_calculated_contract(
+    store: Store, tmp_path: Path, reference_fixture: Callable[[str], dict[str, Any]]
+) -> None:
+    fixture = reference_fixture("engine/fixtures/foundations/csv_tsv.json")
+    dataset = store.create(
+        fixture["input"]["name"],
+        fixture["input"]["fields"],
+        fixture["input"]["rows"],
+    )
+    expected = fixture["expected"]
+
+    # Comma delimiter, dot decimal (DATA-028)
+    csv_path = tmp_path / "export.csv"
+    res_csv = io.export_csv(
+        store, dataset["revision"], str(csv_path), delimiter=",", decimal_point="."
+    )
+    assert res_csv["losses"] == expected["losses"]
+    with csv_path.open(newline="", encoding="utf-8") as stream:
+        assert list(csv.reader(stream, delimiter=",")) == expected["csv_rows"]
+
+    # Tab delimiter, dot decimal (DATA-029)
+    tsv_path = tmp_path / "export.tsv"
+    res_tsv = io.export_csv(
+        store, dataset["revision"], str(tsv_path), delimiter="\t", decimal_point="."
+    )
+    assert res_tsv["losses"] == expected["losses"]
+    with tsv_path.open(newline="", encoding="utf-8") as stream:
+        assert list(csv.reader(stream, delimiter="\t")) == expected["tsv_rows"]
+
+    # Semicolon delimiter, comma decimal (DATA-028 locale option)
+    locale_path = tmp_path / "export_locale.csv"
+    res_locale = io.export_csv(
+        store, dataset["revision"], str(locale_path), delimiter=";", decimal_point=","
+    )
+    assert res_locale["losses"] == expected["losses"]
+    with locale_path.open(newline="", encoding="utf-8") as stream:
+        assert list(csv.reader(stream, delimiter=";")) == expected["locale_rows"]
+
+    # Re-import through new store and verify typed rows + negative zero preservation
+    other = Store(tmp_path / "other")
+    imported = other.import_csv(str(csv_path), delimiter=",", decimal_point=".")
+    reimported_rows = other.page(imported["revision"])["rows"]
+    assert reimported_rows == expected["reimport_rows"]
+    assert math.copysign(1.0, reimported_rows[0][1]) == -1.0
+

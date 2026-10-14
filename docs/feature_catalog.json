@@ -446,18 +446,14 @@
       "reference": "M08",
       "library": "Arrow CSV import + original streaming CSV export and locale options",
       "phase": 0,
-      "status": "implemented",
+      "status": "verified against reference values",
       "evidence": "brief",
       "tests": [
-        "engine/tests/test_interchange.py::test_flat_text[,-.]",
-        "engine/tests/test_interchange.py::test_flat_text[;-,]",
-        "engine/tests/test_interchange.py::test_numeric_flat_text_import_export[,-DATA-028]",
-        "engine/tests/test_interchange.py::test_numeric_flat_text_import_export[\\t-DATA-029]",
-        "engine/tests/test_store.py::test_streamed_locale_import[,-.-Name,Value\\ncedar,1.5\\nclover,2.75\\n-expected0]",
-        "engine/tests/test_store.py::test_streamed_locale_import[;-,-Name;Value\\n\\u010derven\\xe1;1,5\\nmodr\\xe1;2,75\\n-expected1]",
-        "engine/tests/test_store.py::test_streamed_locale_import[\\t-.-Name\\tValue\\ncedar\\t1.5\\nclover\\t2.75\\n-expected2]"
+        "engine/tests/test_interchange.py::test_csv_tsv_hand_calculated_contract"
       ],
-      "fixtures": []
+      "fixtures": [
+        "engine/fixtures/foundations/csv_tsv.json"
+      ]
     },
     {
       "id": "DATA-029",
@@ -467,17 +463,14 @@
       "reference": "M08",
       "library": "Arrow TSV import + original quoted TSV export",
       "phase": 0,
-      "status": "implemented",
+      "status": "verified against reference values",
       "evidence": "brief",
       "tests": [
-        "engine/tests/test_interchange.py::test_flat_text[\\t-.]",
-        "engine/tests/test_interchange.py::test_numeric_flat_text_import_export[,-DATA-028]",
-        "engine/tests/test_interchange.py::test_numeric_flat_text_import_export[\\t-DATA-029]",
-        "engine/tests/test_store.py::test_streamed_locale_import[,-.-Name,Value\\ncedar,1.5\\nclover,2.75\\n-expected0]",
-        "engine/tests/test_store.py::test_streamed_locale_import[;-,-Name;Value\\n\\u010derven\\xe1;1,5\\nmodr\\xe1;2,75\\n-expected1]",
-        "engine/tests/test_store.py::test_streamed_locale_import[\\t-.-Name\\tValue\\ncedar\\t1.5\\nclover\\t2.75\\n-expected2]"
+        "engine/tests/test_interchange.py::test_csv_tsv_hand_calculated_contract"
       ],
-      "fixtures": []
+      "fixtures": [
+        "engine/fixtures/foundations/csv_tsv.json"
+      ]
     },
     {
       "id": "DATA-030",

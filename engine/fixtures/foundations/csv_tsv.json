@@ -1,0 +1,48 @@
+{
+  "feature_ids": ["DATA-028", "DATA-029"],
+  "provenance": "Original fixture authored for this project, 2026-10-14. No external vendor or sample data.",
+  "independent_method": "Hand-calculated delimiter and shortest-roundtrip float contract. Verified exact string cells across comma/dot, tab/dot, and semicolon/comma combinations, explicit loss report, and typed re-import.",
+  "tolerance": {"comparison": "exact cell strings, loss keys, and typed re-imported values"},
+  "test_selector": "engine/tests/test_interchange.py::test_csv_tsv_hand_calculated_contract",
+  "input": {
+    "name": "Flat interchange fixture",
+    "fields": [
+      {"id": "n", "name": "Count", "storage": "int64", "measurement": "discrete"},
+      {"id": "val", "name": "Value", "storage": "float64", "measurement": "continuous"},
+      {"id": "label", "name": "Category", "storage": "string", "measurement": "ordinal", "levels": ["alpha", "beta", ""], "value_labels": {"alpha": "First"}, "missing_codes": ["NA"]},
+      {"id": "flag", "name": "Active", "storage": "bool", "measurement": "binary"},
+      {"id": "resp", "name": "Choices", "storage": "multiple_response", "measurement": "multiple_response", "levels": ["x", "y"]}
+    ],
+    "rows": [
+      [9223372036854775807, -0.0, "alpha", true, ["y", "x"]],
+      [-9223372036854775808, 1.2345678901234567, "", false, []],
+      [null, null, "NA", null, null]
+    ]
+  },
+  "expected": {
+    "losses": ["codebook", "field_ids", "context", "null_empty_string_distinction", "multiple_response_type"],
+    "csv_rows": [
+      ["Count", "Value", "Category", "Active", "Choices"],
+      ["9223372036854775807", "-0.0", "alpha", "true", "[\"y\",\"x\"]"],
+      ["-9223372036854775808", "1.2345678901234567", "", "false", "[]"],
+      ["", "", "NA", "", ""]
+    ],
+    "tsv_rows": [
+      ["Count", "Value", "Category", "Active", "Choices"],
+      ["9223372036854775807", "-0.0", "alpha", "true", "[\"y\",\"x\"]"],
+      ["-9223372036854775808", "1.2345678901234567", "", "false", "[]"],
+      ["", "", "NA", "", ""]
+    ],
+    "locale_rows": [
+      ["Count", "Value", "Category", "Active", "Choices"],
+      ["9223372036854775807", "-0,0", "alpha", "true", "[\"y\",\"x\"]"],
+      ["-9223372036854775808", "1,2345678901234567", "", "false", "[]"],
+      ["", "", "NA", "", ""]
+    ],
+    "reimport_rows": [
+      [9223372036854775807, -0.0, "alpha", true, "[\"y\",\"x\"]"],
+      [-9223372036854775808, 1.2345678901234567, "", false, "[]"],
+      [null, null, "NA", null, ""]
+    ]
+  }
+}
