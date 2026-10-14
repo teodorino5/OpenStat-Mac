@@ -165,7 +165,15 @@ class Service:
             "dataset.missing_audit": partial(classification.missing_audit, self.store),
             **{
                 f"columns.{name}": partial(getattr(columns, name), self.store)
-                for name in ("recode", "compute", "rank", "lag", "standardize", "duplicates")
+                for name in (
+                    "recode",
+                    "compute",
+                    "rank",
+                    "lag",
+                    "standardize",
+                    "duplicates",
+                    "box_cox",
+                )
             },
             **{
                 f"dataset.{name}": partial(getattr(interchange, name), self.store)
