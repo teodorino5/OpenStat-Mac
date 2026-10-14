@@ -2,7 +2,7 @@
 
 Audit date: 2026-10-14 (Europe/Prague). Phase 0 active; implementation authorized.
 
-**Coverage: 24 of 353 planned functions implemented, 19 verified against reference values.**
+**Coverage: 24 of 353 planned functions implemented, 22 verified against reference values.**
 
 ## Scope and evidence limits
 
@@ -22,7 +22,7 @@ The five accepted rows are engine data foundations. The three verified rows shar
 
 | Phase | Planned functions | Implemented | Verified |
 | --- | ---: | ---: | ---: |
-| 0 | 47 | 24 | 19 |
+| 0 | 47 | 24 | 22 |
 | 1 | 65 | 0 | 0 |
 | 2 | 37 | 0 | 0 |
 | 3 | 62 | 0 | 0 |
@@ -63,11 +63,11 @@ The five accepted rows are engine data foundations. The three verified rows shar
 | DATA-025 | Group aggregation | Typed split-apply-combine with row provenance | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original bounded count/sum/mean/min/max; grouped row provenance pending | 0 | in progress | brief | — | — |
 | DATA-026 | Duplicate detection | Declared keys and stable duplicate identities | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original immutable column operations; global operations bounded to 100k cases | 0 | verified against reference values | brief | `engine/tests/test_columns.py::test_original_columns_contract` | `engine/fixtures/foundations/columns.json` |
 | DATA-027 | Box-Cox transformation | Positive-data power transform with fitted lambda | [M02](https://docs.scipy.org/doc/scipy/reference/stats.html) | scipy.stats.boxcox | 0 | not started | V01:function | — | — |
-| DATA-028 | CSV import and export | Streaming delimiter parser with explicit schema and encoding | [M08](https://pandas.pydata.org/docs/reference/index.html) | Arrow CSV import + original streaming CSV export and locale options | 0 | implemented | brief | `engine/tests/test_interchange.py::test_flat_text[,-.]`, `engine/tests/test_interchange.py::test_flat_text[;-,]`, `engine/tests/test_interchange.py::test_numeric_flat_text_import_export[,-DATA-028]`, `engine/tests/test_interchange.py::test_numeric_flat_text_import_export[\t-DATA-029]`, `engine/tests/test_store.py::test_streamed_locale_import[,-.-Name,Value\ncedar,1.5\nclover,2.75\n-expected0]`, `engine/tests/test_store.py::test_streamed_locale_import[;-,-Name;Value\n\u010derven\xe1;1,5\nmodr\xe1;2,75\n-expected1]`, `engine/tests/test_store.py::test_streamed_locale_import[\t-.-Name\tValue\ncedar\t1.5\nclover\t2.75\n-expected2]` | — |
-| DATA-029 | TSV import and export | Tab-separated interchange with quoting | [M08](https://pandas.pydata.org/docs/reference/index.html) | Arrow TSV import + original quoted TSV export | 0 | implemented | brief | `engine/tests/test_interchange.py::test_flat_text[\t-.]`, `engine/tests/test_interchange.py::test_numeric_flat_text_import_export[,-DATA-028]`, `engine/tests/test_interchange.py::test_numeric_flat_text_import_export[\t-DATA-029]`, `engine/tests/test_store.py::test_streamed_locale_import[,-.-Name,Value\ncedar,1.5\nclover,2.75\n-expected0]`, `engine/tests/test_store.py::test_streamed_locale_import[;-,-Name;Value\n\u010derven\xe1;1,5\nmodr\xe1;2,75\n-expected1]`, `engine/tests/test_store.py::test_streamed_locale_import[\t-.-Name\tValue\ncedar\t1.5\nclover\t2.75\n-expected2]` | — |
+| DATA-028 | CSV import and export | Streaming delimiter parser with explicit schema and encoding | [M08](https://pandas.pydata.org/docs/reference/index.html) | Arrow CSV import + original streaming CSV export and locale options | 0 | verified against reference values | brief | `engine/tests/test_interchange.py::test_csv_tsv_hand_calculated_contract` | `engine/fixtures/foundations/csv_tsv.json` |
+| DATA-029 | TSV import and export | Tab-separated interchange with quoting | [M08](https://pandas.pydata.org/docs/reference/index.html) | Arrow TSV import + original quoted TSV export | 0 | verified against reference values | brief | `engine/tests/test_interchange.py::test_csv_tsv_hand_calculated_contract` | `engine/fixtures/foundations/csv_tsv.json` |
 | DATA-030 | Excel import and export | Workbook cells, sheets and typed values; import formulas as cached values | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original bounded OOXML subset; cached formulas and broader workbook support pending | 0 | in progress | brief | — | — |
 | DATA-031 | JSON import and export | Declared records or column schema; streaming large input | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original bounded typed JSON envelope; general records and large streaming import pending | 0 | in progress | brief | — | — |
-| DATA-032 | Parquet import and export | Columnar schema-preserving interchange | [M08](https://pandas.pydata.org/docs/reference/index.html) | PyArrow columnar interchange with typed schema metadata | 0 | implemented | brief | `engine/tests/test_interchange.py::test_rich_roundtrip[parquet]`, `engine/tests/test_interchange.py::test_empty_and_batched[parquet]`, `engine/tests/test_interchange.py::test_noncontiguous_stable_ids_and_order[parquet]` | — |
+| DATA-032 | Parquet import and export | Columnar schema-preserving interchange | [M08](https://pandas.pydata.org/docs/reference/index.html) | PyArrow columnar interchange with typed schema metadata | 0 | verified against reference values | brief | `engine/tests/test_interchange.py::test_parquet_hand_calculated_contract` | `engine/fixtures/foundations/parquet.json` |
 | DATA-033 | SPSS interchange | SAV read/write with value-label and missing-code reconciliation | [M20](https://github.com/Roche/pyreadstat) | Audited PyReadStat SAV subset; missing declarations lost on export | 0 | in progress | brief | — | — |
 | DATA-034 | Stata interchange | DTA read/write with explicit format version | [M20](https://github.com/Roche/pyreadstat) | Audited PyReadStat DTA subset; tagged missing and format reconciliation pending | 0 | in progress | brief | — | — |
 | DATA-035 | SAS dataset reading | SAS7BDAT read only; preserve metadata where available | [M20](https://github.com/Roche/pyreadstat) | Audited PyReadStat SAS7BDAT reader; source metadata persistence and genuine fixture pending | 0 | in progress | brief | — | — |
