@@ -506,14 +506,14 @@
       "reference": "M08",
       "library": "PyArrow columnar interchange with typed schema metadata",
       "phase": 0,
-      "status": "implemented",
+      "status": "verified against reference values",
       "evidence": "brief",
       "tests": [
-        "engine/tests/test_interchange.py::test_rich_roundtrip[parquet]",
-        "engine/tests/test_interchange.py::test_empty_and_batched[parquet]",
-        "engine/tests/test_interchange.py::test_noncontiguous_stable_ids_and_order[parquet]"
+        "engine/tests/test_interchange.py::test_parquet_hand_calculated_contract"
       ],
-      "fixtures": []
+      "fixtures": [
+        "engine/fixtures/foundations/parquet.json"
+      ]
     },
     {
       "id": "DATA-033",
