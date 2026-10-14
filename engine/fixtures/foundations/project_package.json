@@ -1,0 +1,68 @@
+{
+  "feature_ids": ["DATA-037"],
+  "provenance": "Original fixture authored for this project, 2026-10-15. No external vendor or sample data.",
+  "independent_method": "Hand-calculated native project package contract. Verifies version 1 manifest structure, immutable data-<sha256>.parquet storage, sparse edits-<uuid>.json overlay, SHA-256 integrity validation, path traversal rejection, unsupported array refusal, and round-trip state preservation across save and independent open.",
+  "tolerance": {"comparison": "exact manifest schema, hash integrity, sparse overlay cells, and dataset descriptor"},
+  "test_selector": "engine/tests/test_store.py::test_project_package_contract",
+  "input": {
+    "name": "Project package test dataset",
+    "context": "sample",
+    "observation_unit": "participant",
+    "fields": [
+      {
+        "id": "f_age",
+        "name": "Age",
+        "storage": "int64",
+        "measurement": "discrete",
+        "role": "characteristic"
+      },
+      {
+        "id": "f_income",
+        "name": "Income",
+        "storage": "float64",
+        "measurement": "continuous",
+        "role": "characteristic"
+      },
+      {
+        "id": "f_group",
+        "name": "Group",
+        "storage": "string",
+        "measurement": "nominal",
+        "levels": ["ctrl", "treat"],
+        "value_labels": {"ctrl": "Control", "treat": "Treatment"}
+      }
+    ],
+    "rows": [
+      [25, 45000.5, "ctrl"],
+      [38, 62000.0, "treat"],
+      [null, null, "ctrl"]
+    ],
+    "edits": [
+      {"row": 0, "field": "f_income", "value": 47500.0},
+      {"row": 2, "field": "f_age", "value": 29}
+    ]
+  },
+  "expected": {
+    "manifest_format": "openstat",
+    "manifest_format_version": 1,
+    "row_count": 3,
+    "row_ids": [0, 1, 2],
+    "saved_rows": [
+      [25, 47500.0, "ctrl"],
+      [38, 62000.0, "treat"],
+      [29, null, "ctrl"]
+    ],
+    "manifest_keys": [
+      "analyses",
+      "data",
+      "dataset",
+      "edits",
+      "edits_sha256",
+      "format",
+      "format_version",
+      "results",
+      "sha256",
+      "workflows"
+    ]
+  }
+}
