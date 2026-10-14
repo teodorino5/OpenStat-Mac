@@ -3,7 +3,7 @@ from typing import Any
 
 import pytest
 
-from openstat_engine import tables
+from openstat_engine import tables, views
 from openstat_engine.errors import EngineError
 from openstat_engine.store import Store
 
@@ -19,6 +19,13 @@ def rows(store: Store, revision: str) -> list[list[Any]]:
             ]
         )
     return result
+
+
+def aggregate_rows(store: Store, source_revision: str, result_revision: str) -> list[list[Any]]:
+    result = rows(store, result_revision)
+    source_dataset_id = store.get(source_revision).dataset_id
+    assert all(row[-2] == source_dataset_id for row in result)
+    return [row[:-2] + [row[-1]] for row in result]
 
 
 @pytest.mark.feature("DATA-012")
@@ -53,9 +60,30 @@ def test_hand_calculated_table_contract(
         ],
         "Summary",
     )
-    assert [[row[0], row[1], row[2]] for row in rows(store, summary["revision"])] == fixture[
-        "expected"
-    ]["aggregate"]
+    assert (
+        aggregate_rows(store, left["revision"], summary["revision"])
+        == fixture["expected"]["aggregate"]
+    )
+    grouped_source = store.create(**fixture["aggregate_input"])
+    grouped = tables.aggregate(
+        store,
+        grouped_source["revision"],
+        ["group"],
+        [
+            {"field": "whole", "op": "sum", "name": "Whole total"},
+            {"field": "whole", "op": "count", "name": "Whole count"},
+            {"field": "decimal", "op": "sum", "name": "Decimal total"},
+        ],
+        "Grouped summary",
+    )
+    assert (
+        aggregate_rows(store, grouped_source["revision"], grouped["revision"])
+        == fixture["expected"]["aggregate_provenance"]
+    )
+    assert grouped["fields"][-2]["name"] == "Source dataset"
+    assert grouped["fields"][-2]["role"] == "identifier"
+    assert grouped["fields"][-1]["name"] == "Source case IDs"
+    assert grouped["fields"][-1]["role"] == "identifier"
     stacked = tables.stack(store, [left["revision"], left["revision"]], "Stacked")
     assert [row[:2] for row in rows(store, stacked["revision"])] == fixture["expected"]["stack"]
     pivot_source = store.create(**fixture["pivot_input"])
@@ -79,6 +107,63 @@ def test_hand_calculated_table_contract(
     assert [row[0] for row in result] == ["x", "y", "z"]
     assert [row[2:] for row in result] == fixture["expected"]["transpose"]
     assert rows(store, matrix["revision"]) == source_rows
+
+
+@pytest.mark.feature("DATA-025")
+def test_aggregate_preserves_original_case_ids_after_filter(store: Store) -> None:
+    source = store.create(
+        "Filtered groups",
+        [
+            {"id": "group", "name": "Group", "storage": "int64", "measurement": "discrete"},
+            {"id": "amount", "name": "Amount", "storage": "int64", "measurement": "continuous"},
+        ],
+        [[1, 5], [1, 15], [1, 25]],
+    )
+    filtered = views.filter_cases(
+        store,
+        source["revision"],
+        {"op": "gt", "field": "amount", "value": 10},
+    )
+    summary = tables.aggregate(
+        store,
+        filtered["revision"],
+        ["group"],
+        [{"field": "amount", "op": "sum", "name": "Total"}],
+        "Filtered summary",
+        provenance_name="Original case IDs",
+    )
+    assert aggregate_rows(store, filtered["revision"], summary["revision"]) == [[
+        1,
+        40,
+        ["1", "2"],
+    ]]
+    assert summary["fields"][-2]["name"] == "Source dataset"
+    assert summary["fields"][-1]["name"] == "Original case IDs"
+
+
+@pytest.mark.feature("DATA-025")
+def test_aggregate_validates_provenance_schema(store: Store) -> None:
+    source = store.create(
+        "Provenance validation",
+        [{"id": "x", "name": "X", "storage": "int64", "measurement": "discrete"}],
+        [[1]],
+    )
+    aggregation = [{"field": "x", "op": "count", "name": "Count"}]
+    with pytest.raises(EngineError, match="error.operation_options"):
+        tables.aggregate(
+            store,
+            source["revision"],
+            [],
+            aggregation,
+            "Bad provenance name",
+            provenance_name="  ",
+        )
+    too_many = [
+        {"field": "x", "op": "count", "name": f"Count {index}"}
+        for index in range(tables.COLUMN_LIMIT - 1)
+    ]
+    with pytest.raises(EngineError, match="error.global_limit"):
+        tables.aggregate(store, source["revision"], [], too_many, "Too wide")
 
 
 @pytest.mark.feature("DATA-014")
@@ -381,7 +466,13 @@ def test_validation_and_uncommon_result_branches(store: Store) -> None:
         ],
         "Statistics",
     )
-    assert rows(store, aggregate["revision"]) == [[3, 1.5, 1, 2]]
+    assert aggregate_rows(store, one["revision"], aggregate["revision"]) == [[
+        3,
+        1.5,
+        1,
+        2,
+        ["0", "1"],
+    ]]
     all_null = store.create(
         "Null",
         [
@@ -406,8 +497,12 @@ def test_validation_and_uncommon_result_branches(store: Store) -> None:
         "Included",
         True,
     )
-    assert rows(store, excluded["revision"]) == [[None]]
-    assert rows(store, included["revision"]) == [[-9]]
+    assert aggregate_rows(store, all_null["revision"], excluded["revision"]) == [
+        [None, ["0", "1"]]
+    ]
+    assert aggregate_rows(store, all_null["revision"], included["revision"]) == [
+        [-9, ["0", "1"]]
+    ]
     assert tables.aggregate(
         store,
         empty["revision"],
@@ -434,7 +529,9 @@ def test_aggregate_uses_stable_float_sums_and_means(store: Store) -> None:
         "Stable arithmetic",
     )
     # Exact binary-float sum is 1; mean is exact sum divided by three, rounded once.
-    assert rows(store, reduced["revision"]) == [[1.0, 1.0 / 3.0]]
+    assert aggregate_rows(store, cancellation["revision"], reduced["revision"]) == [
+        [1.0, 1.0 / 3.0, ["0", "1", "2"]]
+    ]
 
     large = store.create(
         "Large finite",
@@ -448,7 +545,7 @@ def test_aggregate_uses_stable_float_sums_and_means(store: Store) -> None:
         [{"field": "x", "op": "mean", "name": "Mean"}],
         "Finite mean",
     )
-    assert rows(store, mean["revision"]) == [[1e308]]
+    assert aggregate_rows(store, large["revision"], mean["revision"]) == [[1e308, ["0", "1"]]]
     with pytest.raises(EngineError, match="error.transform_domain"):
         tables.aggregate(
             store,
@@ -472,7 +569,7 @@ def test_aggregate_preserves_exact_integer_sums_and_checks_int64_range(store: St
         [{"field": "x", "op": "sum", "name": "Sum"}],
         "Exact integer sum",
     )
-    total = rows(store, result["revision"])[0][0]
+    total = aggregate_rows(store, cancellation["revision"], result["revision"])[0][0]
     assert type(total) is int
     assert total == 1
 
@@ -523,8 +620,12 @@ def test_aggregate_count_uses_classification_coded_missing_policy(store: Store) 
         "All response count",
         include_missing_codes=True,
     )
-    assert rows(store, excluded["revision"]) == [[2]]
-    assert rows(store, included["revision"]) == [[4]]
+    assert aggregate_rows(store, source["revision"], excluded["revision"]) == [
+        [2, ["0", "1", "2", "3", "4"]]
+    ]
+    assert aggregate_rows(store, source["revision"], included["revision"]) == [
+        [4, ["0", "1", "2", "3", "4"]]
+    ]
 
 
 def test_aggregate_singleton_and_empty_results(store: Store) -> None:
@@ -540,7 +641,9 @@ def test_aggregate_singleton_and_empty_results(store: Store) -> None:
         ],
         "Singleton summary",
     )
-    assert rows(store, singleton["revision"]) == [[1e308, 1e308]]
+    assert aggregate_rows(store, single["revision"], singleton["revision"]) == [
+        [1e308, 1e308, ["0"]]
+    ]
     empty = store.create("No cases", fields, [])
     summary = tables.aggregate(
         store,

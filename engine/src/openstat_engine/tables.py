@@ -552,6 +552,7 @@ def aggregate(
     aggregations: list[dict[str, str]],
     name: str,
     include_missing_codes: bool = False,
+    provenance_name: str = "Source case IDs",
 ) -> dict[str, Any]:
     item = store.get(revision)
     _check_global(store, [revision], len(item.fields))
@@ -562,6 +563,8 @@ def aggregate(
         or not isinstance(aggregations, list)
         or not aggregations
         or type(include_missing_codes) is not bool
+        or not isinstance(provenance_name, str)
+        or not provenance_name.strip()
     ):
         _fail()
     group_fields = [_field(item, field) for field in groups]
@@ -580,11 +583,15 @@ def aggregate(
         if spec["op"] != "count" and source.storage not in {"int64", "float64"}:
             raise EngineError("error.value_type")
         parsed.append((source, spec["op"], spec["name"]))
-    data: dict[tuple[Any, ...], tuple[list[Any], list[list[Any]]]] = {}
-    for _, row in _materialize(store, revision, [*groups, *[p[0].id for p in parsed]]):
+    if len(group_fields) + len(parsed) + 2 > COLUMN_LIMIT:
+        raise EngineError("error.global_limit")
+
+    data: dict[tuple[Any, ...], tuple[list[Any], list[list[Any]], list[int]]] = {}
+    for case_id, row in _materialize(store, revision, [*groups, *[p[0].id for p in parsed]]):
         key = tuple(_canonical(row[field]) for field in groups)
         raw_key = [row[field] for field in groups]
-        _, accum = data.setdefault(key, (raw_key, [[] for _ in parsed]))
+        _, accum, source_case_ids = data.setdefault(key, (raw_key, [[] for _ in parsed], []))
+        source_case_ids.append(case_id)
         for target, (source, _, _) in zip(accum, parsed, strict=True):
             value = row[source.id]
             kind = missing_kind(source, value)
@@ -598,11 +605,13 @@ def aggregate(
         if op == "count":
             storage, measurement = "int64", "discrete"
         out.append(Field(str(uuid4()), label, storage, measurement))
+    out.append(_prov("Source dataset", "string", "nominal"))
+    out.append(_prov(provenance_name, "multiple_response", "multiple_response"))
 
     def results() -> Iterator[list[Any]]:
-        for raw_key, buckets in data.values():
+        for raw_key, buckets, source_case_ids in data.values():
             answers: list[Any] = []
-            for (_, op, _), values in zip(parsed, buckets, strict=True):
+            for (source, op, _), values in zip(parsed, buckets, strict=True):
                 if op == "count":
                     answers.append(len(values))
                 elif not values:
@@ -628,7 +637,8 @@ def aggregate(
                     answers.append(min(values))
                 else:
                     answers.append(max(values))
-            yield [*raw_key, *answers]
+            provenance = [str(case_id) for case_id in source_case_ids]
+            yield [*raw_key, *answers, item.dataset_id, provenance]
 
     return _write(store, name, out, results())
 
