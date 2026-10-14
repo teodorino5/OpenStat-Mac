@@ -2,7 +2,7 @@
 
 Audit date: 2026-10-14 (Europe/Prague). Phase 0 active; implementation authorized.
 
-**Coverage: 24 of 353 planned functions implemented, 19 verified against reference values.**
+**Coverage: 25 of 353 planned functions implemented, 20 verified against reference values.**
 
 ## Scope and evidence limits
 
@@ -22,7 +22,7 @@ The five accepted rows are engine data foundations. The three verified rows shar
 
 | Phase | Planned functions | Implemented | Verified |
 | --- | ---: | ---: | ---: |
-| 0 | 47 | 24 | 19 |
+| 0 | 47 | 25 | 20 |
 | 1 | 65 | 0 | 0 |
 | 2 | 37 | 0 | 0 |
 | 3 | 62 | 0 | 0 |
@@ -62,7 +62,7 @@ The five accepted rows are engine data foundations. The three verified rows shar
 | DATA-024 | Standardize columns | Declared center, scale and zero-scale rejection | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original immutable column operations; global operations bounded to 100k cases | 0 | verified against reference values | brief | `engine/tests/test_columns.py::test_original_columns_contract` | `engine/fixtures/foundations/columns.json` |
 | DATA-025 | Group aggregation | Typed split-apply-combine with row provenance | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original bounded count/sum/mean/min/max; grouped row provenance pending | 0 | in progress | brief | — | — |
 | DATA-026 | Duplicate detection | Declared keys and stable duplicate identities | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original immutable column operations; global operations bounded to 100k cases | 0 | verified against reference values | brief | `engine/tests/test_columns.py::test_original_columns_contract` | `engine/fixtures/foundations/columns.json` |
-| DATA-027 | Box-Cox transformation | Positive-data power transform with fitted lambda | [M02](https://docs.scipy.org/doc/scipy/reference/stats.html) | scipy.stats.boxcox | 0 | not started | V01:function | — | — |
+| DATA-027 | Box-Cox transformation | Positive-data power transform with fitted lambda | [M02](https://docs.scipy.org/doc/scipy/reference/stats.html) | Original numerical profile log-likelihood MLE with Brent scalar optimization | 0 | verified against reference values | V01:function | `engine/tests/test_columns.py::test_box_cox_reference_fixture` | `engine/fixtures/foundations/box_cox.json` |
 | DATA-028 | CSV import and export | Streaming delimiter parser with explicit schema and encoding | [M08](https://pandas.pydata.org/docs/reference/index.html) | Arrow CSV import + original streaming CSV export and locale options | 0 | implemented | brief | `engine/tests/test_interchange.py::test_flat_text[,-.]`, `engine/tests/test_interchange.py::test_flat_text[;-,]`, `engine/tests/test_interchange.py::test_numeric_flat_text_import_export[,-DATA-028]`, `engine/tests/test_interchange.py::test_numeric_flat_text_import_export[\t-DATA-029]`, `engine/tests/test_store.py::test_streamed_locale_import[,-.-Name,Value\ncedar,1.5\nclover,2.75\n-expected0]`, `engine/tests/test_store.py::test_streamed_locale_import[;-,-Name;Value\n\u010derven\xe1;1,5\nmodr\xe1;2,75\n-expected1]`, `engine/tests/test_store.py::test_streamed_locale_import[\t-.-Name\tValue\ncedar\t1.5\nclover\t2.75\n-expected2]` | — |
 | DATA-029 | TSV import and export | Tab-separated interchange with quoting | [M08](https://pandas.pydata.org/docs/reference/index.html) | Arrow TSV import + original quoted TSV export | 0 | implemented | brief | `engine/tests/test_interchange.py::test_flat_text[\t-.]`, `engine/tests/test_interchange.py::test_numeric_flat_text_import_export[,-DATA-028]`, `engine/tests/test_interchange.py::test_numeric_flat_text_import_export[\t-DATA-029]`, `engine/tests/test_store.py::test_streamed_locale_import[,-.-Name,Value\ncedar,1.5\nclover,2.75\n-expected0]`, `engine/tests/test_store.py::test_streamed_locale_import[;-,-Name;Value\n\u010derven\xe1;1,5\nmodr\xe1;2,75\n-expected1]`, `engine/tests/test_store.py::test_streamed_locale_import[\t-.-Name\tValue\ncedar\t1.5\nclover\t2.75\n-expected2]` | — |
 | DATA-030 | Excel import and export | Workbook cells, sheets and typed values; import formulas as cached values | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original bounded OOXML subset; cached formulas and broader workbook support pending | 0 | in progress | brief | — | — |

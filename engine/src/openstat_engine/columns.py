@@ -388,6 +388,140 @@ def standardize(
     )
 
 
+def _brent_minimize(
+    f: Callable[[float], float],
+    a: float = -3.0,
+    b: float = 3.0,
+    tol: float = 1e-7,
+    max_iter: int = 500,
+) -> float:
+    c = (3.0 - math.sqrt(5.0)) / 2.0
+    x = w = v = a + c * (b - a)
+    d = e = 0.0
+    fx = f(x)
+    fw = fv = fx
+
+    for _ in range(max_iter):
+        mid = 0.5 * (a + b)
+        tol1 = tol * abs(x) + 1e-10
+        tol2 = 2.0 * tol1
+
+        if abs(x - mid) <= (tol2 - 0.5 * (b - a)):
+            break
+
+        p = q = r = 0.0
+        if abs(e) > tol1:
+            r = (x - w) * (fx - fv)
+            q = (x - v) * (fx - fw)
+            p = (x - v) * q - (x - w) * r
+            q = 2.0 * (q - r)
+            if q > 0.0:
+                p = -p
+            q = abs(q)
+            r = e
+            e = d
+
+        if abs(p) < abs(0.5 * q * r) and p > q * (a - x) and p < q * (b - x):
+            d = p / q
+            u = x + d
+            if (u - a) < tol2 or (b - u) < tol2:
+                d = tol1 if (mid - x) >= 0 else -tol1
+        else:
+            e = (b - x) if (x < mid) else (a - x)
+            d = c * e
+
+        u = x + (d if abs(d) >= tol1 else (tol1 if d > 0 else -tol1))
+        fu = f(u)
+
+        if fu <= fx:
+            if u >= x:
+                a = x
+            else:
+                b = x
+            v, fv = w, fw
+            w, fw = x, fx
+            x, fx = u, fu
+        else:
+            if u < x:
+                a = u
+            else:
+                b = u
+            if fu <= fw or w == x:
+                v, fv = w, fw
+                w, fw = u, fu
+            elif fu <= fv or v == x or v == w:
+                v, fv = u, fu
+
+    return x
+
+
+def box_cox(
+    store: Store,
+    revision: str,
+    field: str,
+    name: str,
+    lmbda: float | int | None = None,
+    include_missing_codes: bool = False,
+) -> dict[str, Any]:
+    """Box-Cox power transformation with fixed or MLE-fitted parameter lambda for positive data."""
+    _options(include_missing_codes)
+    if lmbda is not None:
+        if (
+            not isinstance(lmbda, (int, float))
+            or isinstance(lmbda, bool)
+            or not math.isfinite(lmbda)
+        ):
+            raise EngineError("error.operation_options")
+    item = store.get(revision)
+    source = _source(item, field, numeric=True)
+    values = _values(store, item, source, include_missing_codes)
+    observed = [v for v in values if v is not None]
+    if len(observed) < 2 or min(observed) == max(observed):
+        raise EngineError("error.zero_variance")
+    if any(v <= 0 for v in observed):
+        raise EngineError("error.transform_domain")
+
+    if lmbda is not None:
+        optimal_lmbda = float(lmbda)
+    else:
+        n = len(observed)
+        log_observed = [math.log(v) for v in observed]
+        sum_log = math.fsum(log_observed)
+
+        def _nllf(param: float) -> float:
+            try:
+                if abs(param) < 1e-10:
+                    trans = [log_y * (1.0 + 0.5 * param * log_y) for log_y in log_observed]
+                else:
+                    trans = [(y**param - 1.0) / param for y in observed]
+                mean = math.fsum(trans) / n
+                var = math.fsum((t - mean) ** 2 for t in trans) / n
+                if var <= 0:
+                    return float("inf")
+                return 0.5 * n * math.log(var) - (param - 1.0) * sum_log
+            except (OverflowError, ValueError):
+                return float("inf")
+
+        optimal_lmbda = _brent_minimize(_nllf, -3.0, 3.0)
+
+    try:
+        if abs(optimal_lmbda) < 1e-10:
+            output = [None if v is None else math.log(v) for v in values]
+        else:
+            output = [
+                None if v is None else (v**optimal_lmbda - 1.0) / optimal_lmbda
+                for v in values
+            ]
+    except (OverflowError, ValueError) as exc:
+        raise EngineError("error.transform_domain") from exc
+
+    target = Field(str(uuid4()), name, "float64", "continuous")
+    derived = _derive(
+        store, item, target, lambda batch, offset: output[offset : offset + len(batch[ROW_ID])]
+    )
+    return derived | {"lambda": optimal_lmbda}
+
+
 def duplicates(
     store: Store,
     revision: str,

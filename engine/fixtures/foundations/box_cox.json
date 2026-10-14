@@ -1,0 +1,37 @@
+{
+  "feature_ids": ["DATA-027"],
+  "provenance": "Original fixture authored for this project, 2026-10-15. No external vendor or sample data.",
+  "independent_method": "Hand-calculated Box-Cox power transformation contracts. For strictly positive y > 0: if lambda == 0: ln(y); else: (y^lambda - 1)/lambda. Verifies exact transformation for lambda in {2.0, 0.5, -1.0, 0.0}, maximum likelihood estimation (MLE) of optimal lambda via profile log-likelihood Brent minimization, null and user missing-code preservation, zero-variance rejection, non-positive value rejection (error.transform_domain), and invalid parameter handling.",
+  "tolerance": {
+    "lambda": 1e-5,
+    "transformed": 1e-9
+  },
+  "test_selector": "engine/tests/test_columns.py::test_box_cox_reference_fixture",
+  "input": {
+    "name": "Box-Cox test dataset",
+    "fields": [
+      {
+        "id": "f_val",
+        "name": "Positive Values",
+        "storage": "float64",
+        "measurement": "continuous",
+        "missing_codes": ["-999.0"]
+      }
+    ],
+    "rows": [
+      [1.0],
+      [4.0],
+      [9.0],
+      [16.0],
+      [-999.0],
+      [null]
+    ]
+  },
+  "expected": {
+    "lambda_2_0": [0.0, 7.5, 40.0, 127.5, null, null],
+    "lambda_0_5": [0.0, 2.0, 4.0, 6.0, null, null],
+    "lambda_neg1_0": [0.0, 0.75, 0.8888888888888888, 0.9375, null, null],
+    "lambda_0_0": [0.0, 1.3862943611198906, 2.1972245773362196, 2.772588722239781, null, null],
+    "fitted_lambda": 0.33023168
+  }
+}

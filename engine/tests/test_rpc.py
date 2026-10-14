@@ -128,3 +128,40 @@ def test_frame_preserves_foundation_negative_zero_and_integer_precision() -> Non
     assert struct.pack("<d", decoded["value"]) == b"\0\0\0\0\0\0\0\x80"
     assert type(decoded["integer"]) is int and decoded["integer"] == 2**63 - 1
     assert type(decoded["zero"]) is int and decoded["zero"] == 0
+
+
+def test_columns_box_cox_over_rpc(tmp_path: Path) -> None:
+    service = Service(tmp_path)
+    created = service.dispatch(
+        request(
+            "dataset.create",
+            {
+                "name": "T",
+                "fields": [
+                    {"id": "x", "name": "X", "storage": "float64", "measurement": "continuous"}
+                ],
+                "rows": [[1.0], [4.0]],
+            },
+        )
+    )
+    assert created is not None and "result" in created
+    rev = created["result"]["revision"]
+    bc = service.dispatch(
+        request(
+            "columns.box_cox",
+            {"revision": rev, "field": "x", "name": "BC", "lmbda": 0.5},
+        )
+    )
+    assert bc is not None and "result" in bc
+    assert bc["result"]["lambda"] == 0.5
+    page = service.dispatch(
+        request(
+            "dataset.page",
+            {
+                "revision": bc["result"]["revision"],
+                "fields": ["x", bc["result"]["fields"][-1]["id"]],
+            },
+        )
+    )
+    assert page is not None and page["result"]["rows"] == [[1.0, 0.0], [4.0, 2.0]]
+

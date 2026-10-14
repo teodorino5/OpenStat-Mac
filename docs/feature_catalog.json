@@ -431,12 +431,16 @@
       "name": "Box-Cox transformation",
       "method": "Positive-data power transform with fitted lambda",
       "reference": "M02",
-      "library": "scipy.stats.boxcox",
+      "library": "Original numerical profile log-likelihood MLE with Brent scalar optimization",
       "phase": 0,
-      "status": "not started",
-      "evidence": "V01:function",
-      "tests": [],
-      "fixtures": []
+      "status": "verified against reference values",
+      "evidence": "brief",
+      "tests": [
+        "engine/tests/test_columns.py::test_box_cox_reference_fixture"
+      ],
+      "fixtures": [
+        "engine/fixtures/foundations/box_cox.json"
+      ]
     },
     {
       "id": "DATA-028",

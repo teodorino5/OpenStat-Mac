@@ -510,3 +510,79 @@ def test_multiple_response_coded_missing_policy(store: Store) -> None:
         include_missing_codes=True,
     )
     assert values(store, retained_lead) == [[], ["a"], ["?"], ["a", "?"], None]
+
+
+@pytest.mark.feature("DATA-027")
+def test_box_cox_reference_fixture(
+    store: Store, reference_fixture: Callable[[str], dict[str, Any]]
+) -> None:
+    fixture = reference_fixture("engine/fixtures/foundations/box_cox.json")
+    inp = fixture["input"]
+    exp = fixture["expected"]
+
+    created = store.create(inp["name"], inp["fields"], inp["rows"])
+    rev = created["revision"]
+
+    # 1. Exact transformation for lambda in {2.0, 0.5, -1.0, 0.0}
+    res_2 = columns.box_cox(store, rev, "f_val", "BC_2", lmbda=2.0)
+    assert res_2["lambda"] == 2.0
+    assert values(store, res_2) == pytest.approx(exp["lambda_2_0"], abs=1e-9)
+
+    res_05 = columns.box_cox(store, rev, "f_val", "BC_05", lmbda=0.5)
+    assert res_05["lambda"] == 0.5
+    assert values(store, res_05) == pytest.approx(exp["lambda_0_5"], abs=1e-9)
+
+    res_neg1 = columns.box_cox(store, rev, "f_val", "BC_neg1", lmbda=-1.0)
+    assert res_neg1["lambda"] == -1.0
+    assert values(store, res_neg1) == pytest.approx(exp["lambda_neg1_0"], abs=1e-9)
+
+    res_0 = columns.box_cox(store, rev, "f_val", "BC_0", lmbda=0.0)
+    assert res_0["lambda"] == 0.0
+    assert values(store, res_0) == pytest.approx(exp["lambda_0_0"], abs=1e-9)
+
+    # 2. Optimal lambda MLE estimation (lmbda=None)
+    res_fitted = columns.box_cox(store, rev, "f_val", "BC_fitted")
+    assert res_fitted["lambda"] == pytest.approx(exp["fitted_lambda"], abs=1e-5)
+    fitted_vals = values(store, res_fitted)
+    assert fitted_vals[4] is None
+    assert fitted_vals[5] is None
+    assert fitted_vals[0] == pytest.approx(0.0, abs=1e-9)
+
+    # 3. Domain errors and validation
+    # include_missing_codes includes -999.0 which is <= 0 -> error.transform_domain
+    with pytest.raises(EngineError, match="error.transform_domain"):
+        columns.box_cox(store, rev, "f_val", "BC_err", include_missing_codes=True)
+
+    # Non-positive values: 0.0 or negative
+    zero_rev = store.create("Zero", inp["fields"], [[0.0], [1.0]])["revision"]
+    with pytest.raises(EngineError, match="error.transform_domain"):
+        columns.box_cox(store, zero_rev, "f_val", "BC_zero")
+
+    neg_rev = store.create("Neg", inp["fields"], [[-2.5], [1.0]])["revision"]
+    with pytest.raises(EngineError, match="error.transform_domain"):
+        columns.box_cox(store, neg_rev, "f_val", "BC_neg")
+
+    # Zero variance (all values equal)
+    const_rev = store.create("Const", inp["fields"], [[5.0], [5.0], [5.0]])["revision"]
+    with pytest.raises(EngineError, match="error.zero_variance"):
+        columns.box_cox(store, const_rev, "f_val", "BC_const")
+
+    # Insufficient observations (< 2)
+    single_rev = store.create("Single", inp["fields"], [[5.0], [None]])["revision"]
+    with pytest.raises(EngineError, match="error.zero_variance"):
+        columns.box_cox(store, single_rev, "f_val", "BC_single")
+
+    # Invalid lambda parameter
+    for invalid_lmbda in ["invalid", float("inf"), float("nan"), True]:
+        with pytest.raises(EngineError, match="error.operation_options"):
+            columns.box_cox(store, rev, "f_val", "BC_invalid", lmbda=invalid_lmbda)  # type: ignore[arg-type]
+
+    # Non-numeric field
+    str_rev = store.create(
+        "Str",
+        [{"id": "s", "name": "Text", "storage": "string", "measurement": "nominal"}],
+        [["a"], ["b"]],
+    )["revision"]
+    with pytest.raises(EngineError, match="error.value_type"):
+        columns.box_cox(store, str_rev, "s", "BC_str")
+
