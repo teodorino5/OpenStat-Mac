@@ -111,12 +111,16 @@
       "name": "Case weights",
       "method": "Frequency and analytic weights with method-specific validation",
       "reference": "M08",
-      "library": "Original frequency/analytic weight inspection; persistence and method dispatch pending",
+      "library": "Original frequency and analytic weights with method-specific validation and project persistence",
       "phase": 0,
-      "status": "in progress",
-      "evidence": "brief",
-      "tests": [],
-      "fixtures": []
+      "status": "verified against reference values",
+      "evidence": "test",
+      "tests": [
+        "engine/tests/test_views.py::test_original_case_contract"
+      ],
+      "fixtures": [
+        "engine/fixtures/foundations/cases.json"
+      ]
     },
     {
       "id": "DATA-008",

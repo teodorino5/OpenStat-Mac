@@ -78,9 +78,10 @@ class Revision:
     observation_unit: str = ""
     # Keyed by immutable base-row offset and field UUID. No full table copy on edit.
     edits: tuple[dict[str, Any], ...] = ()
+    weights: dict[str, str] | None = None
 
     def descriptor(self) -> dict[str, Any]:
-        return {
+        desc: dict[str, Any] = {
             "id": self.dataset_id,
             "revision": self.id,
             "name": self.name,
@@ -89,6 +90,9 @@ class Revision:
             "context": self.context,
             "observation_unit": self.observation_unit,
         }
+        if self.weights is not None:
+            desc["weights"] = dict(self.weights)
+        return desc
 
 
 class Store:
@@ -651,6 +655,15 @@ class Store:
                 raise EngineError("error.project_schema")
             seen_edits.add(key)
             self._value(definitions[edit["field"]], edit["value"])
+        weights_info = info.get("weights")
+        if weights_info is not None:
+            if (
+                not isinstance(weights_info, dict)
+                or set(weights_info) != {"field", "kind"}
+                or weights_info["field"] not in definitions
+                or weights_info["kind"] not in {"frequency", "analytic"}
+            ):
+                raise EngineError("error.project_schema")
         # A private base copy prevents later source replacement from mutating a session.
         private = self.directory / f"{uuid4()}.parquet"
         shutil.copyfile(data, private)
@@ -666,5 +679,6 @@ class Store:
                 info["context"],
                 info["observation_unit"],
                 tuple(edits),
+                dict(weights_info) if weights_info is not None else None,
             )
         )

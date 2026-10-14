@@ -2,7 +2,7 @@
 
 Audit date: 2026-10-14 (Europe/Prague). Phase 0 active; implementation authorized.
 
-**Coverage: 24 of 353 planned functions implemented, 19 verified against reference values.**
+**Coverage: 25 of 353 planned functions implemented, 20 verified against reference values.**
 
 ## Scope and evidence limits
 
@@ -22,7 +22,7 @@ The five accepted rows are engine data foundations. The three verified rows shar
 
 | Phase | Planned functions | Implemented | Verified |
 | --- | ---: | ---: | ---: |
-| 0 | 47 | 24 | 19 |
+| 0 | 47 | 25 | 20 |
 | 1 | 65 | 0 | 0 |
 | 2 | 37 | 0 | 0 |
 | 3 | 62 | 0 | 0 |
@@ -42,7 +42,7 @@ The five accepted rows are engine data foundations. The three verified rows shar
 | DATA-004 | Multiple-response representation | Response sets distinct from mutually exclusive categories | [M08](https://pandas.pydata.org/docs/reference/index.html) | pyarrow list arrays + original set validation | 0 | verified against reference values | brief | `engine/tests/test_reference.py::test_original_codebook_contract`, `engine/tests/test_store.py::test_codebook_and_raw_missing_preserve_source` | `engine/fixtures/foundations/codebook.json` |
 | DATA-005 | Missing-value definitions | Nulls and named missing codes; no silent numeric substitution | [M08](https://pandas.pydata.org/docs/reference/index.html) | pyarrow validity + original missing-code metadata | 0 | verified against reference values | brief | `engine/tests/test_reference.py::test_original_codebook_contract`, `engine/tests/test_store.py::test_codebook_and_raw_missing_preserve_source` | `engine/fixtures/foundations/codebook.json` |
 | DATA-006 | Case selection | Typed Boolean predicates with three-valued missing logic | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original safe predicates and stable bounded external merge; see docs/VIEWS.md | 0 | verified against reference values | brief | `engine/tests/test_views.py::test_original_case_contract` | `engine/fixtures/foundations/cases.json` |
-| DATA-007 | Case weights | Frequency and analytic weights with method-specific validation | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original frequency/analytic weight inspection; persistence and method dispatch pending | 0 | in progress | brief | — | — |
+| DATA-007 | Case weights | Frequency and analytic weights with method-specific validation | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original frequency and analytic weights with method-specific validation and project persistence | 0 | verified against reference values | brief | `engine/tests/test_views.py::test_original_case_contract` | `engine/fixtures/foundations/cases.json` |
 | DATA-008 | Sort cases | Stable sort with explicit missing placement | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original safe predicates and stable bounded external merge; see docs/VIEWS.md | 0 | verified against reference values | brief | `engine/tests/test_views.py::test_original_case_contract` | `engine/fixtures/foundations/cases.json` |
 | DATA-009 | Filter cases | Predicate evaluation and retained row identities | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original safe predicates and stable bounded external merge; see docs/VIEWS.md | 0 | verified against reference values | brief | `engine/tests/test_views.py::test_original_case_contract` | `engine/fixtures/foundations/cases.json` |
 | DATA-010 | Recode values | Versioned explicit mapping and unmatched-value policy | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original immutable column operations; global operations bounded to 100k cases | 0 | verified against reference values | brief | `engine/tests/test_columns.py::test_original_columns_contract` | `engine/fixtures/foundations/columns.json` |
