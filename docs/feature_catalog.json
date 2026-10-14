@@ -541,12 +541,16 @@
       "name": "Stata interchange",
       "method": "DTA read/write with explicit format version",
       "reference": "M20",
-      "library": "Audited PyReadStat DTA subset; tagged missing and format reconciliation pending",
+      "library": "Audited PyReadStat DTA subset with explicit format version selection; tagged missing rejected",
       "phase": 0,
-      "status": "in progress",
-      "evidence": "brief",
-      "tests": [],
-      "fixtures": []
+      "status": "verified against reference values",
+      "evidence": "test",
+      "tests": [
+        "engine/tests/test_readstat_io.py::test_stata_reference_fixture"
+      ],
+      "fixtures": [
+        "engine/fixtures/foundations/stata.json"
+      ]
     },
     {
       "id": "DATA-035",

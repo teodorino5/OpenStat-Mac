@@ -1,0 +1,84 @@
+{
+  "feature_ids": ["DATA-034"],
+  "provenance": "Original fixture authored for this project, 2026-10-15. No external vendor or sample data.",
+  "independent_method": "Hand-calculated Stata interchange contract. Verifies DTA import and export via audited PyReadStat 1.3.6 with explicit format versions (14 and 15), value-label preservation, rejection of tagged missing codes, string truncation and null mapping, IEEE binary64 negative zero, and explicit loss reporting on export and import.",
+  "tolerance": {"comparison": "exact typed cells, value labels, format version, and explicit losses"},
+  "test_selector": "engine/tests/test_readstat_io.py::test_stata_reference_fixture",
+  "input": {
+    "name": "Stata interchange fixture",
+    "version": 14,
+    "columns": {
+      "mpg": [22.5, -0.0, 15.0, null],
+      "foreign": [0, 1, 0, null],
+      "make": ["Buick", "", "Toyota", null]
+    },
+    "column_labels": {
+      "mpg": "Mileage (mpg)",
+      "foreign": "Car origin",
+      "make": "Make and Model"
+    },
+    "variable_value_labels": {
+      "foreign": {
+        "0": "Domestic",
+        "1": "Foreign"
+      }
+    }
+  },
+  "expected": {
+    "row_count": 4,
+    "versions_tested": [14, 15],
+    "import_losses": [
+      "source_metadata_not_persisted",
+      "source_row_ids_reset",
+      "source_null_and_empty_string_may_be_indistinguishable"
+    ],
+    "export_losses": [
+      "field_ids",
+      "row_ids",
+      "context",
+      "observation_unit",
+      "codebook_missing_codes",
+      "null_empty_string_distinction"
+    ],
+    "source_metadata": {
+      "format": "dta",
+      "column_labels": {
+        "mpg": "Mileage (mpg)",
+        "foreign": "Car origin",
+        "make": "Make and Model"
+      }
+    },
+    "imported_fields": [
+      {
+        "name": "mpg",
+        "storage": "float64",
+        "measurement": "continuous",
+        "missing_codes": [],
+        "value_labels": {}
+      },
+      {
+        "name": "foreign",
+        "storage": "float64",
+        "measurement": "nominal",
+        "missing_codes": [],
+        "value_labels": {
+          "0.0": "Domestic",
+          "1.0": "Foreign"
+        }
+      },
+      {
+        "name": "make",
+        "storage": "string",
+        "measurement": "nominal",
+        "missing_codes": [],
+        "value_labels": {}
+      }
+    ],
+    "imported_rows": [
+      [22.5, 0.0, "Buick"],
+      [-0.0, 1.0, ""],
+      [15.0, 0.0, "Toyota"],
+      [null, null, ""]
+    ]
+  }
+}
