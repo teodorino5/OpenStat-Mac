@@ -12,7 +12,7 @@ final class OpenStatDocument: NSDocument {
     hasUndoManager = true
     undoManager?.groupsByEvent = false
   }
-  override class var autosavesInPlace: Bool { false }
+  override class var autosavesInPlace: Bool { true }
   override func read(from url: URL, ofType typeName: String) throws {
     guard FileManager.default.fileExists(atPath: url.appendingPathComponent("manifest.json").path)
     else { throw CocoaError(.fileReadCorruptFile) }

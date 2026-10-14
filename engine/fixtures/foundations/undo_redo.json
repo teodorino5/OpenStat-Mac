@@ -1,0 +1,131 @@
+{
+  "feature_ids": [
+    "DATA-039"
+  ],
+  "provenance": "Original journal and revision data authored for OpenStat-Mac project, 2026-10-15; no course or vendor data.",
+  "independent_method": "Hand-computed sequential state machine of revision trees: forward edits, LIFO undo stack traversal, symmetric redo replay, branch divergence with sparse edit overlay isolation, and atomic snapshot manifest publication.",
+  "tolerance": {
+    "comparison": "exact schema, cell values, row IDs, checksums and revision isolation"
+  },
+  "test_selector": "engine/tests/test_store.py::test_undo_redo_autosave_contract",
+  "input": {
+    "name": "Patient Study",
+    "context": "sample",
+    "observation_unit": "participant",
+    "fields": [
+      {
+        "id": "f_id",
+        "name": "ParticipantID",
+        "storage": "string",
+        "measurement": "nominal",
+        "role": "identifier"
+      },
+      {
+        "id": "f_score",
+        "name": "Score",
+        "storage": "float64",
+        "measurement": "continuous"
+      },
+      {
+        "id": "f_group",
+        "name": "Group",
+        "storage": "string",
+        "measurement": "nominal"
+      }
+    ],
+    "rows": [
+      ["P01", 10.5, "control"],
+      ["P02", 20.0, "treatment"],
+      ["P03", 15.5, "control"],
+      ["P04", 30.0, "treatment"]
+    ],
+    "operations": [
+      {
+        "step": 1,
+        "type": "edit",
+        "row": 0,
+        "field": "f_score",
+        "value": 12.0
+      },
+      {
+        "step": 2,
+        "type": "edit",
+        "row": 1,
+        "field": "f_score",
+        "value": 25.5
+      },
+      {
+        "step": 3,
+        "type": "edit",
+        "row": 0,
+        "field": "f_score",
+        "value": 14.0
+      },
+      {
+        "step": "branch",
+        "parent_step": 1,
+        "type": "edit",
+        "row": 2,
+        "field": "f_group",
+        "value": "treatment"
+      }
+    ]
+  },
+  "expected": {
+    "r0": {
+      "row_count": 4,
+      "rows": [
+        ["P01", 10.5, "control"],
+        ["P02", 20.0, "treatment"],
+        ["P03", 15.5, "control"],
+        ["P04", 30.0, "treatment"]
+      ]
+    },
+    "r1": {
+      "row_count": 4,
+      "rows": [
+        ["P01", 12.0, "control"],
+        ["P02", 20.0, "treatment"],
+        ["P03", 15.5, "control"],
+        ["P04", 30.0, "treatment"]
+      ]
+    },
+    "r2": {
+      "row_count": 4,
+      "rows": [
+        ["P01", 12.0, "control"],
+        ["P02", 25.5, "treatment"],
+        ["P03", 15.5, "control"],
+        ["P04", 30.0, "treatment"]
+      ]
+    },
+    "r3": {
+      "row_count": 4,
+      "rows": [
+        ["P01", 14.0, "control"],
+        ["P02", 25.5, "treatment"],
+        ["P03", 15.5, "control"],
+        ["P04", 30.0, "treatment"]
+      ]
+    },
+    "branch_r4": {
+      "row_count": 4,
+      "rows": [
+        ["P01", 12.0, "control"],
+        ["P02", 20.0, "treatment"],
+        ["P03", 15.5, "treatment"],
+        ["P04", 30.0, "treatment"]
+      ]
+    },
+    "extended_r5": {
+      "row_count": 5,
+      "rows": [
+        ["P01", 12.0, "control", null],
+        ["P02", 20.0, "treatment", null],
+        ["P03", 15.5, "treatment", null],
+        ["P04", 30.0, "treatment", null],
+        [null, null, null, null]
+      ]
+    }
+  }
+}
