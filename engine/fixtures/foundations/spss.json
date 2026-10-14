@@ -1,0 +1,126 @@
+{
+  "feature_ids": ["DATA-033"],
+  "provenance": "Original fixture authored for this project, 2026-10-15. No external vendor or sample data.",
+  "independent_method": "Hand-calculated SPSS interchange contract. Verifies SAV import and export via audited PyReadStat 1.3.6, value-label preservation, discrete user-missing code reconciliation (distinguishing system null from coded missing), measurement scale mapping, string truncation and null handling, IEEE negative zero, and explicit loss reporting on export and import.",
+  "tolerance": {"comparison": "exact typed cells, value labels, missing codes, metadata dictionaries, and explicit losses"},
+  "test_selector": "engine/tests/test_readstat_io.py::test_spss_reference_fixture",
+  "input": {
+    "name": "SPSS interchange fixture",
+    "columns": {
+      "score": [1.5, -0.0, 99.0, null],
+      "status": [1, 2, 9, null],
+      "description": ["Alpha", "", "Gamma", null]
+    },
+    "column_labels": {
+      "score": "Exam score",
+      "status": "Patient status",
+      "description": "Clinical notes"
+    },
+    "variable_value_labels": {
+      "status": {
+        "1": "Control",
+        "2": "Treatment",
+        "9": "Refused"
+      }
+    },
+    "missing_ranges": {
+      "score": [99.0],
+      "status": [9]
+    },
+    "variable_measure": {
+      "score": "scale",
+      "status": "nominal"
+    }
+  },
+  "expected": {
+    "row_count": 4,
+    "import_losses": [
+      "source_metadata_not_persisted",
+      "source_row_ids_reset",
+      "source_null_and_empty_string_may_be_indistinguishable"
+    ],
+    "export_losses": [
+      "field_ids",
+      "row_ids",
+      "context",
+      "observation_unit",
+      "codebook_missing_codes",
+      "null_empty_string_distinction"
+    ],
+    "source_metadata": {
+      "format": "sav",
+      "column_labels": {
+        "score": "Exam score",
+        "status": "Patient status",
+        "description": "Clinical notes"
+      },
+      "file_encoding": "UTF-8"
+    },
+    "imported_fields": [
+      {
+        "name": "score",
+        "storage": "float64",
+        "measurement": "continuous",
+        "missing_codes": ["99.0"],
+        "value_labels": {}
+      },
+      {
+        "name": "status",
+        "storage": "float64",
+        "measurement": "nominal",
+        "missing_codes": ["9.0"],
+        "value_labels": {
+          "1.0": "Control",
+          "2.0": "Treatment",
+          "9.0": "Refused"
+        }
+      },
+      {
+        "name": "description",
+        "storage": "string",
+        "measurement": "nominal",
+        "missing_codes": [],
+        "value_labels": {}
+      }
+    ],
+    "imported_rows": [
+      [1.5, 1.0, "Alpha"],
+      [-0.0, 2.0, ""],
+      [99.0, 9.0, "Gamma"],
+      [null, null, ""]
+    ],
+    "reimported_fields": [
+      {
+        "name": "score",
+        "storage": "float64",
+        "measurement": "continuous",
+        "missing_codes": [],
+        "value_labels": {}
+      },
+      {
+        "name": "status",
+        "storage": "float64",
+        "measurement": "nominal",
+        "missing_codes": [],
+        "value_labels": {
+          "1.0": "Control",
+          "2.0": "Treatment",
+          "9.0": "Refused"
+        }
+      },
+      {
+        "name": "description",
+        "storage": "string",
+        "measurement": "nominal",
+        "missing_codes": [],
+        "value_labels": {}
+      }
+    ],
+    "reimported_rows": [
+      [1.5, 1.0, "Alpha"],
+      [-0.0, 2.0, ""],
+      [99.0, 9.0, "Gamma"],
+      [null, null, ""]
+    ]
+  }
+}
