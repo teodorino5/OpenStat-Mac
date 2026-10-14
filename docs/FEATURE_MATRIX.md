@@ -2,7 +2,7 @@
 
 Audit date: 2026-10-14 (Europe/Prague). Phase 0 active; implementation authorized.
 
-**Coverage: 24 of 353 planned functions implemented, 19 verified against reference values.**
+**Coverage: 25 of 353 planned functions implemented, 20 verified against reference values.**
 
 ## Scope and evidence limits
 
@@ -22,7 +22,7 @@ The five accepted rows are engine data foundations. The three verified rows shar
 
 | Phase | Planned functions | Implemented | Verified |
 | --- | ---: | ---: | ---: |
-| 0 | 47 | 24 | 19 |
+| 0 | 47 | 25 | 20 |
 | 1 | 65 | 0 | 0 |
 | 2 | 37 | 0 | 0 |
 | 3 | 62 | 0 | 0 |
@@ -73,7 +73,7 @@ The five accepted rows are engine data foundations. The three verified rows shar
 | DATA-035 | SAS dataset reading | SAS7BDAT read only; preserve metadata where available | [M20](https://github.com/Roche/pyreadstat) | Audited PyReadStat SAS7BDAT reader; source metadata persistence and genuine fixture pending | 0 | in progress | brief | — | — |
 | DATA-036 | SQLite import and export | Read-only import query and transactional explicit export | [M19](https://www.sqlite.org/lang.html) | Original typed SQLite envelope; general read-only table/query import pending | 0 | in progress | brief | — | — |
 | DATA-037 | Native project package | Versioned manifest, immutable Parquet revisions and JSON specs | [M18](https://developer.apple.com/documentation/appkit/nsdocument) | Needs custom implementation | 0 | in progress | brief | — | — |
-| DATA-038 | Virtualized grid data access | Paged visible cells and bounded cache independent of total rows | [M09](https://arrow.apache.org/docs/python/dataset.html) | NSTableView + Arrow sidecar | 0 | in progress | brief | `engine/tests/test_store.py::test_sparse_revisions_allow_undo_without_mutating_base`, `engine/tests/test_store.py::test_extend_preserves_revisions_overlays_ids_and_save_open` | — |
+| DATA-038 | Virtualized grid data access | Paged visible cells and bounded cache independent of total rows | [M09](https://arrow.apache.org/docs/python/dataset.html) | Original paged Arrow row-group slicing and sparse edit overlay; NSTableView client | 0 | verified against reference values | brief | `engine/tests/test_store.py::test_virtualized_grid_contract` | `engine/fixtures/foundations/virtualized_grid.json` |
 | DATA-039 | Undo, redo and autosave | Reversible edit journal and atomic snapshot publication | [M18](https://developer.apple.com/documentation/appkit/nsdocument) | NSDocument / UndoManager + custom journal | 0 | in progress | brief | — | — |
 
 ### Descriptive statistics and tables
