@@ -1,0 +1,85 @@
+{
+  "feature_ids": ["DATA-038"],
+  "provenance": "Original fixture authored for this project, 2026-10-15. No external vendor or sample data.",
+  "independent_method": "Hand-calculated virtualized grid paging and projection contracts. Verifies bounded window access (PAGE_LIMIT=512), arbitrary offset and limit slicing across Arrow row groups, column projection, sparse cell overlay at offset, stable row IDs, Arrow IPC vs. JSON format equivalence, and rejection of out-of-bounds page requests.",
+  "tolerance": {
+    "comparison": "exact cell values and row IDs"
+  },
+  "test_selector": "engine/tests/test_store.py::test_virtualized_grid_contract",
+  "input": {
+    "name": "Virtualized grid test dataset",
+    "fields": [
+      {
+        "id": "f_id",
+        "name": "ID",
+        "storage": "int64",
+        "measurement": "discrete"
+      },
+      {
+        "id": "f_label",
+        "name": "Label",
+        "storage": "string",
+        "measurement": "nominal"
+      },
+      {
+        "id": "f_score",
+        "name": "Score",
+        "storage": "float64",
+        "measurement": "continuous"
+      }
+    ],
+    "rows": [
+      [100, "alpha", 10.5],
+      [101, "beta", 20.0],
+      [102, "gamma", 31.25],
+      [103, "delta", 42.5],
+      [104, "epsilon", 53.75],
+      [105, "zeta", 65.0],
+      [106, "eta", 76.25],
+      [107, "theta", 87.5],
+      [108, "iota", 98.75],
+      [109, "kappa", 110.0]
+    ],
+    "edits": [
+      {"row": 2, "field": "f_score", "value": 35.0},
+      {"row": 6, "field": "f_label", "value": "eta_modified"}
+    ]
+  },
+  "expected": {
+    "page_start": {
+      "offset": 0,
+      "limit": 4,
+      "count": 4,
+      "row_ids": [0, 1, 2, 3],
+      "rows": [
+        [100, "alpha", 10.5],
+        [101, "beta", 20.0],
+        [102, "gamma", 35.0],
+        [103, "delta", 42.5]
+      ]
+    },
+    "page_mid": {
+      "offset": 5,
+      "limit": 3,
+      "count": 3,
+      "row_ids": [5, 6, 7],
+      "rows": [
+        [105, "zeta", 65.0],
+        [106, "eta_modified", 76.25],
+        [107, "theta", 87.5]
+      ]
+    },
+    "page_projected": {
+      "offset": 2,
+      "limit": 3,
+      "fields": ["f_label"],
+      "count": 3,
+      "row_ids": [2, 3, 4],
+      "rows": [
+        ["gamma"],
+        ["delta"],
+        ["epsilon"]
+      ]
+    }
+  }
+}

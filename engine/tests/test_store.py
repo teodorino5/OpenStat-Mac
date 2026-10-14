@@ -1,4 +1,5 @@
 import json
+from collections.abc import Callable
 from dataclasses import replace
 from pathlib import Path
 from typing import Any
@@ -556,3 +557,81 @@ def test_extend_crosses_multiple_row_group_boundaries(
     assert boundary["row_ids"] == [8191, 8192, 8193]
     last = store.page(result["revision"], 16384, 2)
     assert last["rows"] == [[None], [None]] and last["row_ids"] == [16384, 16385]
+
+
+@pytest.mark.feature("DATA-038")
+def test_virtualized_grid_contract(
+    store: Store, reference_fixture: Callable[[str], dict[str, Any]]
+) -> None:
+    fixture = reference_fixture("engine/fixtures/foundations/virtualized_grid.json")
+    inp = fixture["input"]
+    exp = fixture["expected"]
+
+    created = store.create(inp["name"], inp["fields"], inp["rows"])
+    rev = created["revision"]
+
+    for edit in inp["edits"]:
+        edited = store.edit(rev, edit["row"], edit["field"], edit["value"])
+        rev = edited["revision"]
+
+    # 1. Bounded start page with sparse edit overlay (row 2)
+    start_exp = exp["page_start"]
+    p_start = store.page(rev, offset=start_exp["offset"], limit=start_exp["limit"])
+    assert p_start["count"] == start_exp["count"]
+    assert p_start["row_ids"] == start_exp["row_ids"]
+    assert p_start["rows"] == start_exp["rows"]
+
+    # 2. Arbitrary offset page with sparse edit overlay (row 6)
+    mid_exp = exp["page_mid"]
+    p_mid = store.page(rev, offset=mid_exp["offset"], limit=mid_exp["limit"])
+    assert p_mid["count"] == mid_exp["count"]
+    assert p_mid["row_ids"] == mid_exp["row_ids"]
+    assert p_mid["rows"] == mid_exp["rows"]
+
+    # 3. Column projection: only requested field loaded and returned
+    proj_exp = exp["page_projected"]
+    p_proj = store.page(
+        rev,
+        offset=proj_exp["offset"],
+        limit=proj_exp["limit"],
+        fields=proj_exp["fields"],
+    )
+    assert p_proj["count"] == proj_exp["count"]
+    assert p_proj["row_ids"] == proj_exp["row_ids"]
+    assert p_proj["fields"] == proj_exp["fields"]
+    assert p_proj["rows"] == proj_exp["rows"]
+
+    # 4. Arrow format equivalence
+    p_arrow = store.page(
+        rev,
+        offset=start_exp["offset"],
+        limit=start_exp["limit"],
+        format="arrow",
+    )
+    assert p_arrow["format"] == "arrow"
+    assert p_arrow["count"] == start_exp["count"]
+    assert p_arrow["row_ids"] == start_exp["row_ids"]
+    artifact = p_arrow["artifact"]
+    arrow_file = Path(artifact["path"])
+    assert arrow_file.exists()
+    reader = pa.ipc.open_file(arrow_file)
+    arrow_table = reader.read_all()
+    col_names = [f["id"] for f in inp["fields"]]
+    arrow_rows = [
+        [arrow_table[col][i].as_py() for col in col_names]
+        for i in range(arrow_table.num_rows)
+    ]
+    assert arrow_rows == start_exp["rows"]
+    store.release(artifact["handle"])
+    assert not arrow_file.exists()
+
+    # 5. Page bounds error validation
+    for bad_offset in [-1, -100]:
+        with pytest.raises(EngineError, match="error.page_bounds"):
+            store.page(rev, offset=bad_offset, limit=10)
+    for bad_limit in [0, -1, PAGE_LIMIT + 1]:
+        with pytest.raises(EngineError, match="error.page_bounds"):
+            store.page(rev, offset=0, limit=bad_limit)
+    with pytest.raises(EngineError, match="error.page_bounds"):
+        store.page(rev, offset=0, limit=10, format="unsupported")
+
