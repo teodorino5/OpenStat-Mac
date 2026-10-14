@@ -1,6 +1,8 @@
 import math
+from collections.abc import Callable
 from pathlib import Path
 from types import SimpleNamespace
+from typing import Any
 
 import pandas as pd
 import pyreadstat
@@ -467,3 +469,94 @@ def test_export_preserves_long_strings_and_exact_integer_boundary(tmp_path: Path
     data, _ = pyreadstat.read_dta(path, output_format="dict")
     assert data["text"] == ["x" * 3000, ""]
     assert data["integer"] == [float(2**53), float(-(2**53))]
+
+
+@pytest.mark.feature("DATA-034")
+def test_stata_reference_fixture(
+    store: Store,
+    tmp_path: Path,
+    reference_fixture: Callable[[str], dict[str, Any]],
+) -> None:
+    fixture = reference_fixture("engine/fixtures/foundations/stata.json")
+    raw_input = fixture["input"]
+    expected = fixture["expected"]
+    source_path = tmp_path / "source.dta"
+
+    # 1. Author source Stata file matching fixture input
+    df = pd.DataFrame(
+        {
+            "mpg": pd.array(raw_input["columns"]["mpg"], dtype="Float64"),
+            "foreign": pd.array(raw_input["columns"]["foreign"], dtype="Int64"),
+            "make": pd.array(raw_input["columns"]["make"], dtype="string"),
+        }
+    )
+    val_labels = {
+        col: {int(k) if k.isdigit() else float(k): v for k, v in labels.items()}
+        for col, labels in raw_input["variable_value_labels"].items()
+    }
+    pyreadstat.write_dta(
+        df,
+        source_path,
+        version=raw_input["version"],
+        column_labels=raw_input["column_labels"],
+        variable_value_labels=val_labels,
+    )
+
+    # 2. Import into OpenStat
+    import_desc = import_dta(store, str(source_path))
+    assert import_desc["row_count"] == expected["row_count"]
+    assert import_desc["losses"] == expected["import_losses"]
+    assert import_desc["source_metadata"]["format"] == expected["source_metadata"]["format"]
+    assert (
+        import_desc["source_metadata"]["column_labels"]
+        == expected["source_metadata"]["column_labels"]
+    )
+
+    fields = import_desc["fields"]
+    for expected_field, actual_field in zip(expected["imported_fields"], fields, strict=True):
+        assert actual_field["name"] == expected_field["name"]
+        assert actual_field["storage"] == expected_field["storage"]
+        assert actual_field["measurement"] == expected_field["measurement"]
+        assert actual_field["missing_codes"] == expected_field["missing_codes"]
+        assert actual_field["value_labels"] == expected_field["value_labels"]
+
+    # Verify rows & negative zero
+    batch = next(store.iter_tables(import_desc["revision"]))
+    imported_rows = [
+        [batch[f["id"]].to_pylist()[i] for f in fields]
+        for i in range(import_desc["row_count"])
+    ]
+    assert imported_rows == expected["imported_rows"]
+
+    # Verify IEEE negative zero
+    mpg_col = batch[fields[0]["id"]].to_pylist()
+    assert math.copysign(1.0, mpg_col[1]) == -1.0
+
+    # 3. Export to target DTA file with explicit format version (14 and 15)
+    for v in expected["versions_tested"]:
+        export_path = tmp_path / f"exported_v{v}.dta"
+        export_desc = export_dta(
+            store, import_desc["revision"], str(export_path), version=v
+        )
+        assert export_desc["rows"] == expected["row_count"]
+        assert export_desc["losses"] == expected["export_losses"]
+        assert export_desc["version"] == v
+
+        # 4. Re-import in an independent store instance
+        store2 = Store(tmp_path / f"store_v{v}")
+        reimport_desc = import_dta(store2, str(export_path))
+        assert reimport_desc["row_count"] == expected["row_count"]
+
+        batch2 = next(store2.iter_tables(reimport_desc["revision"]))
+        fields2 = reimport_desc["fields"]
+        reimported_rows = [
+            [batch2[f["id"]].to_pylist()[i] for f in fields2]
+            for i in range(reimport_desc["row_count"])
+        ]
+        assert reimported_rows == expected["imported_rows"]
+        assert fields2[1]["value_labels"] == expected["imported_fields"][1]["value_labels"]
+
+    # 5. Invalid version rejection
+    with pytest.raises(EngineError, match="error.readstat_export"):
+        export_dta(store, import_desc["revision"], str(tmp_path / "bad.dta"), version=99)
+

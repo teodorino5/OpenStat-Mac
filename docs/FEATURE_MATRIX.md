@@ -2,7 +2,7 @@
 
 Audit date: 2026-10-14 (Europe/Prague). Phase 0 active; implementation authorized.
 
-**Coverage: 24 of 353 planned functions implemented, 19 verified against reference values.**
+**Coverage: 25 of 353 planned functions implemented, 20 verified against reference values.**
 
 ## Scope and evidence limits
 
@@ -22,7 +22,7 @@ The five accepted rows are engine data foundations. The three verified rows shar
 
 | Phase | Planned functions | Implemented | Verified |
 | --- | ---: | ---: | ---: |
-| 0 | 47 | 24 | 19 |
+| 0 | 47 | 25 | 20 |
 | 1 | 65 | 0 | 0 |
 | 2 | 37 | 0 | 0 |
 | 3 | 62 | 0 | 0 |
@@ -69,7 +69,7 @@ The five accepted rows are engine data foundations. The three verified rows shar
 | DATA-031 | JSON import and export | Declared records or column schema; streaming large input | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original bounded typed JSON envelope; general records and large streaming import pending | 0 | in progress | brief | — | — |
 | DATA-032 | Parquet import and export | Columnar schema-preserving interchange | [M08](https://pandas.pydata.org/docs/reference/index.html) | PyArrow columnar interchange with typed schema metadata | 0 | implemented | brief | `engine/tests/test_interchange.py::test_rich_roundtrip[parquet]`, `engine/tests/test_interchange.py::test_empty_and_batched[parquet]`, `engine/tests/test_interchange.py::test_noncontiguous_stable_ids_and_order[parquet]` | — |
 | DATA-033 | SPSS interchange | SAV read/write with value-label and missing-code reconciliation | [M20](https://github.com/Roche/pyreadstat) | Audited PyReadStat SAV subset; missing declarations lost on export | 0 | in progress | brief | — | — |
-| DATA-034 | Stata interchange | DTA read/write with explicit format version | [M20](https://github.com/Roche/pyreadstat) | Audited PyReadStat DTA subset; tagged missing and format reconciliation pending | 0 | in progress | brief | — | — |
+| DATA-034 | Stata interchange | DTA read/write with explicit format version | [M20](https://github.com/Roche/pyreadstat) | Audited PyReadStat DTA subset with explicit format version selection; tagged missing rejected | 0 | verified against reference values | brief | `engine/tests/test_readstat_io.py::test_stata_reference_fixture` | `engine/fixtures/foundations/stata.json` |
 | DATA-035 | SAS dataset reading | SAS7BDAT read only; preserve metadata where available | [M20](https://github.com/Roche/pyreadstat) | Audited PyReadStat SAS7BDAT reader; source metadata persistence and genuine fixture pending | 0 | in progress | brief | — | — |
 | DATA-036 | SQLite import and export | Read-only import query and transactional explicit export | [M19](https://www.sqlite.org/lang.html) | Original typed SQLite envelope; general read-only table/query import pending | 0 | in progress | brief | — | — |
 | DATA-037 | Native project package | Versioned manifest, immutable Parquet revisions and JSON specs | [M18](https://developer.apple.com/documentation/appkit/nsdocument) | Needs custom implementation | 0 | in progress | brief | — | — |

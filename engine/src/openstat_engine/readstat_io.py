@@ -299,7 +299,12 @@ def import_sas7bdat(store: Store, path: str) -> dict[str, Any]:
 
 
 def _export(
-    store: Store, revision: str, path: str, overwrite: bool, file_format: str
+    store: Store,
+    revision: str,
+    path: str,
+    overwrite: bool,
+    file_format: str,
+    version: int = 15,
 ) -> dict[str, Any]:
     item = store.get(revision)
     if (
@@ -373,10 +378,12 @@ def _export(
                     variable_measure=variable_measure,
                 )
             else:
+                if version not in {12, 13, 14, 15}:
+                    raise EngineError("error.readstat_export")
                 pyreadstat.write_dta(
                     frame,
                     staging,
-                    version=15,
+                    version=version,
                     column_labels=column_labels,
                     variable_value_labels=labels,
                     variable_format=None,
@@ -388,12 +395,22 @@ def _export(
             pyreadstat.ReadstatError,
         ) as exc:
             raise EngineError("error.readstat_export") from exc
-    return {"path": str(Path(path).absolute()), "rows": item.row_count, "losses": losses}
+    report: dict[str, Any] = {
+        "path": str(Path(path).absolute()),
+        "rows": item.row_count,
+        "losses": losses,
+    }
+    if file_format == "dta":
+        report["version"] = version
+    return report
 
 
 def export_sav(store: Store, revision: str, path: str, overwrite: bool = False) -> dict[str, Any]:
     return _export(store, revision, path, overwrite, "sav")
 
 
-def export_dta(store: Store, revision: str, path: str, overwrite: bool = False) -> dict[str, Any]:
-    return _export(store, revision, path, overwrite, "dta")
+def export_dta(
+    store: Store, revision: str, path: str, overwrite: bool = False, version: int = 15
+) -> dict[str, Any]:
+    return _export(store, revision, path, overwrite, "dta", version=version)
+
