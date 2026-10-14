@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import math
 from collections import defaultdict
 from collections.abc import Iterable, Iterator
@@ -552,6 +553,7 @@ def aggregate(
     aggregations: list[dict[str, str]],
     name: str,
     include_missing_codes: bool = False,
+    provenance: bool = False,
 ) -> dict[str, Any]:
     item = store.get(revision)
     _check_global(store, [revision], len(item.fields))
@@ -562,6 +564,7 @@ def aggregate(
         or not isinstance(aggregations, list)
         or not aggregations
         or type(include_missing_codes) is not bool
+        or type(provenance) is not bool
     ):
         _fail()
     group_fields = [_field(item, field) for field in groups]
@@ -580,11 +583,12 @@ def aggregate(
         if spec["op"] != "count" and source.storage not in {"int64", "float64"}:
             raise EngineError("error.value_type")
         parsed.append((source, spec["op"], spec["name"]))
-    data: dict[tuple[Any, ...], tuple[list[Any], list[list[Any]]]] = {}
-    for _, row in _materialize(store, revision, [*groups, *[p[0].id for p in parsed]]):
+    data: dict[tuple[Any, ...], tuple[list[Any], list[list[Any]], list[int]]] = {}
+    for rid, row in _materialize(store, revision, [*groups, *[p[0].id for p in parsed]]):
         key = tuple(_canonical(row[field]) for field in groups)
         raw_key = [row[field] for field in groups]
-        _, accum = data.setdefault(key, (raw_key, [[] for _ in parsed]))
+        _, accum, rids = data.setdefault(key, (raw_key, [[] for _ in parsed], []))
+        rids.append(rid)
         for target, (source, _, _) in zip(accum, parsed, strict=True):
             value = row[source.id]
             kind = missing_kind(source, value)
@@ -598,11 +602,21 @@ def aggregate(
         if op == "count":
             storage, measurement = "int64", "discrete"
         out.append(Field(str(uuid4()), label, storage, measurement))
+    if provenance:
+        out.extend(
+            [
+                _prov("Source dataset", "string", "nominal"),
+                _prov("Source row count", "int64", "discrete"),
+                _prov("Source row IDs", "string", "nominal"),
+            ]
+        )
+    if len({f.name for f in out}) != len(out):
+        raise EngineError("error.duplicate_fields")
 
     def results() -> Iterator[list[Any]]:
-        for raw_key, buckets in data.values():
+        for raw_key, buckets, rids in data.values():
             answers: list[Any] = []
-            for (_, op, _), values in zip(parsed, buckets, strict=True):
+            for (source, op, _), values in zip(parsed, buckets, strict=True):
                 if op == "count":
                     answers.append(len(values))
                 elif not values:
@@ -628,7 +642,10 @@ def aggregate(
                     answers.append(min(values))
                 else:
                     answers.append(max(values))
-            yield [*raw_key, *answers]
+            row_vals = [*raw_key, *answers]
+            if provenance:
+                row_vals.extend([item.dataset_id, len(rids), json.dumps(rids)])
+            yield row_vals
 
     return _write(store, name, out, results())
 

@@ -413,12 +413,16 @@
       "name": "Group aggregation",
       "method": "Typed split-apply-combine with row provenance",
       "reference": "M08",
-      "library": "Original bounded count/sum/mean/min/max; grouped row provenance pending",
+      "library": "Original bounded count/sum/mean/min/max with optional row provenance",
       "phase": 0,
-      "status": "in progress",
-      "evidence": "brief",
-      "tests": [],
-      "fixtures": []
+      "status": "verified against reference values",
+      "evidence": "test",
+      "tests": [
+        "engine/tests/test_tables.py::test_hand_calculated_table_contract"
+      ],
+      "fixtures": [
+        "engine/fixtures/foundations/tables.json"
+      ]
     },
     {
       "id": "DATA-026",

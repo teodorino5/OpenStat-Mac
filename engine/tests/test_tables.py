@@ -59,6 +59,36 @@ def test_hand_calculated_table_contract(
     stacked = tables.stack(store, [left["revision"], left["revision"]], "Stacked")
     assert [row[:2] for row in rows(store, stacked["revision"])] == fixture["expected"]["stack"]
     pivot_source = store.create(**fixture["pivot_input"])
+    summary_prov = tables.aggregate(
+        store,
+        pivot_source["revision"],
+        ["case"],
+        [
+            {"field": "score", "op": "sum", "name": "Total"},
+            {"field": "score", "op": "count", "name": "N"},
+        ],
+        "SummaryProv",
+        provenance=True,
+    )
+    prov_rows = rows(store, summary_prov["revision"])
+    assert (
+        [[r[0], r[1], r[2], r[4], r[5]] for r in prov_rows]
+        == fixture["expected"]["aggregate_provenance"]
+    )
+    assert all(r[3] == pivot_source["id"] for r in prov_rows)
+    assert [f["name"] for f in summary_prov["fields"]] == [
+        "Case",
+        "Total",
+        "N",
+        "Source dataset",
+        "Source row count",
+        "Source row IDs",
+    ]
+    assert [f["role"] for f in summary_prov["fields"][-3:]] == [
+        "identifier",
+        "identifier",
+        "identifier",
+    ]
     pivoted = tables.pivot(store, pivot_source["revision"], ["case"], "variable", "score", "Wide")
     assert rows(store, pivoted["revision"]) == fixture["expected"]["pivot"]
     wide_fields = [f["id"] for f in pivoted["fields"]]
@@ -661,4 +691,46 @@ def test_melt_edge_cases_and_validations(store: Store) -> None:
         tables.melt(
             store, imprecise_numeric["revision"], [], ["integer", "float"], "Imprecise melt"
         )
+
+
+def test_aggregate_row_provenance_and_duplicate_safety(store: Store) -> None:
+    fields = [
+        {"id": "grp", "name": "Group", "storage": "string", "measurement": "nominal"},
+        {"id": "val", "name": "Value", "storage": "int64", "measurement": "discrete"},
+    ]
+    dataset = store.create("Test", fields, [["B", 10], ["A", 20], ["B", 30], ["A", 40]])
+    agg = tables.aggregate(
+        store,
+        dataset["revision"],
+        ["grp"],
+        [{"field": "val", "op": "sum", "name": "Sum"}],
+        "Agg",
+        provenance=True,
+    )
+    agg_rows = rows(store, agg["revision"])
+    assert agg_rows == [
+        ["B", 40, dataset["id"], 2, "[0, 2]"],
+        ["A", 60, dataset["id"], 2, "[1, 3]"],
+    ]
+
+    with pytest.raises(EngineError, match="error.operation_options"):
+        tables.aggregate(
+            store,
+            dataset["revision"],
+            ["grp"],
+            [{"field": "val", "op": "sum", "name": "Sum"}],
+            "Bad",
+            provenance="true",  # type: ignore[arg-type]
+        )
+
+    with pytest.raises(EngineError, match="error.duplicate_fields"):
+        tables.aggregate(
+            store,
+            dataset["revision"],
+            ["grp"],
+            [{"field": "val", "op": "sum", "name": "Source row count"}],
+            "Collision",
+            provenance=True,
+        )
+
 
