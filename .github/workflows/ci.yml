@@ -22,7 +22,7 @@ jobs:
       - run: make test
       - run: make package
       - name: Build native Xcode project
-        run: xcodebuild -project OpenStatMac.xcodeproj -scheme OpenStatMac -configuration Debug -derivedDataPath build/xcode CODE_SIGNING_ALLOWED=NO build
+        run: xcodebuild -project OpenStatMac.xcodeproj -scheme OpenStatMac -configuration Debug -destination "platform=macOS" -derivedDataPath build/xcode CODE_SIGNING_ALLOWED=NO ONLY_ACTIVE_ARCH=YES build
       - name: Record architecture and toolchain
         run: |
           uname -m
