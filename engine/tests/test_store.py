@@ -1,4 +1,5 @@
 import json
+from collections.abc import Callable
 from dataclasses import replace
 from pathlib import Path
 from typing import Any
@@ -55,6 +56,56 @@ def test_context_is_explicit_and_persisted(
     assert reopened["context"] == context
     assert reopened["observation_unit"] == "Newly authored observation unit"
     assert not {"p_value", "confidence_interval", "population_estimate"} & reopened.keys()
+
+
+@pytest.mark.feature("DATA-001")
+@pytest.mark.feature("DATA-002")
+def test_metadata_roles_and_context_contract(
+    store: Store, tmp_path: Path, reference_fixture: Callable[[str], dict[str, Any]]
+) -> None:
+    fixture = reference_fixture("engine/fixtures/foundations/metadata.json")
+    inputs = fixture["input"]
+    expected = fixture["expected"]
+
+    for ctx_spec in inputs["contexts"]:
+        dataset = store.create(
+            ctx_spec["name"],
+            inputs["fields"],
+            inputs["rows"],
+            ctx_spec["context"],
+            ctx_spec["observation_unit"],
+        )
+        assert dataset["context"] == ctx_spec["context"]
+        assert dataset["observation_unit"] == ctx_spec["observation_unit"]
+        assert not set(expected["disallowed_inferential_keys"]) & dataset.keys()
+
+        # Save and reopen
+        file_path = tmp_path / f"{ctx_spec['context']}.openstat"
+        store.save(dataset["revision"], str(file_path))
+        reopened = store.open(str(file_path))
+
+        assert reopened["context"] == ctx_spec["context"]
+        assert reopened["observation_unit"] == ctx_spec["observation_unit"]
+        assert not set(expected["disallowed_inferential_keys"]) & reopened.keys()
+        assert reopened["row_count"] == expected["row_count"]
+
+        # Check all fields match expected attributes
+        for actual_field, exp_field in zip(reopened["fields"], expected["fields"], strict=True):
+            for key in [
+                "id",
+                "name",
+                "storage",
+                "measurement",
+                "role",
+                "levels",
+                "value_labels",
+                "missing_codes",
+            ]:
+                assert actual_field[key] == exp_field[key]
+
+        page = store.page(reopened["revision"])
+        assert page["row_ids"] == expected["row_ids"]
+        assert page["rows"] == expected["rows"]
 
 
 @pytest.mark.feature("DATA-003")

@@ -1,0 +1,177 @@
+{
+  "feature_ids": [
+    "DATA-001",
+    "DATA-002"
+  ],
+  "provenance": "Original fixture authored for this project, 2026-10-14. No external vendor or sample data.",
+  "independent_method": "Hand-specified metadata contract covering storage types (float64, int64, string, bool, multiple_response), measurement scales (continuous, discrete, ordinal, binary, nominal, multiple_response), variable roles (identifier, characteristic), and study context (sample, population, unspecified) with observation unit. Exact field attributes, roles, and context are verified across persistence round-trips.",
+  "tolerance": {
+    "comparison": "exact storage type, measurement scale, variable role, study context, observation unit, and field definitions"
+  },
+  "test_selector": "engine/tests/test_store.py::test_metadata_roles_and_context_contract",
+  "input": {
+    "fields": [
+      {
+        "id": "subject_id",
+        "name": "Subject ID",
+        "storage": "int64",
+        "measurement": "discrete",
+        "role": "identifier"
+      },
+      {
+        "id": "code",
+        "name": "Accession Code",
+        "storage": "string",
+        "measurement": "nominal",
+        "role": "identifier"
+      },
+      {
+        "id": "weight_g",
+        "name": "Weight (g)",
+        "storage": "float64",
+        "measurement": "continuous",
+        "role": "characteristic"
+      },
+      {
+        "id": "visit_count",
+        "name": "Visits",
+        "storage": "int64",
+        "measurement": "discrete",
+        "role": "characteristic"
+      },
+      {
+        "id": "severity",
+        "name": "Severity Grade",
+        "storage": "string",
+        "measurement": "ordinal",
+        "role": "characteristic",
+        "levels": ["mild", "moderate", "severe"],
+        "value_labels": {"mild": "Grade 1", "moderate": "Grade 2", "severe": "Grade 3"},
+        "missing_codes": ["not_assessed"]
+      },
+      {
+        "id": "positive",
+        "name": "Test Positive",
+        "storage": "bool",
+        "measurement": "binary",
+        "role": "characteristic"
+      },
+      {
+        "id": "symptoms",
+        "name": "Reported Symptoms",
+        "storage": "multiple_response",
+        "measurement": "multiple_response",
+        "role": "characteristic",
+        "levels": ["fever", "cough", "fatigue"]
+      }
+    ],
+    "rows": [
+      [101, "SUBJ-001", 68.5, 3, "mild", true, ["fever", "cough"]],
+      [102, "SUBJ-002", 74.2, 1, "moderate", false, []],
+      [103, "SUBJ-003", null, 0, "not_assessed", null, ["fatigue"]]
+    ],
+    "contexts": [
+      {
+        "name": "Study Sample",
+        "context": "sample",
+        "observation_unit": "patient encounter"
+      },
+      {
+        "name": "Census Population",
+        "context": "population",
+        "observation_unit": "citizen household"
+      },
+      {
+        "name": "Exploratory Table",
+        "context": "unspecified",
+        "observation_unit": ""
+      }
+    ]
+  },
+  "expected": {
+    "row_count": 3,
+    "row_ids": [0, 1, 2],
+    "fields": [
+      {
+        "id": "subject_id",
+        "name": "Subject ID",
+        "storage": "int64",
+        "measurement": "discrete",
+        "role": "identifier",
+        "levels": [],
+        "value_labels": {},
+        "missing_codes": []
+      },
+      {
+        "id": "code",
+        "name": "Accession Code",
+        "storage": "string",
+        "measurement": "nominal",
+        "role": "identifier",
+        "levels": [],
+        "value_labels": {},
+        "missing_codes": []
+      },
+      {
+        "id": "weight_g",
+        "name": "Weight (g)",
+        "storage": "float64",
+        "measurement": "continuous",
+        "role": "characteristic",
+        "levels": [],
+        "value_labels": {},
+        "missing_codes": []
+      },
+      {
+        "id": "visit_count",
+        "name": "Visits",
+        "storage": "int64",
+        "measurement": "discrete",
+        "role": "characteristic",
+        "levels": [],
+        "value_labels": {},
+        "missing_codes": []
+      },
+      {
+        "id": "severity",
+        "name": "Severity Grade",
+        "storage": "string",
+        "measurement": "ordinal",
+        "role": "characteristic",
+        "levels": ["mild", "moderate", "severe"],
+        "value_labels": {"mild": "Grade 1", "moderate": "Grade 2", "severe": "Grade 3"},
+        "missing_codes": ["not_assessed"]
+      },
+      {
+        "id": "positive",
+        "name": "Test Positive",
+        "storage": "bool",
+        "measurement": "binary",
+        "role": "characteristic",
+        "levels": [],
+        "value_labels": {},
+        "missing_codes": []
+      },
+      {
+        "id": "symptoms",
+        "name": "Reported Symptoms",
+        "storage": "multiple_response",
+        "measurement": "multiple_response",
+        "role": "characteristic",
+        "levels": ["fever", "cough", "fatigue"],
+        "value_labels": {},
+        "missing_codes": []
+      }
+    ],
+    "disallowed_inferential_keys": [
+      "p_value",
+      "confidence_interval",
+      "population_estimate"
+    ],
+    "rows": [
+      [101, "SUBJ-001", 68.5, 3, "mild", true, ["fever", "cough"]],
+      [102, "SUBJ-002", 74.2, 1, "moderate", false, []],
+      [103, "SUBJ-003", null, 0, "not_assessed", null, ["fatigue"]]
+    ]
+  }
+}

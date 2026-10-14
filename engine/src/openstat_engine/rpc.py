@@ -150,7 +150,7 @@ class Service:
             "dataset.export_dta": partial(readstat_io.export_dta, self.store),
             **{
                 f"tables.{name}": partial(getattr(tables, name), self.store)
-                for name in ("stack", "join", "transpose", "pivot", "aggregate")
+                for name in ("stack", "join", "transpose", "pivot", "melt", "aggregate")
             },
             "dataset.select": partial(views.select, self.store),
             "dataset.filter": partial(views.filter_cases, self.store),
