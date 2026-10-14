@@ -1,6 +1,8 @@
 import math
+from collections.abc import Callable
 from pathlib import Path
 from types import SimpleNamespace
+from typing import Any
 
 import pandas as pd
 import pyreadstat
@@ -467,3 +469,79 @@ def test_export_preserves_long_strings_and_exact_integer_boundary(tmp_path: Path
     data, _ = pyreadstat.read_dta(path, output_format="dict")
     assert data["text"] == ["x" * 3000, ""]
     assert data["integer"] == [float(2**53), float(-(2**53))]
+
+
+@pytest.mark.feature("DATA-035")
+def test_sas_reference_fixture(
+    store: Store,
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    reference_fixture: Callable[[str], dict[str, Any]],
+) -> None:
+    fixture = reference_fixture("engine/fixtures/foundations/sas.json")
+    inp = fixture["input"]
+    expected = fixture["expected"]
+
+    source_path = tmp_path / "clinical_cohort.sas7bdat"
+    source_path.write_bytes(b"SAS7BDAT-FIXTURE-CONTENT")
+
+    meta = SimpleNamespace(
+        column_names=list(inp["columns"].keys()),
+        column_names_to_labels=inp["column_labels"],
+        original_variable_types=inp["original_variable_types"],
+        file_label=inp["file_label"],
+        file_encoding=inp["file_encoding"],
+        mr_sets={},
+        number_rows=expected["row_count"],
+        variable_value_labels={
+            col: {int(k) if k.isdigit() else k: v for k, v in labels.items()}
+            for col, labels in inp["variable_value_labels"].items()
+        },
+        readstat_variable_types=inp["readstat_variable_types"],
+        missing_user_values={},
+        missing_ranges={},
+        variable_measure=inp["variable_measure"],
+    )
+
+    data = {
+        col: [
+            "" if val is None and inp["readstat_variable_types"][col] == "string" else val
+            for val in vals
+        ]
+        for col, vals in inp["columns"].items()
+    }
+
+    def sas_reader(_path: Path, **options: Any) -> tuple[Any, Any]:
+        if options.get("metadataonly"):
+            return None, meta
+        return data, meta
+
+    monkeypatch.setitem(readstat_io._READERS, "sas7bdat", sas_reader)
+
+    # 1. Import SAS file
+    descriptor = import_sas7bdat(store, str(source_path))
+
+    # 2. Verify row count, metadata, and losses
+    assert descriptor["row_count"] == expected["row_count"]
+    assert descriptor["losses"] == expected["losses"]
+    assert descriptor["source_metadata"] == expected["source_metadata"]
+
+    # 3. Verify fields
+    fields = descriptor["fields"]
+    assert len(fields) == len(expected["imported_fields"])
+    for exp_f, act_f in zip(expected["imported_fields"], fields, strict=True):
+        assert act_f["name"] == exp_f["name"]
+        assert act_f["storage"] == exp_f["storage"]
+        assert act_f["measurement"] == exp_f["measurement"]
+        assert act_f["missing_codes"] == exp_f["missing_codes"]
+        assert act_f["value_labels"] == exp_f["value_labels"]
+        if "levels" in exp_f:
+            assert list(act_f["levels"]) == exp_f["levels"]
+
+    # 4. Verify imported data rows in Store
+    batch = next(store.iter_tables(descriptor["revision"]))
+    imported_rows = [
+        [batch[f["id"]].to_pylist()[i] for f in fields]
+        for i in range(descriptor["row_count"])
+    ]
+    assert imported_rows == expected["imported_rows"]
