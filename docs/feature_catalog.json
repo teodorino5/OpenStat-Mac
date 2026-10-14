@@ -580,12 +580,16 @@
       "name": "Native project package",
       "method": "Versioned manifest, immutable Parquet revisions and JSON specs",
       "reference": "M18",
-      "library": "Needs custom implementation",
+      "library": "Original openstat_engine store and manifest package envelope",
       "phase": 0,
-      "status": "in progress",
+      "status": "verified against reference values",
       "evidence": "brief",
-      "tests": [],
-      "fixtures": []
+      "tests": [
+        "engine/tests/test_store.py::test_project_package_contract"
+      ],
+      "fixtures": [
+        "engine/fixtures/foundations/project_package.json"
+      ]
     },
     {
       "id": "DATA-038",

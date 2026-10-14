@@ -1,4 +1,6 @@
 import json
+import shutil
+from collections.abc import Callable
 from dataclasses import replace
 from pathlib import Path
 from typing import Any
@@ -556,3 +558,87 @@ def test_extend_crosses_multiple_row_group_boundaries(
     assert boundary["row_ids"] == [8191, 8192, 8193]
     last = store.page(result["revision"], 16384, 2)
     assert last["rows"] == [[None], [None]] and last["row_ids"] == [16384, 16385]
+
+
+@pytest.mark.feature("DATA-037")
+def test_project_package_contract(
+    store: Store, tmp_path: Path, reference_fixture: Callable[[str], dict[str, Any]]
+) -> None:
+    fixture = reference_fixture("engine/fixtures/foundations/project_package.json")
+    inp = fixture["input"]
+    exp = fixture["expected"]
+
+    created = store.create(
+        name=inp["name"],
+        fields=inp["fields"],
+        rows=inp["rows"],
+        context=inp["context"],
+        observation_unit=inp["observation_unit"],
+    )
+    rev = created["revision"]
+
+    for edit in inp["edits"]:
+        edited = store.edit(rev, edit["row"], edit["field"], edit["value"])
+        rev = edited["revision"]
+
+    project_path = tmp_path / "Study.openstat"
+    saved = store.save(rev, str(project_path))
+    assert saved["revision"] == rev
+    assert project_path.is_dir()
+
+    manifest_file = project_path / "manifest.json"
+    assert manifest_file.exists()
+    manifest = json.loads(manifest_file.read_text())
+
+    assert sorted(manifest.keys()) == sorted(exp["manifest_keys"])
+    assert manifest["format"] == exp["manifest_format"]
+    assert manifest["format_version"] == exp["manifest_format_version"]
+
+    data_file = project_path / manifest["data"]
+    assert data_file.exists()
+    assert manifest["sha256"] == digest(data_file)
+
+    edits_file = project_path / manifest["edits"]
+    assert edits_file.exists()
+    assert manifest["edits_sha256"] == digest(edits_file)
+
+    independent_store_dir = tmp_path / "independent_store"
+    independent_store_dir.mkdir()
+    independent_store = Store(independent_store_dir)
+    opened = independent_store.open(str(project_path))
+    opened_rev = opened["revision"]
+
+    paged = independent_store.page(opened_rev, offset=0, limit=100)
+    assert paged["count"] == exp["row_count"]
+    assert paged["row_ids"] == exp["row_ids"]
+    assert paged["rows"] == exp["saved_rows"]
+
+    descriptor = opened
+    assert descriptor["name"] == inp["name"]
+    assert descriptor["context"] == inp["context"]
+    assert descriptor["observation_unit"] == inp["observation_unit"]
+    assert descriptor["row_count"] == exp["row_count"]
+
+    tampered_project = tmp_path / "Tampered.openstat"
+    shutil.copytree(project_path, tampered_project)
+    tampered_manifest = json.loads((tampered_project / "manifest.json").read_text())
+    tampered_data = tampered_project / tampered_manifest["data"]
+    tampered_data.write_bytes(tampered_data.read_bytes() + b"\x00")
+    with pytest.raises(EngineError, match="error.checksum"):
+        independent_store.open(str(tampered_project))
+
+    tampered_edits_project = tmp_path / "TamperedEdits.openstat"
+    shutil.copytree(project_path, tampered_edits_project)
+    tampered_edits = tampered_edits_project / tampered_manifest["edits"]
+    tampered_edits.write_text("[]")
+    with pytest.raises(EngineError, match="error.checksum"):
+        independent_store.open(str(tampered_edits_project))
+
+    unsupported_project = tmp_path / "Unsupported.openstat"
+    shutil.copytree(project_path, unsupported_project)
+    unsupported_manifest = json.loads((unsupported_project / "manifest.json").read_text())
+    unsupported_manifest["analyses"] = [{"unsupported": True}]
+    (unsupported_project / "manifest.json").write_text(json.dumps(unsupported_manifest))
+    with pytest.raises(EngineError, match="error.project_version"):
+        independent_store.open(str(unsupported_project))
+
