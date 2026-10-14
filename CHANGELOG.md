@@ -31,3 +31,20 @@
 
 - Restore a valid inspector selection when undo returns to a dataset with different field IDs.
 - Preserve negative zero through cell editing, Foundation JSON-RPC output and saved sparse edits.
+
+### Added — typed transformations and interchange
+
+- Safe case predicates, stable external sorting, immutable filters, selected-case deletion and variable removal with stable source IDs.
+- Typed classification, declared contingency denominators, missing inspection, recoding, safe numeric expressions, ranks, lag/lead, standardization, duplicates and exact Tukey outlier flags.
+- Bounded joins, transpose, wide pivot and group summaries, plus streaming schema-compatible stacks. Remaining reshape and row-provenance work is explicit.
+- Parquet, typed JSON/SQLite/XLSX envelopes, CSV/TSV export and audited bounded SAV/DTA adapters. SAS reading remains unverified; unsupported metadata and format losses are reported.
+- Background jobs with strict JSON snapshots, progress, cooperative cancellation and lifecycle cleanup; native English/Czech forms and export loss notes.
+- Independent hand-calculated fixtures and original 5M by 100 engine benchmarks.
+- Public source repository and Gemini collaboration handoff.
+
+### Fixed — native and engine integration
+
+- Return codebook collections as JSON arrays so managed jobs can transfer dataset descriptors.
+- Preserve real case IDs through sorting, filtering, editing and reopening projects.
+- Assign a separate undo group to each immutable native change.
+- Reuse a bounded immutable Parquet metadata cache with independent readers.
