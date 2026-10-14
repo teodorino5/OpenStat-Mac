@@ -64,6 +64,7 @@ def delete_cases(store: Store, revision: str, row_ids: list[int]) -> dict[str, o
             item.context,
             item.observation_unit,
             (),
+            item.weights,
         )
     )
 
@@ -101,6 +102,9 @@ def drop_fields(store: Store, revision: str, fields: list[str]) -> dict[str, obj
     except Exception:
         target.unlink(missing_ok=True)
         raise
+    active_weights = item.weights
+    if active_weights and active_weights["field"] in requested:
+        active_weights = None
     return store._record(
         Revision(
             str(uuid4()),
@@ -112,5 +116,6 @@ def drop_fields(store: Store, revision: str, fields: list[str]) -> dict[str, obj
             item.context,
             item.observation_unit,
             (),
+            active_weights,
         )
     )

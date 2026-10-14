@@ -128,3 +128,37 @@ def test_frame_preserves_foundation_negative_zero_and_integer_precision() -> Non
     assert struct.pack("<d", decoded["value"]) == b"\0\0\0\0\0\0\0\x80"
     assert type(decoded["integer"]) is int and decoded["integer"] == 2**63 - 1
     assert type(decoded["zero"]) is int and decoded["zero"] == 0
+
+
+def test_dataset_set_weights_over_rpc(tmp_path: Path) -> None:
+    service = Service(tmp_path)
+    created = service.dispatch(
+        request(
+            "dataset.create",
+            {
+                "name": "WeightsTest",
+                "fields": [
+                    {"id": "w", "name": "W", "storage": "int64", "measurement": "discrete"},
+                    {"id": "val", "name": "V", "storage": "int64", "measurement": "discrete"},
+                ],
+                "rows": [[2, 10], [3, 20]],
+            },
+        )
+    )
+    assert created is not None
+    rev = created["result"]["revision"]
+
+    weighted = service.dispatch(
+        request("dataset.set_weights", {"revision": rev, "field": "w", "kind": "frequency"})
+    )
+    assert weighted is not None
+    res = weighted["result"]
+    assert res["weights"] == {"field": "w", "kind": "frequency"}
+    assert res["audit"]["total_weight"] == 5
+
+    cleared = service.dispatch(
+        request("dataset.set_weights", {"revision": res["revision"], "field": None})
+    )
+    assert cleared is not None
+    assert cleared["result"].get("weights") is None
+

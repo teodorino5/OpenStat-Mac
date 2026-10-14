@@ -156,6 +156,7 @@ class Service:
             "dataset.filter": partial(views.filter_cases, self.store),
             "dataset.sort": partial(views.sort_cases, self.store),
             "dataset.weights": partial(views.weights, self.store),
+            "dataset.set_weights": partial(views.set_weights, self.store),
             "columns.outliers": partial(outliers.flag, self.store),
             "dataset.delete_cases": partial(structure.delete_cases, self.store),
             "dataset.drop_fields": partial(structure.drop_fields, self.store),

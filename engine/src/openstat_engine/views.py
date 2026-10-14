@@ -377,3 +377,22 @@ def weights(store: Store, revision: str, field: str, kind: str = "frequency") ->
             "analytic: nonnegative finite values"
         ),
     }
+
+
+def set_weights(
+    store: Store,
+    revision: str,
+    field: str | None = None,
+    kind: str = "frequency",
+) -> dict[str, Any]:
+    item = store.get(revision)
+    if field is None:
+        if kind not in {"frequency", "analytic"}:
+            raise EngineError("error.weight_options")
+        updated = replace(item, id=str(uuid4()), weights=None)
+        return store._record(updated)
+    audit = weights(store, revision, field, kind)
+    updated = replace(item, id=str(uuid4()), weights={"field": field, "kind": kind})
+    recorded = store._record(updated)
+    return {**recorded, "audit": audit}
+

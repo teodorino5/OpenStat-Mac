@@ -8,7 +8,14 @@ import pytest
 
 from openstat_engine.errors import EngineError
 from openstat_engine.store import Store, digest
-from openstat_engine.views import filter_cases, predicate, select, sort_cases, weights
+from openstat_engine.views import (
+    filter_cases,
+    predicate,
+    select,
+    set_weights,
+    sort_cases,
+    weights,
+)
 
 
 @pytest.mark.feature("DATA-006")
@@ -33,6 +40,11 @@ def test_original_case_contract(
     weight = weights(store, revision, "w")
     assert {
         key: weight[key] for key in ["eligible", "missing", "zero", "total_weight"]
+    } == expected["weights"]
+    weighted = set_weights(store, revision, "w", "frequency")
+    assert weighted["weights"] == {"field": "w", "kind": "frequency"}
+    assert {
+        key: weighted["audit"][key] for key in ["eligible", "missing", "zero", "total_weight"]
     } == expected["weights"]
 
 
@@ -274,3 +286,68 @@ def test_scan_projection_edit_bit_patterns_and_metadata_without_reads(
         result["revision"], [numeric[0] | {"name": "Renamed"}], "sample", "case"
     )
     assert renamed["context"] == "sample"
+
+
+def test_weights_persistence_and_project_roundtrip(store: Store, tmp_path: Path) -> None:
+    fields = [
+        {"id": "w_freq", "name": "FreqWeight", "storage": "int64", "measurement": "discrete"},
+        {"id": "w_ana", "name": "AnaWeight", "storage": "float64", "measurement": "continuous"},
+        {"id": "score", "name": "Score", "storage": "float64", "measurement": "continuous"},
+    ]
+    data = [[2, 1.5, 10.0], [3, 0.5, 20.0]]
+    item = store.create("Weighted Dataset", fields, data)
+    rev0 = item["revision"]
+    assert store.get(rev0).weights is None
+    assert "weights" not in store.get(rev0).descriptor()
+
+    # Set frequency weights
+    weighted = set_weights(store, rev0, "w_freq", "frequency")
+    rev1 = weighted["revision"]
+    assert weighted["weights"] == {"field": "w_freq", "kind": "frequency"}
+    assert weighted["audit"]["total_weight"] == 5
+    assert store.get(rev1).descriptor()["weights"] == {"field": "w_freq", "kind": "frequency"}
+
+    # Save to .openstat project package
+    project_pkg = tmp_path / "weighted_study.openstat"
+    store.save(rev1, str(project_pkg))
+
+    # Re-open in a fresh Store instance
+    store2 = Store(tmp_path / "fresh_store")
+    opened = store2.open(str(project_pkg))
+    assert opened["weights"] == {"field": "w_freq", "kind": "frequency"}
+    rev_opened = opened["revision"]
+    assert store2.get(rev_opened).weights == {"field": "w_freq", "kind": "frequency"}
+
+    # Switch to analytic weights
+    analytic_weighted = set_weights(store2, rev_opened, "w_ana", "analytic")
+    assert analytic_weighted["weights"] == {"field": "w_ana", "kind": "analytic"}
+    assert analytic_weighted["audit"]["total_weight"] == 2.0
+
+    # Clear weights
+    cleared = set_weights(store2, analytic_weighted["revision"], None)
+    assert cleared.get("weights") is None
+    assert store2.get(cleared["revision"]).weights is None
+
+
+def test_weights_preserved_on_delete_and_cleared_on_drop(store: Store) -> None:
+    from openstat_engine.structure import delete_cases, drop_fields
+
+    fields = [
+        {"id": "w", "name": "Weight", "storage": "int64", "measurement": "discrete"},
+        {"id": "val", "name": "Value", "storage": "int64", "measurement": "discrete"},
+    ]
+    created = store.create("Test", fields, [[1, 10], [2, 20], [3, 30]])
+    weighted = set_weights(store, created["revision"], "w", "frequency")
+
+    # Deleting a case preserves weights
+    after_del = delete_cases(store, weighted["revision"], [1])
+    assert after_del["weights"] == {"field": "w", "kind": "frequency"}
+
+    # Dropping an unrelated field preserves weights
+    after_drop_val = drop_fields(store, weighted["revision"], ["val"])
+    assert after_drop_val["weights"] == {"field": "w", "kind": "frequency"}
+
+    # Dropping the weight field clears weights
+    after_drop_w = drop_fields(store, weighted["revision"], ["w"])
+    assert after_drop_w.get("weights") is None
+
