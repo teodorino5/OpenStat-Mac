@@ -557,3 +557,46 @@ def test_sqlite_hand_calculated_contract(
     assert struct.pack("<d", page["rows"][0][1]) == b"\x00\x00\x00\x00\x00\x00\x00\x80"
 
 
+@pytest.mark.feature("DATA-031")
+def test_json_hand_calculated_contract(
+    store: Store, tmp_path: Path, reference_fixture: Callable[[str], dict[str, Any]]
+) -> None:
+    fixture = reference_fixture("engine/fixtures/foundations/json.json")
+    dataset = store.create(
+        fixture["input"]["name"],
+        fixture["input"]["fields"],
+        fixture["input"]["rows"],
+        fixture["input"]["context"],
+        fixture["input"]["observation_unit"],
+    )
+    expected = fixture["expected"]
+
+    json_path = tmp_path / "export.json"
+    res = io.export_json(store, dataset["revision"], str(json_path))
+    assert res["losses"] == expected["losses"]
+    assert res["rows"] == expected["row_count"]
+
+    document = json.loads(json_path.read_text(encoding="utf-8"))
+    assert document["format"] == expected["envelope_format"]
+    assert document["version"] == expected["envelope_version"]
+    assert document["row_ids"] == expected["row_ids"]
+    assert document["rows"] == expected["rows"]
+
+    other = Store(tmp_path / "other")
+    imported = io.import_json(other, str(json_path))
+    assert imported["context"] == expected["context"]
+    assert imported["observation_unit"] == expected["observation_unit"]
+    assert imported["fields"] == dataset["fields"]
+    assert imported["row_count"] == expected["row_count"]
+
+    page = other.page(imported["revision"])
+    assert page["row_ids"] == expected["row_ids"]
+    assert page["rows"] == expected["rows"]
+    assert page["rows"][1][2] == ""
+    assert page["rows"][2][2] == "NA"
+    assert page["rows"][2][1] is None
+    assert page["rows"][1][5] == []
+    assert page["rows"][2][5] is None
+
+
+

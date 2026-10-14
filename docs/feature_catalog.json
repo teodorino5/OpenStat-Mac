@@ -503,12 +503,16 @@
       "name": "JSON import and export",
       "method": "Declared records or column schema; streaming large input",
       "reference": "M08",
-      "library": "Original bounded typed JSON envelope; general records and large streaming import pending",
+      "library": "Original bounded typed JSON envelope; see docs/INTERCHANGE.md for limits",
       "phase": 0,
-      "status": "in progress",
+      "status": "verified against reference values",
       "evidence": "brief",
-      "tests": [],
-      "fixtures": []
+      "tests": [
+        "engine/tests/test_interchange.py::test_json_hand_calculated_contract"
+      ],
+      "fixtures": [
+        "engine/fixtures/foundations/json.json"
+      ]
     },
     {
       "id": "DATA-032",

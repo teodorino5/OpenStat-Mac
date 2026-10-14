@@ -2,7 +2,7 @@
 
 An original MIT-licensed native macOS data editor and the foundation of a statistics application. macOS 14+, Swift 5.9+, Python 3.12. Working name is provisional.
 
-**27 of 353 planned functions implemented, 27 verified.** Verification covers original codebook, typed case operations, classifications, table operations, ranks, lag/lead, standardization, duplicates, and outlier reference fixtures. No statistical analysis procedure is implemented yet. Another 28 families remain unknown or explicitly excluded; the denominator is the scoped feature matrix, not a claim of exhaustive vendor parity.
+**28 of 353 planned functions implemented, 28 verified.** Verification covers original codebook, typed case operations, classifications, table operations, ranks, lag/lead, standardization, duplicates, and outlier reference fixtures. No statistical analysis procedure is implemented yet. Another 28 families remain unknown or explicitly excluded; the denominator is the scoped feature matrix, not a claim of exhaustive vendor parity.
 
 ## Run locally
 
