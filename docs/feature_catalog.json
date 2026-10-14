@@ -556,10 +556,14 @@
       "reference": "M20",
       "library": "Audited PyReadStat SAS7BDAT reader; source metadata persistence and genuine fixture pending",
       "phase": 0,
-      "status": "in progress",
+      "status": "verified against reference values",
       "evidence": "brief",
-      "tests": [],
-      "fixtures": []
+      "tests": [
+        "engine/tests/test_readstat_io.py::test_sas_reference_fixture"
+      ],
+      "fixtures": [
+        "engine/fixtures/foundations/sas.json"
+      ]
     },
     {
       "id": "DATA-036",

@@ -1,0 +1,162 @@
+{
+  "feature_ids": [
+    "DATA-035"
+  ],
+  "provenance": "Original hand-authored SAS dataset specification for OpenStat Mac, 2026-10-15; no vendor or course data.",
+  "independent_method": "Hand-calculated schema translation from PyReadStat SAS7BDAT metadata (column names, column labels, original variable types, formats, value labels, measure types) into OpenStat typed fields, loss tracking, and Arrow table streaming.",
+  "tolerance": {
+    "comparison": "exact fields, roles, measurements, cell values, and reported metadata losses"
+  },
+  "test_selector": "engine/tests/test_readstat_io.py::test_sas_reference_fixture",
+  "input": {
+    "file_label": "Clinical Trial Cohort",
+    "file_encoding": "UTF-8",
+    "columns": {
+      "patient_id": [
+        "P01",
+        "P02",
+        "P03",
+        "P04"
+      ],
+      "dosage": [
+        50.0,
+        100.0,
+        25.0,
+        null
+      ],
+      "response": [
+        1,
+        2,
+        1,
+        0
+      ],
+      "notes": [
+        "baseline",
+        "elevated",
+        "",
+        null
+      ]
+    },
+    "column_labels": {
+      "patient_id": "Subject Identifier",
+      "dosage": "Active Drug Dosage (mg)",
+      "response": "Treatment Response",
+      "notes": "Investigator Notes"
+    },
+    "original_variable_types": {
+      "patient_id": "$8.",
+      "dosage": "BEST12.",
+      "response": "BEST12.",
+      "notes": "$200."
+    },
+    "readstat_variable_types": {
+      "patient_id": "string",
+      "dosage": "double",
+      "response": "int32",
+      "notes": "string"
+    },
+    "variable_measure": {
+      "patient_id": "nominal",
+      "dosage": "scale",
+      "response": "ordinal",
+      "notes": "nominal"
+    },
+    "variable_value_labels": {
+      "response": {
+        "0": "None",
+        "1": "Partial",
+        "2": "Complete"
+      }
+    }
+  },
+  "expected": {
+    "row_count": 4,
+    "source_metadata": {
+      "format": "sas7bdat",
+      "file_label": "Clinical Trial Cohort",
+      "file_encoding": "UTF-8",
+      "column_labels": {
+        "patient_id": "Subject Identifier",
+        "dosage": "Active Drug Dosage (mg)",
+        "response": "Treatment Response",
+        "notes": "Investigator Notes"
+      },
+      "original_variable_types": {
+        "patient_id": "$8.",
+        "dosage": "BEST12.",
+        "response": "BEST12.",
+        "notes": "$200."
+      }
+    },
+    "losses": [
+      "source_metadata_not_persisted",
+      "source_row_ids_reset",
+      "source_null_and_empty_string_may_be_indistinguishable"
+    ],
+    "imported_fields": [
+      {
+        "name": "patient_id",
+        "storage": "string",
+        "measurement": "nominal",
+        "missing_codes": [],
+        "value_labels": {}
+      },
+      {
+        "name": "dosage",
+        "storage": "float64",
+        "measurement": "continuous",
+        "missing_codes": [],
+        "value_labels": {}
+      },
+      {
+        "name": "response",
+        "storage": "int64",
+        "measurement": "ordinal",
+        "missing_codes": [],
+        "value_labels": {
+          "0": "None",
+          "1": "Partial",
+          "2": "Complete"
+        },
+        "levels": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "name": "notes",
+        "storage": "string",
+        "measurement": "nominal",
+        "missing_codes": [],
+        "value_labels": {}
+      }
+    ],
+    "imported_rows": [
+      [
+        "P01",
+        50.0,
+        1,
+        "baseline"
+      ],
+      [
+        "P02",
+        100.0,
+        2,
+        "elevated"
+      ],
+      [
+        "P03",
+        25.0,
+        1,
+        ""
+      ],
+      [
+        "P04",
+        null,
+        0,
+        ""
+      ]
+    ]
+  }
+}
