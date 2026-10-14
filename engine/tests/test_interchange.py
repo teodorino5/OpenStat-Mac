@@ -81,6 +81,36 @@ def test_rich_roundtrip(store: Store, rich: dict[str, Any], tmp_path: Path, kind
     assert imported["id"] != rich["id"]
 
 
+def test_sqlite_rich_roundtrip_without_extension_toggle_api(
+    store: Store, rich: dict[str, Any], tmp_path: Path, monkeypatch: Any
+) -> None:
+    path = tmp_path / "dataset.sqlite"
+    io.export_sqlite(store, rich["revision"], str(path))
+    real_connect = sqlite3.connect
+
+    class ConnectionWithoutExtensionToggle(sqlite3.Connection):
+        def __getattribute__(self, name: str) -> Any:
+            if name == "enable_load_extension":
+                raise AttributeError(name)
+            return super().__getattribute__(name)
+
+    def connect_without_toggle(*args: Any, **kwargs: Any) -> sqlite3.Connection:
+        kwargs["factory"] = ConnectionWithoutExtensionToggle
+        return real_connect(*args, **kwargs)
+
+    monkeypatch.setattr(io.sqlite3, "connect", connect_without_toggle)
+    other = Store(tmp_path / "other")
+    imported = io.import_sqlite(other, str(path))
+    assert imported["fields"] == rich["fields"]
+    actual = other.page(imported["revision"])["rows"]
+    assert actual == [ROWS[0], ROWS[1], [9007199254740993, None, "NA", None, None]]
+
+    connection = real_connect(path, factory=ConnectionWithoutExtensionToggle)
+    with connection:
+        with pytest.raises(sqlite3.OperationalError, match="not authorized"):
+            connection.execute("SELECT load_extension('unavailable')")
+
+
 @pytest.mark.parametrize(
     "kind",
     [

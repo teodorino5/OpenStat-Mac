@@ -10,7 +10,7 @@ The local contributor app uses this checkout's Python environment and an ad-hoc 
 
 ## Evidence and coverage
 
-Python: 473 passing tests, 94.29% branch-aware engine coverage, strict mypy and ruff passing. Swift source and formatting checks pass. Swift/Python and native-window tests pass, including English/Czech labels, toolbar, edit, undo/redo and save/reopen. See docs/VALIDATION.md.
+Python: 474 passing tests, 94.29% branch-aware engine coverage, strict mypy and ruff passing. Swift source and formatting checks pass. Swift/Python and native-window tests pass, including English/Czech labels, toolbar, edit, undo/redo and save/reopen. See docs/VALIDATION.md.
 
 | Phase | Planned | Implemented | Verified |
 | --- | ---: | ---: | ---: |
@@ -26,7 +26,7 @@ Verified is a subset of implemented. These accepted rows are engine data foundat
 
 ## Broken, unavailable or incomplete
 
-`swift test` cannot run here: `no such module 'XCTest'`. Full Xcode is unavailable locally. Public CI has started on macOS 15 Intel and arm64 runners; results remain pending at this checkpoint. The supplied Xcode project's plist syntax is checked, but its Xcode build has not run locally.
+`swift test` cannot run here: `no such module 'XCTest'`. Full Xcode is unavailable locally. Public CI has started on macOS 15 Intel and arm64 runners; the first run failed the SQLite capability issue described in docs/VALIDATION.md. The fix passes local checks; fresh CI results remain pending. The supplied Xcode project's plist syntax is checked, but its Xcode build has not run locally.
 
 The native viewport now uses checked Arrow IPC files. Interoperability, precision, truncation rejection and artifact cleanup pass. The 5M × 100/60 fps gate remains incomplete. Selected case/variable deletion, typed classification, safe expressions, ranks, lag/lead, standardization, duplicate detection, Tukey flags, stable filtering/sorting, bounded table operations, managed jobs and several file adapters are present. Weight persistence, autocomplete, full reshape, missing-pattern audits, grouped provenance, Box-Cox, broader format support, import previews/type overrides, autosave, accessibility, visual review and Quick Look remain incomplete. Phase 1 cannot start yet.
 

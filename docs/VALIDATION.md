@@ -5,7 +5,7 @@ Date: 2026-10-14, Europe/Prague. These results describe an Intel contributor bui
 ## Passed locally
 
 - `make check`: Swift build, Python suite, ruff, strict mypy, Swift formatter lint, Swift/Python integration, feature-status validator and localization catalog checks.
-- Python: **473 tests passed**, with **94.29% branch-aware engine coverage**, exceeding the 90% threshold. This is code coverage, not statistical-method coverage. No statistical procedure exists yet.
+- Python: **474 tests passed**, with **94.29% branch-aware engine coverage**, exceeding the 90% threshold. This is code coverage, not statistical-method coverage. No statistical procedure exists yet.
 - Arrow interoperability: six original PyArrow inputs cover exact signed int64 bounds, negative zero, smallest subnormal, full-precision doubles, UTF-8, Boolean bits, nulls, empty response sets, multiple record batches and empty pages. Compression, nonfinite values, invalid response elements and duplicates are rejected. All 2,082 truncations are rejected; 2,082 deterministic byte mutations execute without a memory trap. This is a bounded reader check, not general Arrow conformance or a security audit. Artifact release is verified after native client reads.
 - Swift/Python integration: actual sidecar handshake, typed data creation, immutable edit, Czech decimal parsing, full-precision editable number round trip, Unicode framing, project save/reopen, domain errors and graceful shutdown.
 - Native NSDocument smoke in English and Czech: native window and toolbar, engine startup, Arrow viewport decoding, typed edit, undo, redo, explicit save and a second document reopened with the original value. Labels were verified as “Measurement” and “Měření”. These are internal integration checks, not full XCTest UI or accessibility audits.
@@ -44,3 +44,7 @@ Portable Python relocation, all transitive/native component licenses, hardened-r
 - [Czech native report](evidence/native-cs.json)
 
 Source publication is authorized at https://github.com/teodorino5/OpenStat-Mac. No binary release or successful public CI result is claimed.
+
+## First public CI correction
+
+The first source commit ran on both macOS 15 Intel and arm64 runners. Both failed the same 14 SQLite cases because their Python builds omit `Connection.enable_load_extension`; the other 459 tests passed. The importer now disables extension loading when that API exists and accepts builds where extension loading is compiled out. A regression uses a real SQLite connection subclass without the API, verifies a rich round trip and confirms that SQL extension loading remains disabled. Updated local `make check` passes 474 tests with 94.29% coverage. Fresh public CI results remain pending; no successful CI result is inferred from the fix.

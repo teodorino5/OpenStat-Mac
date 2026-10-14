@@ -47,7 +47,7 @@ make benchmark-large  # original 5M × 100 CSV import; requires scratch disk spa
 make benchmark-paging # repeated bounded pages; does not measure native frame rate
 ```
 
-The current Intel machine passed Python tests, strict type/lint checks, Swift/Python integration and native-window edit/undo/redo/save/reopen checks in English and Czech. See [session evidence](docs/VALIDATION.md) for exact results and limits. No GitHub CI run, native arm64 test, macOS 14 execution, full accessibility audit or portable release has been completed.
+The current Intel machine passed Python tests, strict type/lint checks, Swift/Python integration and native-window edit/undo/redo/save/reopen checks in English and Czech. See [session evidence](docs/VALIDATION.md) for exact results and limits. The first public CI run exposed a SQLite capability difference in runner Python builds; the fix and regression pass locally, and a fresh CI run is pending. macOS 14 execution, a full accessibility audit and portable release remain pending.
 
 Screenshots are pending a visual review of the running original app. Do not use third-party artwork or screenshots as placeholders.
 

@@ -429,7 +429,11 @@ def import_sqlite(store: Store, path: str) -> dict[str, Any]:
     uri = Path(path).resolve().as_uri() + "?mode=ro"
     try:
         with closing(sqlite3.connect(uri, uri=True)) as connection:
-            connection.enable_load_extension(False)
+            # Some macOS Python builds compile extension loading out entirely.
+            # When supported, explicitly keep it disabled on this private connection.
+            disable_extensions = getattr(connection, "enable_load_extension", None)
+            if disable_extensions is not None:
+                disable_extensions(False)
             connection.execute("PRAGMA trusted_schema=OFF")
             connection.execute("PRAGMA query_only=ON")
             tables = dict(

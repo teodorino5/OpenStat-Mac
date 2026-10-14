@@ -48,3 +48,5 @@
 - Preserve real case IDs through sorting, filtering, editing and reopening projects.
 - Assign a separate undo group to each immutable native change.
 - Reuse a bounded immutable Parquet metadata cache with independent readers.
+
+- Support SQLite builds that compile extension loading out while keeping it disabled on builds exposing the API. Added a rich round-trip regression matching the public CI failure.
