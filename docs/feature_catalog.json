@@ -12,12 +12,14 @@
       "reference": "M08",
       "library": "Original openstat_engine metadata and validation",
       "phase": 0,
-      "status": "implemented",
+      "status": "verified against reference values",
       "evidence": "brief",
       "tests": [
-        "engine/tests/test_store.py::test_storage_scale_role_round_trip"
+        "engine/tests/test_store.py::test_metadata_roles_and_context_contract"
       ],
-      "fixtures": []
+      "fixtures": [
+        "engine/fixtures/foundations/metadata.json"
+      ]
     },
     {
       "id": "DATA-002",
@@ -27,12 +29,14 @@
       "reference": "M08",
       "library": "Original openstat_engine metadata and validation",
       "phase": 0,
-      "status": "implemented",
+      "status": "verified against reference values",
       "evidence": "brief",
       "tests": [
-        "engine/tests/test_store.py::test_context_is_explicit_and_persisted"
+        "engine/tests/test_store.py::test_metadata_roles_and_context_contract"
       ],
-      "fixtures": []
+      "fixtures": [
+        "engine/fixtures/foundations/metadata.json"
+      ]
     },
     {
       "id": "DATA-003",
@@ -239,12 +243,16 @@
       "name": "Unstack and reshape",
       "method": "Long/wide reshape with duplicate-key checks",
       "reference": "M08",
-      "library": "Original bounded wide pivot; long reshape pending",
+      "library": "Original typed table operations; see docs/TABLE_OPERATIONS.md for limits",
       "phase": 0,
-      "status": "in progress",
+      "status": "verified against reference values",
       "evidence": "brief",
-      "tests": [],
-      "fixtures": []
+      "tests": [
+        "engine/tests/test_tables.py::test_hand_calculated_table_contract"
+      ],
+      "fixtures": [
+        "engine/fixtures/foundations/tables.json"
+      ]
     },
     {
       "id": "DATA-016",
@@ -320,12 +328,16 @@
       "name": "Missing-data audit",
       "method": "Per-variable and pattern-based missing counts",
       "reference": "M08",
-      "library": "Original per-field missing audit; full missing-pattern counts pending",
+      "library": "Original per-field and pattern-based missing audit",
       "phase": 0,
-      "status": "in progress",
+      "status": "verified against reference values",
       "evidence": "brief",
-      "tests": [],
-      "fixtures": []
+      "tests": [
+        "engine/tests/test_classification.py::test_original_classification_contract"
+      ],
+      "fixtures": [
+        "engine/fixtures/foundations/classification.json"
+      ]
     },
     {
       "id": "DATA-021",
@@ -446,18 +458,14 @@
       "reference": "M08",
       "library": "Arrow CSV import + original streaming CSV export and locale options",
       "phase": 0,
-      "status": "implemented",
+      "status": "verified against reference values",
       "evidence": "brief",
       "tests": [
-        "engine/tests/test_interchange.py::test_flat_text[,-.]",
-        "engine/tests/test_interchange.py::test_flat_text[;-,]",
-        "engine/tests/test_interchange.py::test_numeric_flat_text_import_export[,-DATA-028]",
-        "engine/tests/test_interchange.py::test_numeric_flat_text_import_export[\\t-DATA-029]",
-        "engine/tests/test_store.py::test_streamed_locale_import[,-.-Name,Value\\ncedar,1.5\\nclover,2.75\\n-expected0]",
-        "engine/tests/test_store.py::test_streamed_locale_import[;-,-Name;Value\\n\\u010derven\\xe1;1,5\\nmodr\\xe1;2,75\\n-expected1]",
-        "engine/tests/test_store.py::test_streamed_locale_import[\\t-.-Name\\tValue\\ncedar\\t1.5\\nclover\\t2.75\\n-expected2]"
+        "engine/tests/test_interchange.py::test_csv_tsv_hand_calculated_contract"
       ],
-      "fixtures": []
+      "fixtures": [
+        "engine/fixtures/foundations/csv_tsv.json"
+      ]
     },
     {
       "id": "DATA-029",
@@ -467,17 +475,14 @@
       "reference": "M08",
       "library": "Arrow TSV import + original quoted TSV export",
       "phase": 0,
-      "status": "implemented",
+      "status": "verified against reference values",
       "evidence": "brief",
       "tests": [
-        "engine/tests/test_interchange.py::test_flat_text[\\t-.]",
-        "engine/tests/test_interchange.py::test_numeric_flat_text_import_export[,-DATA-028]",
-        "engine/tests/test_interchange.py::test_numeric_flat_text_import_export[\\t-DATA-029]",
-        "engine/tests/test_store.py::test_streamed_locale_import[,-.-Name,Value\\ncedar,1.5\\nclover,2.75\\n-expected0]",
-        "engine/tests/test_store.py::test_streamed_locale_import[;-,-Name;Value\\n\\u010derven\\xe1;1,5\\nmodr\\xe1;2,75\\n-expected1]",
-        "engine/tests/test_store.py::test_streamed_locale_import[\\t-.-Name\\tValue\\ncedar\\t1.5\\nclover\\t2.75\\n-expected2]"
+        "engine/tests/test_interchange.py::test_csv_tsv_hand_calculated_contract"
       ],
-      "fixtures": []
+      "fixtures": [
+        "engine/fixtures/foundations/csv_tsv.json"
+      ]
     },
     {
       "id": "DATA-030",
@@ -485,12 +490,16 @@
       "name": "Excel import and export",
       "method": "Workbook cells, sheets and typed values; import formulas as cached values",
       "reference": "M08",
-      "library": "Original bounded OOXML subset; cached formulas and broader workbook support pending",
+      "library": "Original bounded OOXML tabular subset reading workbook cells, sheets, typed values, and cached formula values",
       "phase": 0,
-      "status": "in progress",
-      "evidence": "brief",
-      "tests": [],
-      "fixtures": []
+      "status": "verified against reference values",
+      "evidence": "test",
+      "tests": [
+        "engine/tests/test_xlsx.py::test_xlsx_hand_calculated_contract"
+      ],
+      "fixtures": [
+        "engine/fixtures/foundations/xlsx.json"
+      ]
     },
     {
       "id": "DATA-031",
@@ -498,12 +507,16 @@
       "name": "JSON import and export",
       "method": "Declared records or column schema; streaming large input",
       "reference": "M08",
-      "library": "Original bounded typed JSON envelope; general records and large streaming import pending",
+      "library": "Original bounded typed JSON envelope; see docs/INTERCHANGE.md for limits",
       "phase": 0,
-      "status": "in progress",
+      "status": "verified against reference values",
       "evidence": "brief",
-      "tests": [],
-      "fixtures": []
+      "tests": [
+        "engine/tests/test_interchange.py::test_json_hand_calculated_contract"
+      ],
+      "fixtures": [
+        "engine/fixtures/foundations/json.json"
+      ]
     },
     {
       "id": "DATA-032",
@@ -513,14 +526,14 @@
       "reference": "M08",
       "library": "PyArrow columnar interchange with typed schema metadata",
       "phase": 0,
-      "status": "implemented",
+      "status": "verified against reference values",
       "evidence": "brief",
       "tests": [
-        "engine/tests/test_interchange.py::test_rich_roundtrip[parquet]",
-        "engine/tests/test_interchange.py::test_empty_and_batched[parquet]",
-        "engine/tests/test_interchange.py::test_noncontiguous_stable_ids_and_order[parquet]"
+        "engine/tests/test_interchange.py::test_parquet_hand_calculated_contract"
       ],
-      "fixtures": []
+      "fixtures": [
+        "engine/fixtures/foundations/parquet.json"
+      ]
     },
     {
       "id": "DATA-033",
@@ -567,12 +580,16 @@
       "name": "SQLite import and export",
       "method": "Read-only import query and transactional explicit export",
       "reference": "M19",
-      "library": "Original typed SQLite envelope; general read-only table/query import pending",
+      "library": "Original typed SQLite envelope; see docs/INTERCHANGE.md for limits",
       "phase": 0,
-      "status": "in progress",
+      "status": "verified against reference values",
       "evidence": "brief",
-      "tests": [],
-      "fixtures": []
+      "tests": [
+        "engine/tests/test_interchange.py::test_sqlite_hand_calculated_contract"
+      ],
+      "fixtures": [
+        "engine/fixtures/foundations/sqlite.json"
+      ]
     },
     {
       "id": "DATA-037",
