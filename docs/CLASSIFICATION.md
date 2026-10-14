@@ -28,7 +28,7 @@ A null on either axis excludes the case. Otherwise, any coded-missing value excl
 
 ## Missing-value audit
 
-`missing_audit(store, revision, fields=None)` reports each selected field's null, coded-missing and valid case counts. `empty_response` is a separate subset of valid response-set cases, not an additional missing category. A response set containing a user-coded missing member counts as one coded-missing case. `complete_cases` requires every selected field to be valid. The explicit denominator is the revision's total case count. Unknown/duplicate fields and empty field selections are rejected.
+`missing_audit(store, revision, fields=None)` reports each selected field's null, coded-missing and valid case counts, as well as distinct missing-data patterns across selected fields sorted by case frequency and completeness. `empty_response` is a separate subset of valid response-set cases, not an additional missing category. A response set containing a user-coded missing member counts as one coded-missing case. `complete_cases` requires every selected field to be valid. The explicit denominator is the revision's total case count. Unknown/duplicate fields and empty field selections are rejected.
 
 ## Persistence and evidence
 
