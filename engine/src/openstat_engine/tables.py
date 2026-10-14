@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import math
 from collections import defaultdict
 from collections.abc import Iterable, Iterator
@@ -444,6 +445,107 @@ def pivot(
     return _write(store, name, [*output, *value_fields], rows)
 
 
+def melt(
+    store: Store,
+    revision: str,
+    id_vars: list[str],
+    value_vars: list[str],
+    name: str,
+    var_name: str = "variable",
+    value_name: str = "value",
+) -> dict[str, Any]:
+    item = store.get(revision)
+    _check_global(store, [revision], len(item.fields))
+    if (
+        not isinstance(id_vars, list)
+        or not all(isinstance(field, str) for field in id_vars)
+        or len(set(id_vars)) != len(id_vars)
+        or not isinstance(value_vars, list)
+        or not value_vars
+        or not all(isinstance(field, str) for field in value_vars)
+        or len(set(value_vars)) != len(value_vars)
+        or not isinstance(name, str)
+        or not name.strip()
+        or not isinstance(var_name, str)
+        or not var_name.strip()
+        or not isinstance(value_name, str)
+        or not value_name.strip()
+        or bool(set(id_vars) & set(value_vars))
+    ):
+        _fail()
+    id_fields = [_field(item, field) for field in id_vars]
+    value_fields = [_field(item, field) for field in value_vars]
+
+    storages = {field.storage for field in value_fields}
+    if "multiple_response" in storages:
+        raise EngineError("error.value_type")
+    if len(storages) > 1 and not storages <= {"int64", "float64"}:
+        raise EngineError("error.value_type")
+
+    metadata = (
+        value_fields[0].measurement,
+        value_fields[0].role,
+        value_fields[0].levels,
+        value_fields[0].value_labels,
+        value_fields[0].missing_codes,
+    )
+    if any(
+        (
+            field.measurement,
+            field.role,
+            field.levels,
+            field.value_labels,
+            field.missing_codes,
+        )
+        != metadata
+        for field in value_fields[1:]
+    ):
+        raise EngineError("error.incompatible_melt_fields")
+
+    storage = value_fields[0].storage
+    measurement = value_fields[0].measurement
+    if len(storages) > 1 and storages <= {"int64", "float64"}:
+        if any(field.levels or field.value_labels or field.missing_codes for field in value_fields):
+            raise EngineError("error.incompatible_melt_fields")
+        storage = "float64"
+
+    total_rows = item.row_count * len(value_vars)
+    if total_rows > GLOBAL_LIMIT:
+        raise EngineError("error.global_limit")
+
+    output_id_fields = [_fresh(field) for field in id_fields]
+    var_field = Field(str(uuid4()), var_name, "string", "nominal")
+    val_field = Field(
+        str(uuid4()),
+        value_name,
+        storage,
+        measurement,
+        value_fields[0].role,
+        value_fields[0].levels,
+        dict(value_fields[0].value_labels),
+        value_fields[0].missing_codes,
+    )
+    out = [*output_id_fields, var_field, val_field]
+    if len({f.name for f in out}) != len(out):
+        raise EngineError("error.duplicate_fields")
+    if len(out) > COLUMN_LIMIT:
+        raise EngineError("error.global_limit")
+
+    def rows() -> Iterator[list[Any]]:
+        for _, row in _materialize(store, revision, [*id_vars, *value_vars]):
+            id_vals = [row[field_id] for field_id in id_vars]
+            for vf in value_fields:
+                val = row[vf.id]
+                if val is not None and storage == "float64" and vf.storage == "int64":
+                    promoted = float(val)
+                    if int(promoted) != val:
+                        raise EngineError("error.melt_precision_loss")
+                    val = promoted
+                yield [*id_vals, vf.name, val]
+
+    return _write(store, name, out, rows())
+
+
 def aggregate(
     store: Store,
     revision: str,
@@ -451,6 +553,7 @@ def aggregate(
     aggregations: list[dict[str, str]],
     name: str,
     include_missing_codes: bool = False,
+    provenance: bool = False,
 ) -> dict[str, Any]:
     item = store.get(revision)
     _check_global(store, [revision], len(item.fields))
@@ -461,6 +564,7 @@ def aggregate(
         or not isinstance(aggregations, list)
         or not aggregations
         or type(include_missing_codes) is not bool
+        or type(provenance) is not bool
     ):
         _fail()
     group_fields = [_field(item, field) for field in groups]
@@ -479,11 +583,12 @@ def aggregate(
         if spec["op"] != "count" and source.storage not in {"int64", "float64"}:
             raise EngineError("error.value_type")
         parsed.append((source, spec["op"], spec["name"]))
-    data: dict[tuple[Any, ...], tuple[list[Any], list[list[Any]]]] = {}
-    for _, row in _materialize(store, revision, [*groups, *[p[0].id for p in parsed]]):
+    data: dict[tuple[Any, ...], tuple[list[Any], list[list[Any]], list[int]]] = {}
+    for rid, row in _materialize(store, revision, [*groups, *[p[0].id for p in parsed]]):
         key = tuple(_canonical(row[field]) for field in groups)
         raw_key = [row[field] for field in groups]
-        _, accum = data.setdefault(key, (raw_key, [[] for _ in parsed]))
+        _, accum, rids = data.setdefault(key, (raw_key, [[] for _ in parsed], []))
+        rids.append(rid)
         for target, (source, _, _) in zip(accum, parsed, strict=True):
             value = row[source.id]
             kind = missing_kind(source, value)
@@ -497,11 +602,21 @@ def aggregate(
         if op == "count":
             storage, measurement = "int64", "discrete"
         out.append(Field(str(uuid4()), label, storage, measurement))
+    if provenance:
+        out.extend(
+            [
+                _prov("Source dataset", "string", "nominal"),
+                _prov("Source row count", "int64", "discrete"),
+                _prov("Source row IDs", "string", "nominal"),
+            ]
+        )
+    if len({f.name for f in out}) != len(out):
+        raise EngineError("error.duplicate_fields")
 
     def results() -> Iterator[list[Any]]:
-        for raw_key, buckets in data.values():
+        for raw_key, buckets, rids in data.values():
             answers: list[Any] = []
-            for (_, op, _), values in zip(parsed, buckets, strict=True):
+            for (source, op, _), values in zip(parsed, buckets, strict=True):
                 if op == "count":
                     answers.append(len(values))
                 elif not values:
@@ -527,7 +642,10 @@ def aggregate(
                     answers.append(min(values))
                 else:
                     answers.append(max(values))
-            yield [*raw_key, *answers]
+            row_vals = [*raw_key, *answers]
+            if provenance:
+                row_vals.extend([item.dataset_id, len(rids), json.dumps(rids)])
+            yield row_vals
 
     return _write(store, name, out, results())
 

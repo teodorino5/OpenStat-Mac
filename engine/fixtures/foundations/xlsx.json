@@ -1,0 +1,51 @@
+{
+  "feature_ids": ["DATA-030"],
+  "provenance": "Original fixture authored for this project, 2026-10-15. No external vendor or sample data.",
+  "independent_method": "Hand-calculated OOXML XLSX interchange contract. Verifies workbook cells, sheets, and typed values. Verifies exact schema metadata preservation, distinct representation of null, empty string, and multiple-response empty list, 64-bit integer limits, float precision, value labels, user-coded missing strings, and stable row IDs across XLSX export and re-import via independent store. Also verifies importing raw external spreadsheets with multiple sheets and importing formula cells with cached values.",
+  "tolerance": {"comparison": "exact typed rows, zero losses, exact string/empty distinction, and schema metadata"},
+  "test_selector": "engine/tests/test_xlsx.py::test_xlsx_hand_calculated_contract",
+  "input": {
+    "name": "XLSX interchange fixture",
+    "context": "population",
+    "observation_unit": "household",
+    "fields": [
+      {"id": "id", "name": "ID", "storage": "int64", "measurement": "discrete", "role": "identifier"},
+      {"id": "score", "name": "Score", "storage": "float64", "measurement": "continuous", "role": "characteristic"},
+      {"id": "text", "name": "Text", "storage": "string", "measurement": "nominal", "role": "characteristic", "missing_codes": ["NA"]},
+      {"id": "status", "name": "Status", "storage": "string", "measurement": "ordinal", "role": "characteristic", "levels": ["draft", "final"], "value_labels": {"draft": "Draft record", "final": "Finalized record"}},
+      {"id": "verified", "name": "Verified", "storage": "bool", "measurement": "binary", "role": "characteristic"},
+      {"id": "tags", "name": "Tags", "storage": "multiple_response", "measurement": "multiple_response", "role": "characteristic", "levels": ["urgent", "reviewed"]}
+    ],
+    "rows": [
+      [9223372036854775807, -0.0, "valid text", "draft", true, ["urgent", "reviewed"]],
+      [-9223372036854775808, 1.2345678901234567, "", "final", false, []],
+      [null, null, "NA", null, null, null]
+    ]
+  },
+  "expected": {
+    "losses": [],
+    "notes": ["float64_and_large_int64_are_text", "metadata_required_for_typed_roundtrip"],
+    "row_count": 3,
+    "row_ids": [0, 1, 2],
+    "context": "population",
+    "observation_unit": "household",
+    "rows": [
+      [9223372036854775807, -0.0, "valid text", "draft", true, ["urgent", "reviewed"]],
+      [-9223372036854775808, 1.2345678901234567, "", "final", false, []],
+      [null, null, "NA", null, null, null]
+    ],
+    "raw_sheets": {
+      "selected_sheet": "Formulas",
+      "expected_fields": [
+        {"name": "ID", "storage": "int64", "measurement": "discrete"},
+        {"name": "SumFormula", "storage": "int64", "measurement": "discrete"},
+        {"name": "TextFormula", "storage": "string", "measurement": "nominal"},
+        {"name": "BoolFormula", "storage": "bool", "measurement": "binary"}
+      ],
+      "expected_rows": [
+        [1, 2, "ab", true],
+        [2, 5, "static", false]
+      ]
+    }
+  }
+}

@@ -1,6 +1,7 @@
 """Explicit data classification and counts; no inferential statistical methods."""
 
 import math
+from collections import defaultdict
 from collections.abc import Callable, Iterator
 from dataclasses import dataclass, replace
 from typing import Any
@@ -290,7 +291,7 @@ def contingency(
 
 
 def missing_audit(store: Store, revision: str, fields: list[str] | None = None) -> dict[str, Any]:
-    """Separate null, coded-missing and valid values; empty response sets are valid."""
+    """Separate null, coded-missing and valid values; report per-field and pattern counts."""
     item = store.get(revision)
     selected = list(item.fields) if fields is None else [_field(item, source) for source in fields]
     if not selected or len({field.id for field in selected}) != len(selected):
@@ -300,21 +301,40 @@ def missing_audit(store: Store, revision: str, fields: list[str] | None = None) 
         for field in selected
     }
     complete_cases = 0
+    pattern_counts: dict[tuple[str, ...], int] = defaultdict(int)
     for values in _batches(store, item, [field.id for field in selected]):
         for index in range(len(values[ROW_ID])):
             complete = True
+            case_kinds: list[str] = []
             for field in selected:
                 value = values[field.id][index]
                 kind = missing_kind(field, value)
                 counts[field.id][kind] += 1
                 if value == []:
                     counts[field.id]["empty_response"] += 1
+                case_kinds.append(kind)
                 complete = complete and kind == "valid"
             complete_cases += complete
+            pattern_counts[tuple(case_kinds)] += 1
+    sorted_patterns = sorted(
+        pattern_counts.items(),
+        key=lambda entry: (-entry[1], not all(k == "valid" for k in entry[0]), entry[0]),
+    )
+    patterns = [
+        {
+            "pattern": {field.id: kind for field, kind in zip(selected, pat, strict=True)},
+            "kinds": list(pat),
+            "count": count,
+            "complete": all(kind == "valid" for kind in pat),
+        }
+        for pat, count in sorted_patterns
+    ]
     return {
         "revision": revision,
         "total_cases": item.row_count,
         "fields": counts,
         "complete_cases": complete_cases,
         "denominator": "total_cases",
+        "pattern_fields": [field.id for field in selected],
+        "patterns": patterns,
     }
