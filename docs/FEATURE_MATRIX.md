@@ -2,7 +2,7 @@
 
 Audit date: 2026-10-14 (Europe/Prague). Phase 0 active; implementation authorized.
 
-**Coverage: 24 of 353 planned functions implemented, 22 verified against reference values.**
+**Coverage: 24 of 353 planned functions implemented, 24 verified against reference values.**
 
 ## Scope and evidence limits
 
@@ -22,7 +22,7 @@ The five accepted rows are engine data foundations. The three verified rows shar
 
 | Phase | Planned functions | Implemented | Verified |
 | --- | ---: | ---: | ---: |
-| 0 | 47 | 24 | 22 |
+| 0 | 47 | 24 | 24 |
 | 1 | 65 | 0 | 0 |
 | 2 | 37 | 0 | 0 |
 | 3 | 62 | 0 | 0 |
@@ -36,8 +36,8 @@ The five accepted rows are engine data foundations. The three verified rows shar
 
 | ID | Function | Statistical method or contract | Public method reference | Candidate library | Phase | Status | Origin evidence | Test | Reference fixture |
 | --- | --- | --- | --- | --- | ---: | --- | --- | --- | --- |
-| DATA-001 | Variable roles and measurement types | Storage type plus identifier/characteristic role and measurement scale | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original openstat_engine metadata and validation | 0 | implemented | brief | `engine/tests/test_store.py::test_storage_scale_role_round_trip` | — |
-| DATA-002 | Population and sample context | Observation unit, sampling scope and descriptive/inferential labels | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original openstat_engine metadata and validation | 0 | implemented | brief | `engine/tests/test_store.py::test_context_is_explicit_and_persisted` | — |
+| DATA-001 | Variable roles and measurement types | Storage type plus identifier/characteristic role and measurement scale | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original openstat_engine metadata and validation | 0 | verified against reference values | brief | `engine/tests/test_store.py::test_metadata_roles_and_context_contract` | `engine/fixtures/foundations/metadata.json` |
+| DATA-002 | Population and sample context | Observation unit, sampling scope and descriptive/inferential labels | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original openstat_engine metadata and validation | 0 | verified against reference values | brief | `engine/tests/test_store.py::test_metadata_roles_and_context_contract` | `engine/fixtures/foundations/metadata.json` |
 | DATA-003 | Category labels and ordered levels | Explicit codebook with category order and value labels | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original openstat_engine metadata and validation | 0 | verified against reference values | brief | `engine/tests/test_reference.py::test_original_codebook_contract`, `engine/tests/test_store.py::test_codebook_and_raw_missing_preserve_source` | `engine/fixtures/foundations/codebook.json` |
 | DATA-004 | Multiple-response representation | Response sets distinct from mutually exclusive categories | [M08](https://pandas.pydata.org/docs/reference/index.html) | pyarrow list arrays + original set validation | 0 | verified against reference values | brief | `engine/tests/test_reference.py::test_original_codebook_contract`, `engine/tests/test_store.py::test_codebook_and_raw_missing_preserve_source` | `engine/fixtures/foundations/codebook.json` |
 | DATA-005 | Missing-value definitions | Nulls and named missing codes; no silent numeric substitution | [M08](https://pandas.pydata.org/docs/reference/index.html) | pyarrow validity + original missing-code metadata | 0 | verified against reference values | brief | `engine/tests/test_reference.py::test_original_codebook_contract`, `engine/tests/test_store.py::test_codebook_and_raw_missing_preserve_source` | `engine/fixtures/foundations/codebook.json` |

@@ -12,12 +12,14 @@
       "reference": "M08",
       "library": "Original openstat_engine metadata and validation",
       "phase": 0,
-      "status": "implemented",
+      "status": "verified against reference values",
       "evidence": "brief",
       "tests": [
-        "engine/tests/test_store.py::test_storage_scale_role_round_trip"
+        "engine/tests/test_store.py::test_metadata_roles_and_context_contract"
       ],
-      "fixtures": []
+      "fixtures": [
+        "engine/fixtures/foundations/metadata.json"
+      ]
     },
     {
       "id": "DATA-002",
@@ -27,12 +29,14 @@
       "reference": "M08",
       "library": "Original openstat_engine metadata and validation",
       "phase": 0,
-      "status": "implemented",
+      "status": "verified against reference values",
       "evidence": "brief",
       "tests": [
-        "engine/tests/test_store.py::test_context_is_explicit_and_persisted"
+        "engine/tests/test_store.py::test_metadata_roles_and_context_contract"
       ],
-      "fixtures": []
+      "fixtures": [
+        "engine/fixtures/foundations/metadata.json"
+      ]
     },
     {
       "id": "DATA-003",
