@@ -2,7 +2,7 @@
 
 Audit date: 2026-10-14 (Europe/Prague). Phase 0 active; implementation authorized.
 
-**Coverage: 28 of 353 planned functions implemented, 28 verified against reference values.**
+**Coverage: 29 of 353 planned functions implemented, 29 verified against reference values.**
 
 ## Scope and evidence limits
 
@@ -22,7 +22,7 @@ The five accepted rows are engine data foundations. The three verified rows shar
 
 | Phase | Planned functions | Implemented | Verified |
 | --- | ---: | ---: | ---: |
-| 0 | 47 | 28 | 28 |
+| 0 | 47 | 29 | 29 |
 | 1 | 65 | 0 | 0 |
 | 2 | 37 | 0 | 0 |
 | 3 | 62 | 0 | 0 |
@@ -65,7 +65,7 @@ The five accepted rows are engine data foundations. The three verified rows shar
 | DATA-027 | Box-Cox transformation | Positive-data power transform with fitted lambda | [M02](https://docs.scipy.org/doc/scipy/reference/stats.html) | scipy.stats.boxcox | 0 | not started | V01:function | — | — |
 | DATA-028 | CSV import and export | Streaming delimiter parser with explicit schema and encoding | [M08](https://pandas.pydata.org/docs/reference/index.html) | Arrow CSV import + original streaming CSV export and locale options | 0 | verified against reference values | brief | `engine/tests/test_interchange.py::test_csv_tsv_hand_calculated_contract` | `engine/fixtures/foundations/csv_tsv.json` |
 | DATA-029 | TSV import and export | Tab-separated interchange with quoting | [M08](https://pandas.pydata.org/docs/reference/index.html) | Arrow TSV import + original quoted TSV export | 0 | verified against reference values | brief | `engine/tests/test_interchange.py::test_csv_tsv_hand_calculated_contract` | `engine/fixtures/foundations/csv_tsv.json` |
-| DATA-030 | Excel import and export | Workbook cells, sheets and typed values; import formulas as cached values | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original bounded OOXML subset; cached formulas and broader workbook support pending | 0 | in progress | brief | — | — |
+| DATA-030 | Excel import and export | Workbook cells, sheets and typed values; import formulas as cached values | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original bounded OOXML tabular subset reading workbook cells, sheets, typed values, and cached formula values | 0 | verified against reference values | brief | `engine/tests/test_xlsx.py::test_xlsx_hand_calculated_contract` | `engine/fixtures/foundations/xlsx.json` |
 | DATA-031 | JSON import and export | Declared records or column schema; streaming large input | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original bounded typed JSON envelope; see docs/INTERCHANGE.md for limits | 0 | verified against reference values | brief | `engine/tests/test_interchange.py::test_json_hand_calculated_contract` | `engine/fixtures/foundations/json.json` |
 | DATA-032 | Parquet import and export | Columnar schema-preserving interchange | [M08](https://pandas.pydata.org/docs/reference/index.html) | PyArrow columnar interchange with typed schema metadata | 0 | verified against reference values | brief | `engine/tests/test_interchange.py::test_parquet_hand_calculated_contract` | `engine/fixtures/foundations/parquet.json` |
 | DATA-033 | SPSS interchange | SAV read/write with value-label and missing-code reconciliation | [M20](https://github.com/Roche/pyreadstat) | Audited PyReadStat SAV subset; missing declarations lost on export | 0 | in progress | brief | — | — |

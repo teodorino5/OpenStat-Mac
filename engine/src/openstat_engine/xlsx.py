@@ -142,13 +142,16 @@ def _shared(archive: zipfile.ZipFile) -> list[str]:
 
 
 def _cell_value(cell: ET.Element, shared: list[str]) -> Any:
-    if cell.find(_tag("f")) is not None:
-        raise EngineError("error.xlsx_unsafe")
+    has_formula = cell.find(_tag("f")) is not None
     if cell.attrib.get("s", "0") != "0":
         raise EngineError("error.xlsx_style")
     kind = cell.attrib.get("t", "n")
     value = cell.find(_tag("v"))
     text = value.text if value is not None else None
+    if kind == "str" and value is not None and text is None:
+        text = ""
+    if has_formula and (value is None or text is None):
+        raise EngineError("error.xlsx_schema")
     if kind == "inlineStr":
         return "".join(t.text or "" for t in cell.iter(_tag("t")))
     if text is None:
@@ -162,7 +165,9 @@ def _cell_value(cell: ET.Element, shared: list[str]) -> Any:
         if text not in ("0", "1"):
             raise EngineError("error.xlsx_schema")
         return text == "1"
-    if kind in {"str", "e", "d"}:
+    if kind == "str":
+        return text
+    if kind in {"e", "d"}:
         raise EngineError("error.xlsx_style")
     if kind != "n":
         raise EngineError("error.xlsx_schema")

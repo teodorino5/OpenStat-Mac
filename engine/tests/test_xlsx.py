@@ -4,6 +4,7 @@ import json
 import math
 import struct
 import zipfile
+from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
@@ -189,7 +190,7 @@ def test_generic_inference(
 @pytest.mark.parametrize(
     "cell,key",
     [
-        ('<c r="A2"><f>1+1</f><v>2</v></c>', "xlsx_unsafe"),
+        ('<c r="A2"><f>1+1</f></c>', "xlsx_schema"),
         ('<c r="A2" s="1"><v>44500</v></c>', "xlsx_style"),
         ('<c r="A2" t="d"><v>2024-01-01</v></c>', "xlsx_style"),
         ('<c r="A2" t="e"><v>#DIV/0!</v></c>', "xlsx_style"),
@@ -321,3 +322,122 @@ def test_invalid_zip(store: Store, tmp_path: Path) -> None:
     path.write_text("text")
     with pytest.raises(EngineError, match="xlsx_schema"):
         xlsx.import_xlsx(store, str(path))
+
+
+def test_xlsx_hand_calculated_contract(
+    store: Store, reference_fixture: Callable[[str], dict[str, Any]], tmp_path: Path
+) -> None:
+    fixture = reference_fixture("engine/fixtures/foundations/xlsx.json")
+    created = store.create(
+        name=fixture["input"]["name"],
+        fields=fixture["input"]["fields"],
+        rows=fixture["input"]["rows"],
+        context=fixture["input"]["context"],
+        observation_unit=fixture["input"]["observation_unit"],
+    )
+    path = tmp_path / "fixture_contract.xlsx"
+    export_result = xlsx.export_xlsx(store, created["revision"], str(path))
+    assert export_result["losses"] == fixture["expected"]["losses"]
+    assert export_result["notes"] == fixture["expected"]["notes"]
+    assert export_result["rows"] == fixture["expected"]["row_count"]
+
+    # Verify physical structure of exported OOXML package
+    with zipfile.ZipFile(path) as archive:
+        namelist = set(archive.namelist())
+        assert "xl/worksheets/sheet1.xml" in namelist
+        assert "xl/worksheets/sheet2.xml" in namelist
+        assert xlsx.CUSTOM_PART in namelist
+        sheet1 = archive.read("xl/worksheets/sheet1.xml").decode("utf-8")
+        assert 't="inlineStr"' in sheet1
+
+    # Re-import in an independent Store instance
+    store2 = Store(tmp_path / "independent_store")
+    imported = xlsx.import_xlsx(store2, str(path))
+    assert imported["context"] == fixture["expected"]["context"]
+    assert imported["observation_unit"] == fixture["expected"]["observation_unit"]
+    assert imported["fields"] == created["fields"]
+    assert imported["row_count"] == fixture["expected"]["row_count"]
+
+    page = store2.page(imported["revision"])
+    assert page["row_ids"] == fixture["expected"]["row_ids"]
+    assert page["rows"] == fixture["expected"]["rows"]
+    # Check bit-level representation of -0.0
+    assert struct.pack("<d", page["rows"][0][1]) == bytes.fromhex("0000000000000080")
+
+    # Multi-sheet workbook with cached formula cells
+    multi_path = tmp_path / "multi_sheet_formulas.xlsx"
+    sheet1_content = row(1, text("A1", "Aux") + text("B1", "Val")) + row(
+        2, text("A2", "x") + '<c r="B2"><v>10</v></c>'
+    )
+    formulas_content = (
+        row(
+            1,
+            text("A1", "ID")
+            + text("B1", "SumFormula")
+            + text("C1", "TextFormula")
+            + text("D1", "BoolFormula"),
+        )
+        + row(
+            2,
+            '<c r="A2"><v>1</v></c>'
+            + '<c r="B2"><f>1+1</f><v>2</v></c>'
+            + '<c r="C2" t="str"><f>CONCAT("a","b")</f><v>ab</v></c>'
+            + '<c r="D2" t="b"><f>1&gt;0</f><v>1</v></c>',
+        )
+        + row(
+            3,
+            '<c r="A3"><v>2</v></c>'
+            + '<c r="B3"><v>5</v></c>'
+            + text("C3", "static")
+            + '<c r="D3" t="b"><v>0</v></c>',
+        )
+    )
+    parts = {
+        "[Content_Types].xml": (
+            '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'
+            '<Default Extension="rels" '
+            'ContentType="application/vnd.openxmlformats-package.relationships+xml"/>'
+            '<Default Extension="xml" ContentType="application/xml"/>'
+            '<Override PartName="/xl/workbook.xml" '
+            'ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>'
+            "</Types>"
+        ),
+        "xl/workbook.xml": (
+            f'<workbook xmlns="{NS}" xmlns:r="{REL}"><sheets>'
+            '<sheet name="Auxiliary" sheetId="1" r:id="r1"/>'
+            '<sheet name="Formulas" sheetId="2" r:id="r2"/>'
+            "</sheets></workbook>"
+        ),
+        "xl/_rels/workbook.xml.rels": (
+            f'<Relationships xmlns="{xlsx.REL_NS}">'
+            f'<Relationship Id="r1" Type="{REL}/worksheet" Target="worksheets/sheet1.xml"/>'
+            f'<Relationship Id="r2" Type="{REL}/worksheet" Target="worksheets/sheet2.xml"/>'
+            "</Relationships>"
+        ),
+        "xl/worksheets/sheet1.xml": (
+            f'<worksheet xmlns="{NS}"><sheetData>{sheet1_content}</sheetData></worksheet>'
+        ),
+        "xl/worksheets/sheet2.xml": (
+            f'<worksheet xmlns="{NS}"><sheetData>{formulas_content}</sheetData></worksheet>'
+        ),
+    }
+    with zipfile.ZipFile(multi_path, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+        for name, content in parts.items():
+            archive.writestr(name, content)
+
+    # Import default sheet (first sheet = Auxiliary)
+    aux_imported = xlsx.import_xlsx(store2, str(multi_path))
+    assert [f["name"] for f in aux_imported["fields"]] == ["Aux", "Val"]
+
+    # Import specific sheet by name ("Formulas") with formula cached values
+    formula_imported = xlsx.import_xlsx(store2, str(multi_path), sheet="Formulas")
+    raw_spec = fixture["expected"]["raw_sheets"]
+    for expected_field, actual_field in zip(
+        raw_spec["expected_fields"], formula_imported["fields"], strict=True
+    ):
+        assert actual_field["name"] == expected_field["name"]
+        assert actual_field["storage"] == expected_field["storage"]
+        assert actual_field["measurement"] == expected_field["measurement"]
+    formula_page = store2.page(formula_imported["revision"])
+    assert formula_page["rows"] == raw_spec["expected_rows"]
+
