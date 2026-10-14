@@ -1,0 +1,11 @@
+# Tukey outlier flags
+
+`openstat_engine.outliers.flag(store, revision, field, name, inner=1.5, outer=3.0, include_missing_codes=False)` appends an immutable categorical severity field. Codes are 0 for not outlying, 1 for mild outlier, and 2 for extreme outlier. Raw nulls remain null. Existing fields and source row IDs keep their values; the derived revision gets a fresh revision ID and materialized base.
+
+The function computes Tukey hinges with Type 7 linear-interpolation quartiles. Inner fences are `Q1 - inner * IQR` and `Q3 + inner * IQR`; outer fences use `outer`. Values beyond outer fences receive severity 2. Other values beyond inner fences receive severity 1. Equality at every fence remains severity 0. This uses exact rational arithmetic over integer inputs and exact binary float inputs, avoiding rounded int64 comparisons and overflow from finite float fence calculations.
+
+Multipliers must be finite nonnegative numbers with `inner <= outer`. Default behavior excludes raw nulls and declared coded-missing values from quartile calculation, and preserves both as null in output. With `include_missing_codes=True`, coded values participate as literal numeric observations; raw nulls remain null. Empty or all-missing eligible samples produce null flags for missing values and no flags for eligible values. Singleton and constant samples are valid; zero IQR yields equal fences, and strict comparisons mark no equal-valued observations as outliers.
+
+Exact global processing retains eligible values in memory and rejects declared row counts above 100,000 with `error.global_limit` before scanning. Numeric inputs must use int64 or float64 storage. Non-finite source values, if encountered in an externally altered base, are rejected. Output field uses int64 storage with nominal measurement and explicit value labels.
+
+`engine/fixtures/foundations/outliers.json` contains original hand-calculated Type 7 quartiles, fences, and severities for DATA-021. `engine/tests/test_outliers.py` also covers strict equality, missing policies, empty and constant data, int64 extrema, finite floats near 1e308, sparse edits, source immutability, validation, and the scan limit. No outlier summaries, plots, or native workflow UI are included in this Phase 0 operation.

@@ -1,0 +1,54 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "openstat-engine"
+version = "0.1.0"
+description = "Original statistical data foundation for OpenStat Mac"
+requires-python = ">=3.12,<3.13"
+license = "MIT"
+dependencies = [
+    "narwhals==2.27.1",
+    "numpy==2.5.4",
+    "pandas==3.0.6",
+    "pyarrow>=18,<26",
+    "pyreadstat==1.3.6",
+    "python-dateutil==2.9.0.post0",
+    "six==1.17.0",
+]
+
+[project.scripts]
+openstat = "openstat_engine.cli:main"
+
+[dependency-groups]
+dev = ["pytest>=8", "pytest-cov>=6", "mypy>=1.14", "ruff>=0.9"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--strict-markers"
+markers = ["feature(id): acceptance coverage for a stable feature ID"]
+
+[tool.coverage.run]
+branch = true
+source = ["openstat_engine"]
+patch = ["subprocess"]
+
+[tool.coverage.report]
+fail_under = 90
+show_missing = true
+
+[tool.mypy]
+strict = true
+files = ["src/openstat_engine"]
+
+[[tool.mypy.overrides]]
+module = ["pyarrow", "pyarrow.*", "pyreadstat", "pandas", "pandas.*"]
+ignore_missing_imports = true
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

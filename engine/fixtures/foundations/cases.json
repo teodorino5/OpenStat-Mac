@@ -1,0 +1,122 @@
+{
+  "feature_ids": [
+    "DATA-006",
+    "DATA-007",
+    "DATA-008",
+    "DATA-009"
+  ],
+  "provenance": "Original case data authored for this project, 2026-10-14; no course or vendor data.",
+  "independent_method": "Manual row-by-row truth table with null and coded-missing unknown comparisons; stable lexical/group numeric order and hand sum of frequency weights 2+1+0+3+1=7.",
+  "tolerance": {
+    "comparison": "exact IDs, counts, truth states and integer weights"
+  },
+  "test_selector": "engine/tests/test_views.py::test_original_case_contract",
+  "input": {
+    "fields": [
+      {
+        "id": "x",
+        "name": "X",
+        "storage": "float64",
+        "measurement": "continuous",
+        "missing_codes": [
+          "-999.0"
+        ]
+      },
+      {
+        "id": "g",
+        "name": "G",
+        "storage": "string",
+        "measurement": "nominal",
+        "missing_codes": [
+          "?"
+        ]
+      },
+      {
+        "id": "w",
+        "name": "W",
+        "storage": "int64",
+        "measurement": "discrete"
+      }
+    ],
+    "rows": [
+      [
+        4,
+        "B",
+        2
+      ],
+      [
+        null,
+        "A",
+        1
+      ],
+      [
+        2,
+        "B",
+        0
+      ],
+      [
+        2,
+        "A",
+        3
+      ],
+      [
+        -999,
+        "?",
+        null
+      ],
+      [
+        1,
+        "A",
+        1
+      ]
+    ],
+    "condition": {
+      "op": "and",
+      "args": [
+        {
+          "op": "gt",
+          "field": "x",
+          "value": 1
+        },
+        {
+          "op": "eq",
+          "field": "g",
+          "value": "B"
+        }
+      ]
+    },
+    "sort": [
+      {
+        "field": "g"
+      },
+      {
+        "field": "x"
+      }
+    ]
+  },
+  "expected": {
+    "counts": {
+      "selected": 2,
+      "false": 3,
+      "unknown": 1
+    },
+    "filtered_ids": [
+      0,
+      2
+    ],
+    "sorted_ids": [
+      5,
+      3,
+      1,
+      2,
+      0,
+      4
+    ],
+    "weights": {
+      "eligible": 5,
+      "missing": 1,
+      "zero": 1,
+      "total_weight": 7
+    }
+  }
+}

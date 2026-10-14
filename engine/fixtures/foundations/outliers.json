@@ -1,0 +1,22 @@
+{
+  "provenance": "Original hand-calculated Tukey fixture authored for OpenStat Mac. No external sample data or software output.",
+  "independent_method": "For sorted eligible values 1 through 9,17,100, Type 7 positions are (n-1)p. Q1 is halfway between 3 and 4, so 7/2. Q3 is halfway between 8 and 9, so 17/2. IQR=5. Inner fences are -4 and 16. Outer fences are -23/2 and 47/2. Thus 17 is mild and 100 extreme. Raw null and coded -999 are excluded by default.",
+  "test_selector": "engine/tests/test_outliers.py::test_hand_calculated_outlier_contract",
+  "feature_ids": ["DATA-021"],
+  "tolerance": {"comparison": "exact severity codes and row IDs; rational fences, no numeric tolerance"},
+  "input": {
+    "name": "Tukey source",
+    "fields": [
+      {"id": "x", "name": "Value", "storage": "float64", "measurement": "continuous", "missing_codes": ["-999.0"]}
+    ],
+    "rows": [[1.0], [2.0], [3.0], [4.0], [5.0], [6.0], [7.0], [8.0], [9.0], [17.0], [100.0], [null], [-999.0]]
+  },
+  "expected": {
+    "q1": "7/2",
+    "q3": "17/2",
+    "inner_fences": ["-4", "16"],
+    "outer_fences": ["-23/2", "47/2"],
+    "severity": [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, null, null],
+    "include_coded_missing_severity": [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, null, 2]
+  }
+}

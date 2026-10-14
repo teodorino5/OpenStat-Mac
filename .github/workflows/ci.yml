@@ -1,0 +1,30 @@
+name: Foundation checks
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [macos-15-intel, macos-15]
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: astral-sh/setup-uv@94527f2e458b27549849d47d273a16bec83a01e9 # v7
+        with:
+          version: '0.12.20'
+      - run: make setup
+      - run: make test
+      - run: make package
+      - name: Build native Xcode project
+        run: xcodebuild -project OpenStatMac.xcodeproj -scheme OpenStatMac -configuration Debug -derivedDataPath build/xcode CODE_SIGNING_ALLOWED=NO build
+      - name: Record architecture and toolchain
+        run: |
+          uname -m
+          swift --version
+          xcodebuild -version

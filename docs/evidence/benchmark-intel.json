@@ -1,0 +1,11 @@
+{
+  "os": "macOS-26.7-x86_64-i386-64bit",
+  "architecture": "x86_64",
+  "rows": 1000000,
+  "columns": 3,
+  "csv_bytes": 20785820,
+  "import_seconds": 0.8118005120195448,
+  "last_page_seconds": 0.0034672970068641007,
+  "includes": "CSV parsing, row IDs, typed Parquet staging; excludes UI and project copy",
+  "limitation": "One cache-warm generated input on this machine; not a cold-load or 100-column acceptance test"
+}

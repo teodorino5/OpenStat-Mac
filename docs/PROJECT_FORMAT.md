@@ -1,0 +1,11 @@
+# Native package format 1 — foundation slice
+
+A `.openstat` directory contains `manifest.json`, an immutable `data-<sha256>.parquet` and revision-specific `edits-<uuid>.json`. Manifest version 1 records the dataset descriptor, base/overlay hashes and empty analysis/result/workflow arrays. This foundation implementation supports one dataset per package; the multi-dataset/result/workflow layout in the implementation plan is a future extension.
+
+Parquet columns use stable field UUIDs plus `_openstat_row_id` int64 offsets. Field display names live in metadata. Storage types currently include int64, float64, UTF-8 strings, Boolean and lists of strings. Category order, value labels, missing codes, measurement scale and identifier role remain separate metadata. Dates/decimal storage and broader conversions are pending.
+
+Sparse overlays use integer row IDs, field IDs and typed replacement values. All cells are validated. Edits create immutable session revisions so restoring an older revision does not mutate the base. The current manifest's data and edit files are checksum-verified on open. A private session base copy prevents external replacement from changing an active revision.
+
+Save writes immutable data/overlay files before replacing the manifest atomically. It reuses a matching base checksum rather than rewriting that base on every save. Old files can remain for recovery; garbage collection and full coordinated native autosave/version preservation are pending. Package-relative paths reject absolute paths, traversal and symlink escape. Initial builds refuse packages containing nonempty later-phase arrays rather than erase unsupported content on save.
+
+The NSDocument contributor flow supports explicit save/open and tested undo/redo for cell edits, case/variable addition and dataset import. Appending cases or variables streams an independent Parquet base in batches of at most 8192 rows, preserving the prior revision, dataset ID, field IDs, row IDs and existing sparse edits. New cells are null. This copies the source data; cooperative cancellation and large-table insertion performance remain pending. Atomic manifest publication is not a claim of a complete crash-recovery, multi-window coordination or autosave gate. Quick Look preview and schema migrations are pending.

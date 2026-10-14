@@ -1,0 +1,59 @@
+{
+  "recorded_at_utc": "2026-10-14T19:26:46.666115+00:00",
+  "dataset": {
+    "rows": 5000000,
+    "columns": 100,
+    "storage": "float64",
+    "field_ids_unique": true,
+    "first_field_id": "d30b7c0f-ec49-4295-8ded-a827887a6a31",
+    "last_field_id": "5d165e6b-924b-441a-89ab-990fdfff8088",
+    "first_page_row_ids": [
+      0,
+      127
+    ],
+    "last_page_row_ids": [
+      4999872,
+      4999999
+    ],
+    "precision_check": "all 25,600 first/last-page values matched exact f64 bits",
+    "value_pattern": [
+      "0.125",
+      "-1.2345678901234567",
+      "2.125",
+      "999.875",
+      "0.5"
+    ]
+  },
+  "bytes": {
+    "source_csv": 4400001200,
+    "imported_parquet": 159872685,
+    "saved_project_parquet": 159872685
+  },
+  "seconds": {
+    "generation": 2.0645526589942165,
+    "engine_import": 126.3933930650237,
+    "project_save": 0.6038191710249521,
+    "project_open": 7.0077265439904295,
+    "first_page_json": 0.9131391400005668,
+    "last_page_arrow": 0.834879964007996
+  },
+  "peak_rss_bytes": 877342720,
+  "machine": {
+    "os": "macOS-26.7-x86_64-i386-64bit",
+    "architecture": "x86_64",
+    "processor": "i386",
+    "logical_cpus": 12,
+    "python": "3.12.14",
+    "pyarrow": "25.0.1"
+  },
+  "cache_state": {
+    "process_cache": "new Store for reopen; same process for all measured stages",
+    "os_cache": "uncontrolled; CSV was just generated and project was just saved",
+    "claim": "single run; no cold-cache or warm-cache distribution measured"
+  },
+  "scope": {
+    "measured": "engine CSV import, project save/open, JSON first page, Arrow last page",
+    "excluded": "native UI rendering, viewport scrolling, Instruments frame timing, protocol latency",
+    "60_fps_gate": "not measured"
+  }
+}

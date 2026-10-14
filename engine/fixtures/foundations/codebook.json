@@ -1,0 +1,23 @@
+{
+  "feature_ids": ["DATA-003", "DATA-004", "DATA-005"],
+  "provenance": "Original fixture authored for this project, 2026-10-14. No vendor or course data.",
+  "independent_method": "Manually specified typed-value and codebook contract. Literal values and category order remain unchanged across edits and a Parquet package round trip. Infrastructure acceptance fixture, not a statistical calculation.",
+  "tolerance": {"comparison": "exact JSON values, missing states, category order and labels"},
+  "test_selector": "engine/tests/test_reference.py::test_original_codebook_contract",
+  "input": {
+    "fields": [
+      {"id": "rank", "name": "Original rank", "storage": "string", "measurement": "ordinal", "levels": ["low", "middle", "high"], "value_labels": {"middle": "Original middle label"}, "missing_codes": ["not-recorded"]},
+      {"id": "choices", "name": "Original choices", "storage": "multiple_response", "measurement": "multiple_response", "levels": ["blue", "red"]},
+      {"id": "amount", "name": "Original amount", "storage": "float64", "measurement": "continuous", "missing_codes": ["-999.0"]}
+    ],
+    "rows": [["middle", ["blue", "red"], 1.25], ["not-recorded", [], -999.0], [null, null, null]]
+  },
+  "expected": {
+    "rows": [["middle", ["blue", "red"], 1.25], ["not-recorded", [], -999.0], [null, null, null]],
+    "row_ids": [0, 1, 2],
+    "rank_levels": ["low", "middle", "high"],
+    "rank_value_labels": {"middle": "Original middle label"},
+    "rank_missing_codes": ["not-recorded"],
+    "numeric_missing_codes": ["-999.0"]
+  }
+}

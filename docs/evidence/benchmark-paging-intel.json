@@ -1,0 +1,115 @@
+{
+  "recorded_at_utc": "2026-10-14T19:31:26.128088+00:00",
+  "dataset": {
+    "rows": 5000000,
+    "columns": 100,
+    "storage": "float64",
+    "field_ids_unique": true,
+    "first_field_id": "field-000",
+    "last_field_id": "field-099",
+    "row_groups": 611,
+    "page_size": 128,
+    "offsets": {
+      "middle": 2499936,
+      "end": 4999872
+    },
+    "pattern": [
+      "0.125",
+      "-1.2345678901234567",
+      "2.125",
+      "999.875",
+      "0.5"
+    ],
+    "verification": "all cells in cold and repeated pages matched exact f64 bits and case IDs"
+  },
+  "bytes": {
+    "parquet_file": 54837837,
+    "parquet_footer_including_trailer": 7306535
+  },
+  "seconds": {
+    "parquet_generation": 13.444732356001623,
+    "cold_pages": {
+      "middle_json": {
+        "seconds": 0.08923745498759672,
+        "logical_sha256": "d90bb673860c08791d8351ff10269acc4c0686c34fd7a255072f40e38b57c16a",
+        "cache_cleared_before_call": true
+      },
+      "middle_arrow": {
+        "seconds": 0.08820623502833769,
+        "logical_sha256": "d90bb673860c08791d8351ff10269acc4c0686c34fd7a255072f40e38b57c16a",
+        "cache_cleared_before_call": true
+      },
+      "end_json": {
+        "seconds": 0.08514730597380549,
+        "logical_sha256": "148964b8b0f090443145a15d96991b3c736a6d526cb4459940334e2ed6bd9f67",
+        "cache_cleared_before_call": true
+      },
+      "end_arrow": {
+        "seconds": 0.0830676420009695,
+        "logical_sha256": "148964b8b0f090443145a15d96991b3c736a6d526cb4459940334e2ed6bd9f67",
+        "cache_cleared_before_call": true
+      }
+    },
+    "repeated_pages": {
+      "middle_json": {
+        "calls": 10,
+        "minimum_seconds": 0.0043216749909333885,
+        "median_seconds": 0.004902031010715291,
+        "p95_seconds": 0.005965770978946239,
+        "maximum_seconds": 0.005965770978946239,
+        "logical_sha256": "d90bb673860c08791d8351ff10269acc4c0686c34fd7a255072f40e38b57c16a",
+        "all_hashes_match": true
+      },
+      "middle_arrow": {
+        "calls": 10,
+        "minimum_seconds": 0.004970231966581196,
+        "median_seconds": 0.0050508475105743855,
+        "p95_seconds": 0.00592844799393788,
+        "maximum_seconds": 0.00592844799393788,
+        "logical_sha256": "d90bb673860c08791d8351ff10269acc4c0686c34fd7a255072f40e38b57c16a",
+        "all_hashes_match": true
+      },
+      "end_json": {
+        "calls": 10,
+        "minimum_seconds": 0.004084740998223424,
+        "median_seconds": 0.004408767999848351,
+        "p95_seconds": 0.004848473006859422,
+        "maximum_seconds": 0.004848473006859422,
+        "logical_sha256": "148964b8b0f090443145a15d96991b3c736a6d526cb4459940334e2ed6bd9f67",
+        "all_hashes_match": true
+      },
+      "end_arrow": {
+        "calls": 10,
+        "minimum_seconds": 0.004305748967453837,
+        "median_seconds": 0.00452789748669602,
+        "p95_seconds": 0.005042599979788065,
+        "maximum_seconds": 0.005042599979788065,
+        "logical_sha256": "148964b8b0f090443145a15d96991b3c736a6d526cb4459940334e2ed6bd9f67",
+        "all_hashes_match": true
+      }
+    }
+  },
+  "metadata_cache": {
+    "entries_after_run": 1,
+    "max_entries": 2,
+    "cold_calls_used_clear_metadata_cache": true
+  },
+  "peak_rss_bytes": 182140928,
+  "machine": {
+    "os": "macOS-26.7-x86_64-i386-64bit",
+    "architecture": "x86_64",
+    "processor": "i386",
+    "logical_cpus": 12,
+    "python": "3.12.14",
+    "pyarrow": "25.0.1"
+  },
+  "cache_limits": {
+    "process": "clear_metadata_cache before each cold call; ten later calls reuse current Store cache",
+    "os": "uncontrolled; generated Parquet may remain in operating-system file cache",
+    "claims": "one process and one run; no cold-disk result or statistical distribution"
+  },
+  "scope": {
+    "measured": "direct-Parquet generation, Store.page JSON and Arrow extraction",
+    "excluded": "CSV parsing, native UI, protocol transfer, frame timing, Instruments, 60 fps acceptance"
+  }
+}

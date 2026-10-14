@@ -1,0 +1,31 @@
+{
+  "checks": [
+    "native_window",
+    "native_toolbar",
+    "engine_start",
+    "arrow_viewport",
+    "typed_edit",
+    "undo",
+    "redo",
+    "document_save",
+    "document_reopen",
+    "append_case",
+    "append_variable",
+    "int64_precision",
+    "negative_zero_edit",
+    "localized_csv_import",
+    "undo_import",
+    "managed_jobs",
+    "safe_compute",
+    "interval_classification",
+    "missing_audit",
+    "stable_sort",
+    "stable_filter",
+    "edit_filtered_case_id",
+    "filtered_project_reopen"
+  ],
+  "localized_measurement": "Measurement",
+  "passed": true,
+  "scope": "Native integration smoke only; full UI/accessibility tests are pending",
+  "windows": 2
+}

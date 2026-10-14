@@ -1,0 +1,294 @@
+{
+  "feature_ids": [
+    "DATA-016",
+    "DATA-017",
+    "DATA-018",
+    "DATA-019",
+    "DATA-020"
+  ],
+  "provenance": "Original nine-case fixture authored for OpenStat Mac, 2026-10-14. No vendor or course data.",
+  "independent_method": "Labels assigned by hand to literal endpoints. Exclusive table tally: A low/middle/high = 1/1/1; B = 0/1/1. Response membership tally: A red/blue = 3/1; B = 1/1. Missing states counted case by case, with null precedence for table exclusion counts. Expectations are literal, never produced by the implementation. Derived classes encode both source missing states as null; original source codes remain unchanged. The exclusive table excludes derived null on cases 5 and 6 plus group null on case 7, and coded group missing on case 8.",
+  "tolerance": {
+    "comparison": "exact labels, integer counts, row IDs and missing-state counts"
+  },
+  "test_selector": "engine/tests/test_classification.py::test_original_classification_contract",
+  "input": {
+    "fields": [
+      {
+        "id": "amount",
+        "name": "Amount",
+        "storage": "float64",
+        "measurement": "continuous",
+        "missing_codes": [
+          "-999.0"
+        ]
+      },
+      {
+        "id": "group",
+        "name": "Group",
+        "storage": "string",
+        "measurement": "nominal",
+        "levels": [
+          "A",
+          "B"
+        ],
+        "missing_codes": [
+          "NA"
+        ]
+      },
+      {
+        "id": "response",
+        "name": "Response",
+        "storage": "multiple_response",
+        "measurement": "multiple_response",
+        "levels": [
+          "red",
+          "blue"
+        ],
+        "missing_codes": [
+          "NA"
+        ]
+      }
+    ],
+    "rows": [
+      [
+        -2,
+        "A",
+        [
+          "red",
+          "blue"
+        ]
+      ],
+      [
+        0,
+        "A",
+        [
+          "red"
+        ]
+      ],
+      [
+        5,
+        "B",
+        []
+      ],
+      [
+        10,
+        "B",
+        [
+          "blue"
+        ]
+      ],
+      [
+        11,
+        "A",
+        null
+      ],
+      [
+        null,
+        "A",
+        [
+          "red"
+        ]
+      ],
+      [
+        -999,
+        "B",
+        [
+          "red"
+        ]
+      ],
+      [
+        3,
+        null,
+        [
+          "NA"
+        ]
+      ],
+      [
+        0,
+        "NA",
+        []
+      ]
+    ],
+    "mapping": [
+      {
+        "value": -2,
+        "label": "negative"
+      },
+      {
+        "value": 0,
+        "label": "zero"
+      },
+      {
+        "value": 5,
+        "label": "positive"
+      },
+      {
+        "value": 10,
+        "label": "positive"
+      },
+      {
+        "value": 11,
+        "label": "positive"
+      },
+      {
+        "value": 3,
+        "label": "positive"
+      }
+    ],
+    "classes": [
+      {
+        "label": "low",
+        "lower": -2,
+        "upper": 0,
+        "include_lower": true,
+        "include_upper": false
+      },
+      {
+        "label": "middle",
+        "lower": 0,
+        "upper": 10,
+        "include_lower": true,
+        "include_upper": false
+      },
+      {
+        "label": "high",
+        "lower": 10,
+        "upper": 11,
+        "include_lower": true,
+        "include_upper": true
+      }
+    ],
+    "open_classes": [
+      {
+        "label": "low",
+        "lower": null,
+        "upper": 0,
+        "include_lower": false,
+        "include_upper": false
+      },
+      {
+        "label": "middle",
+        "lower": 0,
+        "upper": 10,
+        "include_lower": true,
+        "include_upper": false
+      },
+      {
+        "label": "high",
+        "lower": 10,
+        "upper": null,
+        "include_lower": true,
+        "include_upper": false
+      }
+    ]
+  },
+  "expected": {
+    "category_labels": [
+      "negative",
+      "zero",
+      "positive",
+      "positive",
+      "positive",
+      null,
+      null,
+      "positive",
+      "zero"
+    ],
+    "interval_labels": [
+      "low",
+      "middle",
+      "middle",
+      "high",
+      "high",
+      null,
+      null,
+      "middle",
+      "middle"
+    ],
+    "row_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "exclusive": {
+      "counts": [
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          1
+        ]
+      ],
+      "row_totals": [
+        3,
+        2
+      ],
+      "column_totals": [
+        1,
+        2,
+        2
+      ],
+      "pair_count": 5,
+      "eligible_cases": 5,
+      "excluded_null_cases": 3,
+      "excluded_coded_missing_cases": 1
+    },
+    "membership": {
+      "counts": [
+        [
+          3,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "row_totals": [
+        4,
+        2
+      ],
+      "column_totals": [
+        4,
+        2
+      ],
+      "pair_count": 6,
+      "eligible_cases": 6,
+      "excluded_null_cases": 2,
+      "excluded_coded_missing_cases": 1,
+      "empty_response_cases": 1
+    },
+    "audit": {
+      "amount": {
+        "null": 1,
+        "coded_missing": 1,
+        "valid": 7,
+        "empty_response": 0
+      },
+      "group": {
+        "null": 1,
+        "coded_missing": 1,
+        "valid": 7,
+        "empty_response": 0
+      },
+      "response": {
+        "null": 1,
+        "coded_missing": 1,
+        "valid": 7,
+        "empty_response": 2
+      }
+    },
+    "complete_cases": 4
+  }
+}

@@ -1,0 +1,23 @@
+.build/
+.swiftpm/
+build/
+engine/.venv/
+engine/.coverage
+engine/coverage.json
+engine/junit.xml
+engine/feature-test-results.json
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.DS_Store
+work/
+App/Resources/*.lproj/
+*.xcuserstate
+xcuserdata/
+
+# Coverage may be written by subprocess acceptance runs from the repository root.
+.coverage
+.coverage.*
+engine/.coverage.*

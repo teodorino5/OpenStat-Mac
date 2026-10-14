@@ -1,0 +1,27 @@
+name: Source release preparation
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source:
+    runs-on: macos-15-intel
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: astral-sh/setup-uv@94527f2e458b27549849d47d273a16bec83a01e9 # v7
+        with:
+          version: '0.12.20'
+      - run: make setup
+      - run: make test
+      - run: git archive --format=zip --prefix=OpenStat-Mac/ --output=OpenStat-Mac-source.zip HEAD
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: source-archive
+          path: OpenStat-Mac-source.zip
+# Portable app/DMG artifacts are blocked until the embedded-runtime license and relocation audit passes.
+# Optional future protected signing job placeholders:
+# OPENSTAT_SIGNING_IDENTITY: ${{ secrets.OPENSTAT_SIGNING_IDENTITY }}
+# OPENSTAT_NOTARY_KEY_ID: ${{ secrets.OPENSTAT_NOTARY_KEY_ID }}
+# OPENSTAT_NOTARY_ISSUER: ${{ secrets.OPENSTAT_NOTARY_ISSUER }}
+# No Developer ID secret is required for source checks or local contributor builds.

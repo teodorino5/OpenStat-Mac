@@ -1,0 +1,7258 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "app.name": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OpenStat Mac"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OpenStat Mac"
+          }
+        }
+      }
+    },
+    "menu.file": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "File"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Soubor"
+          }
+        }
+      }
+    },
+    "menu.edit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Úpravy"
+          }
+        }
+      }
+    },
+    "menu.statistics": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Statistics"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Statistika"
+          }
+        }
+      }
+    },
+    "menu.window": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Window"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Okno"
+          }
+        }
+      }
+    },
+    "action.quit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quit OpenStat Mac"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ukončit OpenStat Mac"
+          }
+        }
+      }
+    },
+    "action.new": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New project"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nový projekt"
+          }
+        }
+      }
+    },
+    "action.open": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open project…"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otevřít projekt…"
+          }
+        }
+      }
+    },
+    "action.save": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save project"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uložit projekt"
+          }
+        }
+      }
+    },
+    "action.save_as": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save project as…"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uložit projekt jako…"
+          }
+        }
+      }
+    },
+    "action.close": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close window"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zavřít okno"
+          }
+        }
+      }
+    },
+    "action.undo": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Undo"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zpět"
+          }
+        }
+      }
+    },
+    "action.redo": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Redo"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Znovu"
+          }
+        }
+      }
+    },
+    "action.cut": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cut"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vyjmout"
+          }
+        }
+      }
+    },
+    "action.copy": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kopírovat"
+          }
+        }
+      }
+    },
+    "action.paste": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paste"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vložit"
+          }
+        }
+      }
+    },
+    "action.select_all": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select all"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vybrat vše"
+          }
+        }
+      }
+    },
+    "action.minimize": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Minimize"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Minimalizovat"
+          }
+        }
+      }
+    },
+    "action.next_tab": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next tab"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Další panel"
+          }
+        }
+      }
+    },
+    "action.previous_tab": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previous tab"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Předchozí panel"
+          }
+        }
+      }
+    },
+    "action.import": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Import CSV / TSV"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Importovat CSV / TSV"
+          }
+        }
+      }
+    },
+    "action.edit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit data"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Upravit data"
+          }
+        }
+      }
+    },
+    "action.ok": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        }
+      }
+    },
+    "sidebar.project": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PROJECT"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PROJEKT"
+          }
+        }
+      }
+    },
+    "sidebar.datasets": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Datasets"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Datové soubory"
+          }
+        }
+      }
+    },
+    "sidebar.analyses": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Analyses"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Analýzy"
+          }
+        }
+      }
+    },
+    "sidebar.results": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Results"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Výsledky"
+          }
+        }
+      }
+    },
+    "sidebar.workflows": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Workflows"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pracovní postupy"
+          }
+        }
+      }
+    },
+    "phase.foundation": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phase 0 · Data foundations"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fáze 0 · Základy dat"
+          }
+        }
+      }
+    },
+    "phase.coming": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Analysis modules are not available yet"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Analytické moduly zatím nejsou dostupné"
+          }
+        }
+      }
+    },
+    "phase.order": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Data foundations must pass verification before statistical modules are added."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Před přidáním statistických modulů musí základy dat projít ověřením."
+          }
+        }
+      }
+    },
+    "default.observation": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Observation"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pozorování"
+          }
+        }
+      }
+    },
+    "default.measurement": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Measurement"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Měření"
+          }
+        }
+      }
+    },
+    "default.group": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Group"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skupina"
+          }
+        }
+      }
+    },
+    "dataset.untitled": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Untitled dataset"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nepojmenovaný datový soubor"
+          }
+        }
+      }
+    },
+    "dataset.dimensions": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%ld cases · %ld variables"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%ld případů · %ld proměnných"
+          }
+        }
+      }
+    },
+    "grid.label": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Editable dataset"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Upravitelný datový soubor"
+          }
+        }
+      }
+    },
+    "grid.case": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Case"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Případ"
+          }
+        }
+      }
+    },
+    "grid.loading": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Loading…"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Načítání…"
+          }
+        }
+      }
+    },
+    "grid.cell": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, case %ld"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, případ %ld"
+          }
+        }
+      }
+    },
+    "status.data_only": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Data editing only · no statistical results"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pouze úpravy dat · žádné statistické výsledky"
+          }
+        }
+      }
+    },
+    "inspector.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Variable inspector"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inspektor proměnné"
+          }
+        }
+      }
+    },
+    "inspector.variable": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Variable"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Proměnná"
+          }
+        }
+      }
+    },
+    "inspector.name": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Variable name"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Název proměnné"
+          }
+        }
+      }
+    },
+    "inspector.role": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Role"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Role"
+          }
+        }
+      }
+    },
+    "inspector.measurement": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Measurement type"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Typ statistického znaku"
+          }
+        }
+      }
+    },
+    "inspector.storage": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Storage: %@"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Datový typ: %@"
+          }
+        }
+      }
+    },
+    "inspector.scope": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Observation scope"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rozsah pozorování"
+          }
+        }
+      }
+    },
+    "inspector.context": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Context"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kontext"
+          }
+        }
+      }
+    },
+    "inspector.unit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Observation unit"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jednotka pozorování"
+          }
+        }
+      }
+    },
+    "inspector.scope_note": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A sample describes observed cases. Inference requires a statistical model and assumptions."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Výběr popisuje pozorované případy. Usuzování vyžaduje statistický model a předpoklady."
+          }
+        }
+      }
+    },
+    "context.unspecified": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scope unspecified"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rozsah neurčen"
+          }
+        }
+      }
+    },
+    "context.sample": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sample"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Výběrový soubor"
+          }
+        }
+      }
+    },
+    "context.population": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Population"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Základní soubor"
+          }
+        }
+      }
+    },
+    "role.identifier": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Identifier"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Identifikační znak"
+          }
+        }
+      }
+    },
+    "role.characteristic": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Characteristic"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Proměnný znak"
+          }
+        }
+      }
+    },
+    "measurement.continuous": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continuous numeric"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spojitý číselný znak"
+          }
+        }
+      }
+    },
+    "measurement.discrete": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Discrete numeric"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diskrétní číselný znak"
+          }
+        }
+      }
+    },
+    "measurement.ordinal": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ordinal"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pořadový znak"
+          }
+        }
+      }
+    },
+    "measurement.binary": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Binary category"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alternativní znak"
+          }
+        }
+      }
+    },
+    "measurement.nominal": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unordered category"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nominální znak"
+          }
+        }
+      }
+    },
+    "measurement.multiple_response": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Multiple-response set"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vícenásobné odpovědi"
+          }
+        }
+      }
+    },
+    "error.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cannot complete operation"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Operaci nelze dokončit"
+          }
+        }
+      }
+    },
+    "error.runtime_missing": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Python engine is unavailable. Run make setup in the source repository."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pythonový modul není dostupný. Ve zdrojovém repozitáři spusťte make setup."
+          }
+        }
+      }
+    },
+    "error.rpc_timeout": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Engine timed out. Reopen the project to restart the engine."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vypršel čas čekání na modul. Pro restart modulů znovu otevřete projekt."
+          }
+        }
+      }
+    },
+    "error.rpc_request": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Engine protocol failed. Reopen the project."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Protokol modulu selhal. Znovu otevřete projekt."
+          }
+        }
+      }
+    },
+    "error.engine_internal": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Engine operation failed. The dataset revision was not changed."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Operace modulu selhala. Revize dat nebyla změněna."
+          }
+        }
+      }
+    },
+    "error.value_type": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Value does not match the variable type. Blank cells are missing values."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hodnota neodpovídá typu proměnné. Prázdné buňky znamenají chybějící hodnoty."
+          }
+        }
+      }
+    },
+    "error.nonfinite": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter a finite number."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zadejte konečné číslo."
+          }
+        }
+      }
+    },
+    "error.integer_range": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Integer is outside the 64-bit range."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Celé číslo je mimo 64bitový rozsah."
+          }
+        }
+      }
+    },
+    "error.field_name": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter a nonempty, nonreserved variable name."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zadejte neprázdný, nerezervovaný název proměnné."
+          }
+        }
+      }
+    },
+    "error.field_type": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Variable storage or measurement type is unsupported."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Datový typ nebo typ statistického znaku není podporován."
+          }
+        }
+      }
+    },
+    "error.field_role": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Variable role is invalid."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Role proměnné je neplatná."
+          }
+        }
+      }
+    },
+    "error.incompatible_measurement": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Measurement type is incompatible with stored values."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Typ statistického znaku neodpovídá uloženým hodnotám."
+          }
+        }
+      }
+    },
+    "error.duplicate_levels": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Category levels must be unique."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kategorie se nesmějí opakovat."
+          }
+        }
+      }
+    },
+    "error.duplicate_fields": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Variables need unique names and identifiers."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Proměnné vyžadují jedinečné názvy a identifikátory."
+          }
+        }
+      }
+    },
+    "error.context": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose population, sample or unspecified context."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zvolte základní soubor, výběr nebo neurčený kontext."
+          }
+        }
+      }
+    },
+    "error.inline_limit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inline entry exceeds the limit. Use streaming CSV import."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Přímé zadání překračuje limit. Použijte průběžný import CSV."
+          }
+        }
+      }
+    },
+    "error.row_width": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Each case must contain one value per variable."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Každý případ musí obsahovat jednu hodnotu pro každou proměnnou."
+          }
+        }
+      }
+    },
+    "error.stale_revision": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dataset revision is unavailable."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Revize dat není dostupná."
+          }
+        }
+      }
+    },
+    "error.duplicate_response": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Each response may occur only once within a case."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Každá odpověď se v jednom případu smí objevit pouze jednou."
+          }
+        }
+      }
+    },
+    "error.unknown_level": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Value is absent from the declared category levels."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hodnota není mezi deklarovanými kategoriemi."
+          }
+        }
+      }
+    },
+    "error.binary_levels": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A binary variable needs exactly two declared levels."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alternativní znak vyžaduje právě dvě deklarované kategorie."
+          }
+        }
+      }
+    },
+    "error.page_bounds": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Requested page is outside supported bounds."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Požadovaná stránka překračuje podporované meze."
+          }
+        }
+      }
+    },
+    "error.field_id": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Variable identifier is unavailable."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Identifikátor proměnné není dostupný."
+          }
+        }
+      }
+    },
+    "error.artifact_handle": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Data transfer handle is invalid."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Identifikátor přenosu dat je neplatný."
+          }
+        }
+      }
+    },
+    "error.row_id": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Case identifier is unavailable."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Identifikátor případu není dostupný."
+          }
+        }
+      }
+    },
+    "error.storage_change": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Storage conversion is not supported in this build."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Převod datového typu není v tomto sestavení podporován."
+          }
+        }
+      }
+    },
+    "error.csv_options": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delimiter and decimal separator must be different valid characters."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oddělovač sloupců a desetinný oddělovač musí být různé platné znaky."
+          }
+        }
+      }
+    },
+    "error.csv_schema": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CSV contains an unsupported inferred column type. Import text instead."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CSV obsahuje nepodporovaný odhadnutý typ sloupce. Importujte text."
+          }
+        }
+      }
+    },
+    "error.project_path": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Project must be a valid .openstat package with safe relative paths."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Projekt musí být platný balíček .openstat s bezpečnými relativními cestami."
+          }
+        }
+      }
+    },
+    "error.project_version": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Project format version is unsupported."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verze formátu projektu není podporována."
+          }
+        }
+      }
+    },
+    "error.project_schema": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Project schema does not match its data."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schéma projektu neodpovídá datům."
+          }
+        }
+      }
+    },
+    "error.checksum": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Project integrity check failed. Preserve the source file."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kontrola integrity projektu selhala. Zachovejte zdrojový soubor."
+          }
+        }
+      }
+    },
+    "error.protocol_version": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Engine protocol version is unsupported."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verze protokolu modulu není podporována."
+          }
+        }
+      }
+    },
+    "error.rpc_header": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Engine frame header is invalid."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hlavička zprávy modulu je neplatná."
+          }
+        }
+      }
+    },
+    "error.rpc_truncated": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Engine message is incomplete."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zpráva modulu je neúplná."
+          }
+        }
+      }
+    },
+    "error.rpc_size": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Engine message exceeds its size limit."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zpráva modulu překračuje limit velikosti."
+          }
+        }
+      }
+    },
+    "error.rpc_json": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Engine JSON is invalid."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "JSON modulu je neplatný."
+          }
+        }
+      }
+    },
+    "error.rpc_method": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Engine operation is unavailable."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Operace modulu není dostupná."
+          }
+        }
+      }
+    },
+    "error.rpc_params": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Engine parameters are invalid."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parametry modulu jsou neplatné."
+          }
+        }
+      }
+    },
+    "error.file_io": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "File could not be read or written."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Soubor nelze přečíst nebo zapsat."
+          }
+        }
+      }
+    },
+    "error.busy": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wait until the current operation completes, then save again."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Počkejte na dokončení probíhající operace a uložení zopakujte."
+          }
+        }
+      }
+    },
+    "error.arrow_invalid": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The data page is damaged or does not match this dataset."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Datová stránka je poškozená nebo neodpovídá tomuto souboru dat."
+          }
+        }
+      }
+    },
+    "error.arrow_unsupported": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This Arrow data page uses an unsupported format."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tato datová stránka Arrow používá nepodporovaný formát."
+          }
+        }
+      }
+    },
+    "error.arrow_limit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The data page exceeds the supported size."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Datová stránka překračuje podporovanou velikost."
+          }
+        }
+      }
+    },
+    "action.add_case": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add case"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Přidat případ"
+          }
+        }
+      }
+    },
+    "action.add_variable": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add variable"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Přidat proměnnou"
+          }
+        }
+      }
+    },
+    "action.cancel": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zrušit"
+          }
+        }
+      }
+    },
+    "import.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Import CSV or TSV"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Import CSV nebo TSV"
+          }
+        }
+      }
+    },
+    "import.delimiter": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Column separator"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oddělovač sloupců"
+          }
+        }
+      }
+    },
+    "import.decimal": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Decimal separator"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desetinný oddělovač"
+          }
+        }
+      }
+    },
+    "import.comma": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comma (,)"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Čárka (,)"
+          }
+        }
+      }
+    },
+    "import.semicolon": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Semicolon (;)"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Středník (;)"
+          }
+        }
+      }
+    },
+    "import.tab": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tab"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tabulátor"
+          }
+        }
+      }
+    },
+    "import.pipe": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vertical bar (|)"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Svislá čára (|)"
+          }
+        }
+      }
+    },
+    "import.dot": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dot (.)"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tečka (.)"
+          }
+        }
+      }
+    },
+    "import.note": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "First row contains variable names. Types are inferred from the input. Numeric, text and Boolean columns are supported. Import replaces the current dataset and can be undone."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "První řádek obsahuje názvy proměnných. Typy se odvozují ze vstupu. Podporovány jsou číselné, textové a logické sloupce. Import nahradí aktuální soubor dat a lze jej vrátit zpět."
+          }
+        }
+      }
+    },
+    "variable.storage": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stored values"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ukládané hodnoty"
+          }
+        }
+      }
+    },
+    "variable.note": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Existing cases receive missing values. Adding a variable or case copies the data in bounded batches and can be undone."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stávající případy dostanou chybějící hodnoty. Přidání proměnné nebo případu kopíruje data v omezených dávkách a lze je vrátit zpět."
+          }
+        }
+      }
+    },
+    "storage.float64": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Decimal number"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desetinné číslo"
+          }
+        }
+      }
+    },
+    "storage.int64": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Integer"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Celé číslo"
+          }
+        }
+      }
+    },
+    "storage.string": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Text"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Text"
+          }
+        }
+      }
+    },
+    "storage.bool": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "True / false"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pravda / nepravda"
+          }
+        }
+      }
+    },
+    "storage.multiple_response": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Response set"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Množina odpovědí"
+          }
+        }
+      }
+    },
+    "error.empty_change": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose at least one change."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vyberte alespoň jednu změnu."
+          }
+        }
+      }
+    },
+    "classification.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Classification and data counts"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klasifikace a počty dat"
+          }
+        }
+      }
+    },
+    "classification.operation": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Operation"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Operace"
+          }
+        }
+      }
+    },
+    "classification.category": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Category mapping"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mapování kategorií"
+          }
+        }
+      }
+    },
+    "classification.interval": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Interval classes"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Intervalové třídy"
+          }
+        }
+      }
+    },
+    "classification.contingency": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Contingency counts"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kontingenční četnosti"
+          }
+        }
+      }
+    },
+    "classification.audit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Missing-value audit"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Přehled chybějících hodnot"
+          }
+        }
+      }
+    },
+    "classification.audit_note": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Count null, coded missing and valid values for every variable. Empty response sets remain valid."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Počty prázdných, kódovaných chybějících a platných hodnot všech proměnných. Prázdné sady odpovědí zůstávají platné."
+          }
+        }
+      }
+    },
+    "classification.audit_action": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inspect missing values"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prohlédnout chybějící hodnoty"
+          }
+        }
+      }
+    },
+    "classification.response_mode": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Count response memberships"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Počítat členství v odpovědích"
+          }
+        }
+      }
+    },
+    "classification.response_note": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Response sets require membership mode. Each case contributes all pairs of its row and column responses; empty sets contribute no pairs."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sady odpovědí vyžadují režim členství. Každý případ přispěje všemi dvojicemi řádkových a sloupcových odpovědí; prázdné sady nepřispějí žádnou dvojicí."
+          }
+        }
+      }
+    },
+    "classification.source": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Source variable / table rows"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zdrojová proměnná / řádky tabulky"
+          }
+        }
+      }
+    },
+    "classification.column_source": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Table columns"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sloupce tabulky"
+          }
+        }
+      }
+    },
+    "classification.no_source": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No eligible variable. Check storage, measurement and identifier roles."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Není dostupná vhodná proměnná. Zkontrolujte typ uložení, úroveň měření a roli identifikátoru."
+          }
+        }
+      }
+    },
+    "classification.count_action": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Count cases"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spočítat případy"
+          }
+        }
+      }
+    },
+    "classification.output_name": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New variable name"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Název nové proměnné"
+          }
+        }
+      }
+    },
+    "classification.unmatched": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unmatched valid values"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nespárované platné hodnoty"
+          }
+        }
+      }
+    },
+    "classification.unmatched_error": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stop with an error"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zastavit s chybou"
+          }
+        }
+      }
+    },
+    "classification.unmatched_missing": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Set new class to missing"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nastavit novou třídu jako chybějící"
+          }
+        }
+      }
+    },
+    "classification.missing_note": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Source values stay unchanged. Source null and coded missing become null in the new class."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zdrojové hodnoty se nemění. Prázdné a kódované chybějící zdrojové hodnoty budou v nové třídě prázdné."
+          }
+        }
+      }
+    },
+    "classification.derive_action": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create classified variable"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vytvořit klasifikovanou proměnnou"
+          }
+        }
+      }
+    },
+    "classification.choose_source": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a variable"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vyberte proměnnou"
+          }
+        }
+      }
+    },
+    "classification.category_note": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Map exact typed values to labels. Several values may share a label; duplicate source values are rejected."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mapujte přesné typované hodnoty na označení. Více hodnot může sdílet označení; duplicitní zdrojové hodnoty se odmítnou."
+          }
+        }
+      }
+    },
+    "classification.value": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Source value"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zdrojová hodnota"
+          }
+        }
+      }
+    },
+    "classification.choose_value": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a value"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vyberte hodnotu"
+          }
+        }
+      }
+    },
+    "classification.true": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "True"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pravda"
+          }
+        }
+      }
+    },
+    "classification.false": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "False"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nepravda"
+          }
+        }
+      }
+    },
+    "classification.empty_string": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use an empty text value"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Použít prázdný textový řetězec"
+          }
+        }
+      }
+    },
+    "classification.label": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Class label"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Označení třídy"
+          }
+        }
+      }
+    },
+    "classification.remove": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odebrat"
+          }
+        }
+      }
+    },
+    "classification.add_mapping": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add mapping"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Přidat mapování"
+          }
+        }
+      }
+    },
+    "classification.interval_note": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter classes in ascending order. Set each endpoint explicitly; classes cannot overlap. Blank bounds are unbounded."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zadejte třídy vzestupně. Nastavte každý krajní bod výslovně; třídy se nesmějí překrývat. Prázdné meze jsou neohraničené."
+          }
+        }
+      }
+    },
+    "classification.open_note": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open-ended classes have no finite midpoint. A shared boundary may belong to only one class."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otevřené třídy nemají konečný střed. Společná mez může patřit pouze jedné třídě."
+          }
+        }
+      }
+    },
+    "classification.lower": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lower bound (blank: unbounded)"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dolní mez (prázdná: neohraničená)"
+          }
+        }
+      }
+    },
+    "classification.upper": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Upper bound (blank: unbounded)"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Horní mez (prázdná: neohraničená)"
+          }
+        }
+      }
+    },
+    "classification.include_lower": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Include lower bound"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zahrnout dolní mez"
+          }
+        }
+      }
+    },
+    "classification.include_upper": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Include upper bound"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zahrnout horní mez"
+          }
+        }
+      }
+    },
+    "classification.add_interval": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add interval"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Přidat interval"
+          }
+        }
+      }
+    },
+    "classification.invalid_name": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter a unique, nonempty variable name."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zadejte jedinečný neprázdný název proměnné."
+          }
+        }
+      }
+    },
+    "classification.invalid_input": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check typed values and labels. Each source value or interval label must be unique."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zkontrolujte typované hodnoty a označení. Zdrojové hodnoty a označení intervalů musí být jedinečné."
+          }
+        }
+      }
+    },
+    "classification.count_result": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Case counts"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Četnosti případů"
+          }
+        }
+      }
+    },
+    "classification.eligible_count": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eligible cases: %ld"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Způsobilé případy: %ld"
+          }
+        }
+      }
+    },
+    "classification.pair_count": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Counted pairs: %ld"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spočítané dvojice: %ld"
+          }
+        }
+      }
+    },
+    "classification.null_count": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Null: %ld"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prázdné hodnoty: %ld"
+          }
+        }
+      }
+    },
+    "classification.coded_count": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coded missing: %ld"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kódované chybějící: %ld"
+          }
+        }
+      }
+    },
+    "classification.pair_note": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Margins count response pairs. Eligible cases are a separate denominator."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Okrajové četnosti počítají dvojice odpovědí. Způsobilé případy jsou samostatný jmenovatel."
+          }
+        }
+      }
+    },
+    "classification.empty_count": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Empty response sets: %ld"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prázdné sady odpovědí: %ld"
+          }
+        }
+      }
+    },
+    "classification.row_total": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Row total: %ld"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Součet řádku: %ld"
+          }
+        }
+      }
+    },
+    "classification.column_totals": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Column totals"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Součty sloupců"
+          }
+        }
+      }
+    },
+    "classification.large_table": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This table exceeds the compact preview limit (30 rows × 12 columns). The case totals above remain available."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tabulka překračuje limit kompaktního náhledu (30 řádků × 12 sloupců). Součty případů výše zůstávají dostupné."
+          }
+        }
+      }
+    },
+    "classification.audit_result": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Missing-value counts"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Počty chybějících hodnot"
+          }
+        }
+      }
+    },
+    "classification.total_count": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Total cases: %ld"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Celkem případů: %ld"
+          }
+        }
+      }
+    },
+    "classification.complete_count": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Complete cases: %ld"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Úplné případy: %ld"
+          }
+        }
+      }
+    },
+    "classification.valid_count": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Valid: %ld"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Platné hodnoty: %ld"
+          }
+        }
+      }
+    },
+    "columns.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Transform columns"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Upravit proměnné"
+          }
+        }
+      }
+    },
+    "columns.immutable": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Append a new variable. Original values stay available; this operation can be undone."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Přidá novou proměnnou. Původní hodnoty zůstanou dostupné a změnu lze vrátit."
+          }
+        }
+      }
+    },
+    "columns.operation": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Operation"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Operace"
+          }
+        }
+      }
+    },
+    "columns.operation.recode": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recode values"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Překódovat hodnoty"
+          }
+        }
+      }
+    },
+    "columns.operation.compute": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compute variable"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vypočítat proměnnou"
+          }
+        }
+      }
+    },
+    "columns.operation.rank": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ranks"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pořadí"
+          }
+        }
+      }
+    },
+    "columns.operation.lag": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lag or lead"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Posun hodnot"
+          }
+        }
+      }
+    },
+    "columns.operation.standardize": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Standardize"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Standardizovat"
+          }
+        }
+      }
+    },
+    "columns.operation.duplicates": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Flag duplicate cases"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Označit duplicitní případy"
+          }
+        }
+      }
+    },
+    "columns.output_name": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New variable name"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Název nové proměnné"
+          }
+        }
+      }
+    },
+    "columns.source": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Source variable"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zdrojová proměnná"
+          }
+        }
+      }
+    },
+    "columns.choose": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a variable"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vyberte proměnnou"
+          }
+        }
+      }
+    },
+    "columns.include_missing": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Treat declared missing codes as values"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Považovat kódy chybějících hodnot za data"
+          }
+        }
+      }
+    },
+    "columns.missing_policy": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Blank cells remain missing. Excluded missing codes become blank in the new variable."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prázdné buňky zůstanou chybějící. Vyloučené kódy chybějících hodnot budou v nové proměnné prázdné."
+          }
+        }
+      }
+    },
+    "columns.global_limit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This operation supports up to 100,000 cases in the current dataset."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tato operace podporuje nejvýše 100 000 případů v aktuálním souboru."
+          }
+        }
+      }
+    },
+    "columns.invalid_input": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose valid typed inputs and a unique new variable name."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vyberte platné vstupy správného typu a jedinečný název nové proměnné."
+          }
+        }
+      }
+    },
+    "columns.apply": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create variable"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vytvořit proměnnou"
+          }
+        }
+      }
+    },
+    "columns.default_name": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Derived variable"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odvozená proměnná"
+          }
+        }
+      }
+    },
+    "columns.ties": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Equal-value ranks"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pořadí při shodných hodnotách"
+          }
+        }
+      }
+    },
+    "columns.ties.average": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Average occupied rank"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Průměr obsazených pořadí"
+          }
+        }
+      }
+    },
+    "columns.ties.min": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lowest occupied rank"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nejnižší obsazené pořadí"
+          }
+        }
+      }
+    },
+    "columns.ties.max": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Highest occupied rank"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nejvyšší obsazené pořadí"
+          }
+        }
+      }
+    },
+    "columns.ties.dense": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Consecutive ranks without gaps"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pořadí bez mezer"
+          }
+        }
+      }
+    },
+    "columns.ties.first": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Break ties by current row order"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rozlišit shody podle pořadí řádků"
+          }
+        }
+      }
+    },
+    "columns.ascending": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Smallest value ranks first"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nejmenší hodnota má první pořadí"
+          }
+        }
+      }
+    },
+    "columns.direction": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Direction"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Směr"
+          }
+        }
+      }
+    },
+    "columns.lag": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previous cases (lag)"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Předchozí případy"
+          }
+        }
+      }
+    },
+    "columns.lead": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Following cases (lead)"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Následující případy"
+          }
+        }
+      }
+    },
+    "columns.steps": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Offset: %d cases"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Posun: %d případů"
+          }
+        }
+      }
+    },
+    "columns.row_order": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uses current row order, including missing positions. Cases outside the dataset become blank."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Použije aktuální pořadí řádků včetně chybějících hodnot. Pozice mimo soubor budou prázdné."
+          }
+        }
+      }
+    },
+    "columns.divisor": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Standard deviation convention"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Definice směrodatné odchylky"
+          }
+        }
+      }
+    },
+    "columns.sample_sd": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sample: divide variance by n − 1"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Výběr: rozptyl dělený n − 1"
+          }
+        }
+      }
+    },
+    "columns.population_sd": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Population: divide variance by n"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Populace: rozptyl dělený n"
+          }
+        }
+      }
+    },
+    "columns.standardize_note": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Subtract the mean and divide by the standard deviation. Constant variables and insufficient data are rejected."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odečte průměr a vydělí směrodatnou odchylkou. Konstantní proměnné a nedostatek dat budou odmítnuty."
+          }
+        }
+      }
+    },
+    "columns.output_type": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New value type"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Typ nových hodnot"
+          }
+        }
+      }
+    },
+    "columns.same_type": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Same as source"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stejný jako zdroj"
+          }
+        }
+      }
+    },
+    "columns.from": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Original value"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Původní hodnota"
+          }
+        }
+      }
+    },
+    "columns.to": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New value"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nová hodnota"
+          }
+        }
+      }
+    },
+    "columns.to_missing": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Missing"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chybějící"
+          }
+        }
+      }
+    },
+    "columns.remove_mapping": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove recode rule"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odstranit pravidlo překódování"
+          }
+        }
+      }
+    },
+    "columns.add_mapping": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add value rule"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Přidat pravidlo"
+          }
+        }
+      }
+    },
+    "columns.unmatched": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Other values"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ostatní hodnoty"
+          }
+        }
+      }
+    },
+    "columns.unmatched.keep": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep unchanged"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ponechat beze změny"
+          }
+        }
+      }
+    },
+    "columns.unmatched.null": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Make missing"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nahradit chybějící hodnotou"
+          }
+        }
+      }
+    },
+    "columns.recode_note": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rules use exact typed values. The new variable has no inherited category restrictions. Retained values must match its new type."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pravidla používají přesné hodnoty daného typu. Nová proměnná nepřebírá omezení kategorií. Ponechané hodnoty musí odpovídat novému typu."
+          }
+        }
+      }
+    },
+    "columns.boolean_input": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter true or false for boolean values."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pro logické hodnoty zadejte true nebo false."
+          }
+        }
+      }
+    },
+    "columns.arithmetic": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Calculation"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Výpočet"
+          }
+        }
+      }
+    },
+    "columns.arithmetic.add": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sečíst"
+          }
+        }
+      }
+    },
+    "columns.arithmetic.subtract": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Subtract"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odečíst"
+          }
+        }
+      }
+    },
+    "columns.arithmetic.multiply": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Multiply"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vynásobit"
+          }
+        }
+      }
+    },
+    "columns.arithmetic.divide": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Divide"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vydělit"
+          }
+        }
+      }
+    },
+    "columns.arithmetic.negate": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Change sign"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Změnit znaménko"
+          }
+        }
+      }
+    },
+    "columns.arithmetic.abs": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Absolute value"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Absolutní hodnota"
+          }
+        }
+      }
+    },
+    "columns.arithmetic.sqrt": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Square root"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Druhá odmocnina"
+          }
+        }
+      }
+    },
+    "columns.arithmetic.log": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Natural logarithm"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Přirozený logaritmus"
+          }
+        }
+      }
+    },
+    "columns.arithmetic.exp": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exponential (e to the power x)"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exponenciála (e na x)"
+          }
+        }
+      }
+    },
+    "columns.left_operand": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "First input"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "První vstup"
+          }
+        }
+      }
+    },
+    "columns.right_operand": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Second input"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Druhý vstup"
+          }
+        }
+      }
+    },
+    "columns.variable": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Variable"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Proměnná"
+          }
+        }
+      }
+    },
+    "columns.constant": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Number"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Číslo"
+          }
+        }
+      }
+    },
+    "columns.constant_value": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Numeric value"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Číselná hodnota"
+          }
+        }
+      }
+    },
+    "columns.right_variable": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Second variable"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Druhá proměnná"
+          }
+        }
+      }
+    },
+    "columns.compute_note": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Calculations create decimal values. Blank inputs remain blank. Invalid domains, division by zero and overflow reject the change."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Výpočet vytváří desetinné hodnoty. Prázdné vstupy zůstanou prázdné. Neplatný definiční obor, dělení nulou a přetečení změnu odmítnou."
+          }
+        }
+      }
+    },
+    "columns.compare_fields": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compare these variables"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Porovnat tyto proměnné"
+          }
+        }
+      }
+    },
+    "columns.keep": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Leave unflagged"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neoznačovat"
+          }
+        }
+      }
+    },
+    "columns.keep.first": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "First occurrence"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "První výskyt"
+          }
+        }
+      }
+    },
+    "columns.keep.last": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Last occurrence"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Poslední výskyt"
+          }
+        }
+      }
+    },
+    "columns.keep.none": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "None: flag all repeated cases"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nic: označit všechny opakované případy"
+          }
+        }
+      }
+    },
+    "columns.duplicates_note": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exact comparison: blank equals blank, missing codes stay literal, response order matters. Appends flags; removes no cases."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Přesné porovnání: prázdná hodnota odpovídá prázdné, kódy chybějících hodnot se porovnávají doslova a záleží na pořadí odpovědí. Přidá označení a neodstraní žádné případy."
+          }
+        }
+      }
+    },
+    "action.classification": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Classify and inspect data"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Třídit a prozkoumat data"
+          }
+        }
+      }
+    },
+    "action.columns": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Transform variables"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Transformovat proměnné"
+          }
+        }
+      }
+    },
+    "error.predicate": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The case condition is invalid."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Podmínka pro případy je neplatná."
+          }
+        }
+      }
+    },
+    "error.predicate_type": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The comparison does not match this variable’s type."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Porovnání neodpovídá typu této proměnné."
+          }
+        }
+      }
+    },
+    "error.sort_options": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose valid sorting variables and directions."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vyberte platné proměnné a směry řazení."
+          }
+        }
+      }
+    },
+    "error.weight_options": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a numeric characteristic and weight convention."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vyberte číselnou charakteristiku a způsob vážení."
+          }
+        }
+      }
+    },
+    "error.weight_value": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weights must be nonnegative and finite; frequency weights must be integers."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Váhy musí být nezáporné a konečné; četnostní váhy musí být celá čísla."
+          }
+        }
+      }
+    },
+    "error.interchange_schema": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The file schema is incompatible or invalid."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Schéma souboru je nekompatibilní nebo neplatné."
+          }
+        }
+      }
+    },
+    "error.interchange_limit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The file exceeds the supported size or metadata limit."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Soubor překračuje podporovaný limit velikosti nebo metadat."
+          }
+        }
+      }
+    },
+    "error.export_path": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a file outside the private data cache."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vyberte soubor mimo soukromou mezipaměť dat."
+          }
+        }
+      }
+    },
+    "error.export_exists": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The destination exists. Choose another file or confirm overwrite."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cílový soubor již existuje. Vyberte jiný nebo potvrďte přepsání."
+          }
+        }
+      }
+    },
+    "error.classification_unmatched": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Some values do not match any class. Adjust classes or choose missing for unmatched values."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Některé hodnoty neodpovídají žádné třídě. Upravte třídy nebo pro nezařazené hodnoty vyberte chybějící hodnotu."
+          }
+        }
+      }
+    },
+    "error.classification_overlap": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Class intervals overlap or share an included endpoint."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Intervaly tříd se překrývají nebo sdílejí zahrnutou hranici."
+          }
+        }
+      }
+    },
+    "error.classification_limit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The count table exceeds the supported number of cells."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tabulka počtů překračuje podporovaný počet buněk."
+          }
+        }
+      }
+    },
+    "error.classification_source": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a supported source variable for classification."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vyberte podporovanou zdrojovou proměnnou pro třídění."
+          }
+        }
+      }
+    },
+    "error.classification_output": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The output variable must have distinct categorical labels."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Výstupní proměnná musí mít odlišné kategorické popisky."
+          }
+        }
+      }
+    },
+    "error.classification_options": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check class labels, boundaries and unmatched-value options."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zkontrolujte popisky tříd, hranice a nastavení nezařazených hodnot."
+          }
+        }
+      }
+    },
+    "error.contingency_source": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose compatible categorical variables for this count mode."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vyberte kompatibilní kategorické proměnné pro tento způsob počítání."
+          }
+        }
+      }
+    },
+    "error.contingency_mode": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose exclusive categories or response membership."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vyberte výlučné kategorie nebo příslušnost k odpovědím."
+          }
+        }
+      }
+    },
+    "error.operation_options": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check the transformation options."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zkontrolujte nastavení transformace."
+          }
+        }
+      }
+    },
+    "error.expression": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The calculation is invalid or uses an unsupported operation."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Výpočet je neplatný nebo používá nepodporovanou operaci."
+          }
+        }
+      }
+    },
+    "error.transform_domain": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The transformation has a nonfinite result or an invalid mathematical domain."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Transformace má nekonečný výsledek nebo neplatný matematický obor."
+          }
+        }
+      }
+    },
+    "error.global_limit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This exact operation currently supports at most 100,000 cases."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tato přesná operace nyní podporuje nejvýše 100 000 případů."
+          }
+        }
+      }
+    },
+    "error.zero_variance": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Standardization is undefined when all eligible values are equal."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Standardizace není definována, pokud jsou všechny platné hodnoty stejné."
+          }
+        }
+      }
+    },
+    "error.unknown_field": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The selected variable is not in this dataset."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vybraná proměnná není v tomto souboru dat."
+          }
+        }
+      }
+    },
+    "error.xlsx_schema": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The spreadsheet layout or values are unsupported."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Struktura nebo hodnoty tabulky nejsou podporované."
+          }
+        }
+      }
+    },
+    "error.xlsx_unsafe": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The spreadsheet contains unsupported formulas, external links or active content."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tabulka obsahuje nepodporované vzorce, externí odkazy nebo aktivní obsah."
+          }
+        }
+      }
+    },
+    "error.xlsx_style": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Date, time and styled numeric cells are not supported by this importer."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tento import nepodporuje datum, čas a formátované číselné buňky."
+          }
+        }
+      }
+    },
+    "error.xlsx_limit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The spreadsheet exceeds a supported size or layout limit."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tabulka překračuje podporovaný limit velikosti nebo struktury."
+          }
+        }
+      }
+    },
+    "error.xlsx_sheet": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The requested worksheet is not available."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Požadovaný list není dostupný."
+          }
+        }
+      }
+    },
+    "error.job_method": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The operation cannot run as a background task."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Operaci nelze spustit jako úlohu na pozadí."
+          }
+        }
+      }
+    },
+    "error.job_parameters": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The task parameters are invalid."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parametry úlohy jsou neplatné."
+          }
+        }
+      }
+    },
+    "error.job_closed": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The task service is closed. Reopen the document."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Služba úloh je zavřená. Znovu otevřete dokument."
+          }
+        }
+      }
+    },
+    "error.job_queue_full": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The task queue is full. Wait for a running task."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fronta úloh je plná. Počkejte na probíhající úlohu."
+          }
+        }
+      }
+    },
+    "error.job_not_found": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The task is no longer available."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Úloha již není dostupná."
+          }
+        }
+      }
+    },
+    "error.job_progress": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The task reported invalid progress."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Úloha nahlásila neplatný průběh."
+          }
+        }
+      }
+    },
+    "error.job_cancelled": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The task was cancelled."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Úloha byla zrušena."
+          }
+        }
+      }
+    },
+    "cases.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Case operations"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Operace s případy"
+          }
+        }
+      }
+    },
+    "cases.operation": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Operation"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Operace"
+          }
+        }
+      }
+    },
+    "cases.operation.filter": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Filter"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Filtrovat"
+          }
+        }
+      }
+    },
+    "cases.operation.select": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selection preview"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Náhled výběru"
+          }
+        }
+      }
+    },
+    "cases.operation.sort": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sort"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Řadit"
+          }
+        }
+      }
+    },
+    "cases.operation.weights": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weights"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Váhy"
+          }
+        }
+      }
+    },
+    "cases.field": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Variable"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Proměnná"
+          }
+        }
+      }
+    },
+    "cases.choose_field": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a variable"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vyberte proměnnou"
+          }
+        }
+      }
+    },
+    "cases.condition": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Condition"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Podmínka"
+          }
+        }
+      }
+    },
+    "cases.value": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Typed value"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Typovaná hodnota"
+          }
+        }
+      }
+    },
+    "cases.operator.eq": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Equals"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rovná se"
+          }
+        }
+      }
+    },
+    "cases.operator.ne": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Does not equal"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nerovná se"
+          }
+        }
+      }
+    },
+    "cases.operator.lt": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Less than"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menší než"
+          }
+        }
+      }
+    },
+    "cases.operator.le": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Less than or equal"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menší nebo rovno"
+          }
+        }
+      }
+    },
+    "cases.operator.gt": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Greater than"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Větší než"
+          }
+        }
+      }
+    },
+    "cases.operator.ge": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Greater than or equal"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Větší nebo rovno"
+          }
+        }
+      }
+    },
+    "cases.operator.contains": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Contains response"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Obsahuje odpověď"
+          }
+        }
+      }
+    },
+    "cases.operator.is_null": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Is empty"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Je prázdná"
+          }
+        }
+      }
+    },
+    "cases.operator.is_coded_missing": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Is coded missing"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Je kódovaná jako chybějící"
+          }
+        }
+      }
+    },
+    "cases.operator.is_missing": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Is any missing value"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Je libovolná chybějící hodnota"
+          }
+        }
+      }
+    },
+    "cases.add_condition": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add condition"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Přidat podmínku"
+          }
+        }
+      }
+    },
+    "cases.remove_condition": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove condition"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odebrat podmínku"
+          }
+        }
+      }
+    },
+    "cases.combine": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Combine conditions"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spojit podmínky"
+          }
+        }
+      }
+    },
+    "cases.and": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All conditions (AND)"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Všechny podmínky (AND)"
+          }
+        }
+      }
+    },
+    "cases.or": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Any condition (OR)"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Libovolná podmínka (OR)"
+          }
+        }
+      }
+    },
+    "cases.apply_filter": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apply filter"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Použít filtr"
+          }
+        }
+      }
+    },
+    "cases.preview_selection": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preview selection counts"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Náhled počtů výběru"
+          }
+        }
+      }
+    },
+    "cases.predicate_note": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Only true cases remain after filtering. Missing comparisons stay unknown in selection counts."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Po filtrování zůstávají pouze pravdivé případy. Porovnání chybějících hodnot zůstává v počtech výběru neznámé."
+          }
+        }
+      }
+    },
+    "cases.selection_result": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selection preview"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Náhled výběru"
+          }
+        }
+      }
+    },
+    "cases.selected_count": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selected: %ld"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vybráno: %ld"
+          }
+        }
+      }
+    },
+    "cases.false_count": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "False: %ld"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nepravda: %ld"
+          }
+        }
+      }
+    },
+    "cases.unknown_count": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unknown: %ld"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Neznámé: %ld"
+          }
+        }
+      }
+    },
+    "cases.total_count": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cases counted: %ld"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spočítané případy: %ld"
+          }
+        }
+      }
+    },
+    "cases.sort_field": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sort variable"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Řadicí proměnná"
+          }
+        }
+      }
+    },
+    "cases.direction": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Direction"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Směr"
+          }
+        }
+      }
+    },
+    "cases.ascending": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ascending"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vzestupně"
+          }
+        }
+      }
+    },
+    "cases.descending": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Descending"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sestupně"
+          }
+        }
+      }
+    },
+    "cases.remove_sort": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove sort key"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odebrat klíč řazení"
+          }
+        }
+      }
+    },
+    "cases.add_sort": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add sort key"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Přidat klíč řazení"
+          }
+        }
+      }
+    },
+    "cases.missing_placement": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Missing-value placement"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Umístění chybějících hodnot"
+          }
+        }
+      }
+    },
+    "cases.missing_first": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "First"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Na začátek"
+          }
+        }
+      }
+    },
+    "cases.missing_last": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Last"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Na konec"
+          }
+        }
+      }
+    },
+    "cases.sort_note": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sort keys apply in order. Sorting is stable; ties retain input order."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klíče řazení se použijí v pořadí. Řazení je stabilní; shody zachovají původní pořadí."
+          }
+        }
+      }
+    },
+    "cases.ordinal_note": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ordinal variables sort by declared levels. Unknown levels stop the operation."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ordinální proměnné se řadí podle deklarovaných úrovní. Neznámé úrovně operaci zastaví."
+          }
+        }
+      }
+    },
+    "cases.apply_sort": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apply sort"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Použít řazení"
+          }
+        }
+      }
+    },
+    "cases.weight_field": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weight variable"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Váhová proměnná"
+          }
+        }
+      }
+    },
+    "cases.weight_kind": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weight interpretation"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Výklad váhy"
+          }
+        }
+      }
+    },
+    "cases.frequency": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Frequency"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Četnostní"
+          }
+        }
+      }
+    },
+    "cases.analytic": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Analytic"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Analytická"
+          }
+        }
+      }
+    },
+    "cases.frequency_note": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Frequency weights require nonnegative integer counts. Zero weights count as eligible."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Četnostní váhy vyžadují nezáporné celočíselné počty. Nulové váhy se počítají jako způsobilé."
+          }
+        }
+      }
+    },
+    "cases.analytic_note": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Analytic weights require finite nonnegative relative weights. Zero weights count as eligible."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Analytické váhy vyžadují konečné nezáporné relativní váhy. Nulové váhy se počítají jako způsobilé."
+          }
+        }
+      }
+    },
+    "cases.inspect_weights": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inspect weights"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prohlédnout váhy"
+          }
+        }
+      }
+    },
+    "cases.weight_result": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weight summary"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Souhrn vah"
+          }
+        }
+      }
+    },
+    "cases.eligible_count": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eligible values: %ld"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Způsobilé hodnoty: %ld"
+          }
+        }
+      }
+    },
+    "cases.missing_count": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Missing values: %ld"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chybějící hodnoty: %ld"
+          }
+        }
+      }
+    },
+    "cases.zero_count": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zero weights: %ld"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nulové váhy: %ld"
+          }
+        }
+      }
+    },
+    "cases.total_weight": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Total weight: %@"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Součet vah: %@"
+          }
+        }
+      }
+    },
+    "cases.invalid_predicate": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose valid variables and enter values using their storage type."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vyberte platné proměnné a zadejte hodnoty podle jejich typu uložení."
+          }
+        }
+      }
+    },
+    "cases.invalid_sort": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose distinct sortable variables for each sort key."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pro každý klíč řazení vyberte jinou proměnnou, kterou lze řadit."
+          }
+        }
+      }
+    },
+    "cases.invalid_weight": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a numeric non-identifier variable."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vyberte číselnou proměnnou, která není identifikátorem."
+          }
+        }
+      }
+    },
+    "action.cases": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Filter, sort and weights"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Filtrování, řazení a váhy"
+          }
+        }
+      }
+    },
+    "error.cardinality": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The join keys do not satisfy the declared relationship."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klíče spojení nesplňují deklarovaný vztah."
+          }
+        }
+      }
+    },
+    "job.stage": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Current stage progress"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Průběh aktuální fáze"
+          }
+        }
+      }
+    },
+    "codebook.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Variable codebook"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Číselník proměnné"
+          }
+        }
+      }
+    },
+    "codebook.no_selection": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select a variable before editing its codebook."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Před úpravou číselníku vyberte proměnnou."
+          }
+        }
+      }
+    },
+    "codebook.raw_codes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Codes are stored as raw strings. Numeric codes use a decimal point. Blank cells remain null; an empty-string category is explicit."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kódy se ukládají jako nezměněné texty. Číselné kódy používají desetinnou tečku. Prázdné buňky zůstávají null; kategorie s prázdným textem je nutné zadat výslovně."
+          }
+        }
+      }
+    },
+    "codebook.levels": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ordered levels"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seřazené úrovně"
+          }
+        }
+      }
+    },
+    "codebook.add_level": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add level"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Přidat úroveň"
+          }
+        }
+      }
+    },
+    "codebook.order_note": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Level order defines ordinal order. Binary variables with non-boolean storage need exactly two levels."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pořadí úrovní určuje pořadí kategorií u ordinální proměnné. Binární proměnná mimo typ bool musí mít přesně dvě úrovně."
+          }
+        }
+      }
+    },
+    "codebook.missing_codes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Missing codes"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kódy chybějících hodnot"
+          }
+        }
+      }
+    },
+    "codebook.add_missing": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add missing code"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Přidat kód chybějící hodnoty"
+          }
+        }
+      }
+    },
+    "codebook.missing_note": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "These raw categories are user-coded missing values. Physical null cells remain distinct."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tyto kategorie jsou uživatelsky označené jako chybějící hodnoty. Fyzické buňky null zůstávají odlišné."
+          }
+        }
+      }
+    },
+    "codebook.value_labels": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Value labels"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Popisky hodnot"
+          }
+        }
+      }
+    },
+    "codebook.add_label": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add value label"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Přidat popisek hodnoty"
+          }
+        }
+      }
+    },
+    "codebook.code": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Raw code"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Surový kód"
+          }
+        }
+      }
+    },
+    "codebook.label": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Label"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Popisek"
+          }
+        }
+      }
+    },
+    "codebook.empty_string": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Empty string"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prázdný text"
+          }
+        }
+      }
+    },
+    "codebook.empty_requires_toggle": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use the Empty string toggle to declare a blank code explicitly."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prázdný kód zadejte výslovně přepínačem Prázdný text."
+          }
+        }
+      }
+    },
+    "codebook.duplicate": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Codes and label keys must be unique within each list."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kódy a klíče popisků musí být v každém seznamu jedinečné."
+          }
+        }
+      }
+    },
+    "codebook.binary_count": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A binary variable with non-boolean storage needs exactly two levels."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Binární proměnná mimo typ bool musí mít přesně dvě úrovně."
+          }
+        }
+      }
+    },
+    "codebook.multiple_response_note": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Labels describe response membership. A case is missing if any coded response member is missing."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Popisky označují členství v odpovědi. Případ je chybějící, pokud je chybějícím kódem označen kterýkoli člen odpovědi."
+          }
+        }
+      }
+    },
+    "codebook.orphan_label": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This label key is not a current level. It is preserved until you remove it here."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tento klíč popisku neodpovídá aktuální úrovni. Zůstane zachován, dokud jej zde neodstraníte."
+          }
+        }
+      }
+    },
+    "codebook.move_up": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Move level up"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Posunout úroveň nahoru"
+          }
+        }
+      }
+    },
+    "codebook.move_down": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Move level down"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Posunout úroveň dolů"
+          }
+        }
+      }
+    },
+    "codebook.remove_code": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove code"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odebrat kód"
+          }
+        }
+      }
+    },
+    "codebook.remove_label": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove value label"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odebrat popisek hodnoty"
+          }
+        }
+      }
+    },
+    "codebook.apply": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apply codebook"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Použít číselník"
+          }
+        }
+      }
+    },
+    "export.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export dataset"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exportovat datovou sadu"
+          }
+        }
+      }
+    },
+    "export.format": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "File format"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Formát souboru"
+          }
+        }
+      }
+    },
+    "export.format.csv": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CSV"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CSV"
+          }
+        }
+      }
+    },
+    "export.format.tsv": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "TSV"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "TSV"
+          }
+        }
+      }
+    },
+    "export.format.parquet": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parquet"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parquet"
+          }
+        }
+      }
+    },
+    "export.format.json": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "JSON"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "JSON"
+          }
+        }
+      }
+    },
+    "export.format.sqlite": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "SQLite"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "SQLite"
+          }
+        }
+      }
+    },
+    "export.format.xlsx": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "XLSX"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "XLSX"
+          }
+        }
+      }
+    },
+    "export.delimiter": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Field delimiter"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oddělovač polí"
+          }
+        }
+      }
+    },
+    "export.delimiter.comma": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comma"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Čárka"
+          }
+        }
+      }
+    },
+    "export.delimiter.semicolon": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Semicolon"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Středník"
+          }
+        }
+      }
+    },
+    "export.delimiter.tab": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tab"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tabulátor"
+          }
+        }
+      }
+    },
+    "export.tsv_delimiter": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tab character separates fields."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pole odděluje znak tabulátoru."
+          }
+        }
+      }
+    },
+    "export.decimal_point": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Decimal point"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desetinný oddělovač"
+          }
+        }
+      }
+    },
+    "export.decimal.dot": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Period"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tečka"
+          }
+        }
+      }
+    },
+    "export.decimal.comma": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comma"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Čárka"
+          }
+        }
+      }
+    },
+    "export.invalid_csv_options": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Field delimiter and decimal point must differ."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oddělovač polí a desetinný oddělovač se musí lišit."
+          }
+        }
+      }
+    },
+    "export.before_saving": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Format details"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vlastnosti formátu"
+          }
+        }
+      }
+    },
+    "export.flat_text_note": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CSV and TSV store values as text. These details are lost:"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CSV a TSV ukládají hodnoty jako text. Tyto informace se ztratí:"
+          }
+        }
+      }
+    },
+    "export.loss.codebook": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Value labels, ordinal levels and coded-missing definitions"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Popisky hodnot, ordinální úrovně a definice kódovaných chybějících hodnot"
+          }
+        }
+      }
+    },
+    "export.loss.field_ids": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stable variable IDs"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stabilní identifikátory proměnných"
+          }
+        }
+      }
+    },
+    "export.loss.context": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dataset context and observation unit"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kontext datové sady a jednotka pozorování"
+          }
+        }
+      }
+    },
+    "export.loss.null_empty_string_distinction": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Difference between an empty text value and a null value"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rozdíl mezi prázdným textem a chybějící hodnotou"
+          }
+        }
+      }
+    },
+    "export.loss.multiple_response_type": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Multiple-response storage type"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Typ uložení vícenásobných odpovědí"
+          }
+        }
+      }
+    },
+    "export.loss.unknown": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Additional format limitation"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Další omezení formátu"
+          }
+        }
+      }
+    },
+    "export.format_note.parquet": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OpenStat Parquet export preserves typed values and supported dataset metadata."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export OpenStat Parquet zachovává typované hodnoty a podporovaná metadata datové sady."
+          }
+        }
+      }
+    },
+    "export.format_note.json": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OpenStat JSON export uses the typed OpenStat envelope. Import accepts this envelope only. JSON files are limited to 32 MiB."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export OpenStat JSON používá typovanou obálku OpenStat. Import přijímá pouze tuto obálku. Soubory JSON mají limit 32 MiB."
+          }
+        }
+      }
+    },
+    "export.format_note.sqlite": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OpenStat SQLite export uses the OpenStat envelope. Import accepts this format only; arbitrary SQLite databases are not supported."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export OpenStat SQLite používá obálku OpenStat. Import přijímá pouze tento formát; obecné databáze SQLite nejsou podporovány."
+          }
+        }
+      }
+    },
+    "export.format_note.xlsx": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OpenStat XLSX export includes typed metadata. Numeric values may use text cells to preserve precision; formulas are not supported on import."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export OpenStat XLSX obsahuje typovaná metadata. Číselné hodnoty mohou být kvůli zachování přesnosti uloženy jako text; vzorce nejsou při importu podporovány."
+          }
+        }
+      }
+    },
+    "export.save": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose destination…"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vybrat umístění…"
+          }
+        }
+      }
+    },
+    "export.complete": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export complete"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export dokončen"
+          }
+        }
+      }
+    },
+    "export.rows": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rows exported: %ld"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exportované řádky: %ld"
+          }
+        }
+      }
+    },
+    "export.reported_losses": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reported losses"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nahlášené ztráty"
+          }
+        }
+      }
+    },
+    "export.no_reported_losses": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No data losses reported by this format."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tento formát nehlásí ztrátu dat."
+          }
+        }
+      }
+    },
+    "export.xlsx_roundtrip_note": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Typed round-trip requires OpenStat metadata. Numeric text cells preserve exact values; formulas are unsupported."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Typovaný zpětný import vyžaduje metadata OpenStat. Číselné textové buňky zachovávají přesné hodnoty; vzorce nejsou podporovány."
+          }
+        }
+      }
+    },
+    "action.export": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export data"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exportovat data"
+          }
+        }
+      }
+    },
+    "action.codebook": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Categories, labels and missing codes"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kategorie, popisky a chybějící kódy"
+          }
+        }
+      }
+    },
+    "action.delete_cases": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete selected cases"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odstranit vybrané případy"
+          }
+        }
+      }
+    },
+    "action.drop_variable": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove selected variable"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odstranit vybranou proměnnou"
+          }
+        }
+      }
+    },
+    "outliers.title": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Flag outliers"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Označit odlehlé hodnoty"
+          }
+        }
+      }
+    },
+    "outliers.method": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tukey method uses Type 7 quartiles with inner and outer IQR fences."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tukeyho metoda používá kvartily typu 7 a vnitřní a vnější meze založené na mezikvartilovém rozpětí."
+          }
+        }
+      }
+    },
+    "outliers.source": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Numeric characteristic variable"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Číselná charakteristická proměnná"
+          }
+        }
+      }
+    },
+    "outliers.choose": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a variable"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vyberte proměnnou"
+          }
+        }
+      }
+    },
+    "outliers.no_source": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No numeric characteristic variable is available."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Není k dispozici číselná charakteristická proměnná."
+          }
+        }
+      }
+    },
+    "outliers.output_name": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New variable name"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Název nové proměnné"
+          }
+        }
+      }
+    },
+    "outliers.default_name": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Outlier severity"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Závažnost odlehlé hodnoty"
+          }
+        }
+      }
+    },
+    "outliers.inner": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inner fence multiplier"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Násobek vnitřní meze"
+          }
+        }
+      }
+    },
+    "outliers.outer": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Outer fence multiplier"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Násobek vnější meze"
+          }
+        }
+      }
+    },
+    "outliers.include_missing_codes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Include coded missing values"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zahrnout kódy chybějících hodnot"
+          }
+        }
+      }
+    },
+    "outliers.missing_warning": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coded missing values will be treated as literal numbers. They can move quartiles and fences. Raw blank values remain excluded."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kódy chybějících hodnot se budou považovat za běžná čísla. Mohou posunout kvartily a meze. Prázdné hodnoty zůstanou vyloučené."
+          }
+        }
+      }
+    },
+    "outliers.strict_note": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A value is flagged only when it is strictly beyond a fence. Equality at a fence is not an outlier."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hodnota se označí pouze tehdy, když leží za mezí. Hodnota přesně na mezi není odlehlá."
+          }
+        }
+      }
+    },
+    "outliers.severity_note": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "0 = not an outlier; 1 = mild, beyond the inner fence; 2 = extreme, beyond the outer fence. Raw blanks remain blank."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "0 = není odlehlá; 1 = mírná, za vnitřní mezí; 2 = extrémní, za vnější mezí. Prázdné hodnoty zůstanou prázdné."
+          }
+        }
+      }
+    },
+    "outliers.open_ended_note": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mild and extreme categories are open-ended. No midpoint is assigned. This operation creates flags only; it does not create charts or statistical summaries."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kategorie mírných a extrémních hodnot nemají uzavřené meze. Nepřiřazuje se jim střed intervalu. Operace vytváří pouze označení, nikoli grafy nebo statistické souhrny."
+          }
+        }
+      }
+    },
+    "outliers.global_limit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This operation supports at most 100,000 cases."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tato operace podporuje nejvýše 100 000 případů."
+          }
+        }
+      }
+    },
+    "outliers.invalid_input": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a source and valid name and multipliers. Outer multiplier must be at least the inner multiplier."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vyberte zdroj, platný název a násobky. Násobek vnější meze musí být alespoň tak velký jako násobek vnitřní meze."
+          }
+        }
+      }
+    },
+    "outliers.apply": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create flag"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vytvořit označení"
+          }
+        }
+      }
+    },
+    "action.outliers": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Flag outliers"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Označit odlehlé hodnoty"
+          }
+        }
+      }
+    },
+    "error.cli_format": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a supported interchange format."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vyberte podporovaný formát pro výměnu dat."
+          }
+        }
+      }
+    },
+    "error.cli_method": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose an available data operation."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vyberte dostupnou datovou operaci."
+          }
+        }
+      }
+    },
+    "error.cli_parameters": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The declarative operation parameters are invalid or too large."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deklarativní parametry operace jsou neplatné nebo příliš velké."
+          }
+        }
+      }
+    },
+    "error.job_registry": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The background-job registry is invalid."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Registr úloh na pozadí není platný."
+          }
+        }
+      }
+    },
+    "error.job_result": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The background-job result cannot be transferred safely."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Výsledek úlohy na pozadí nelze bezpečně přenést."
+          }
+        }
+      }
+    },
+    "error.readstat_date_format": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Date and time variables are not supported by this importer."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tento import nepodporuje proměnné data a času."
+          }
+        }
+      }
+    },
+    "error.readstat_export": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The statistical file could not be exported."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Statistický soubor se nepodařilo exportovat."
+          }
+        }
+      }
+    },
+    "error.readstat_file": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The statistical file is invalid or cannot be read."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Statistický soubor není platný nebo jej nelze přečíst."
+          }
+        }
+      }
+    },
+    "error.readstat_limit": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The statistical file exceeds the supported size, row, column, or metadata limit."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Statistický soubor překračuje podporovaný limit velikosti, řádků, sloupců nebo metadat."
+          }
+        }
+      }
+    },
+    "error.readstat_missing_range": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Missing-value ranges are not supported. Use individual missing codes."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rozsahy chybějících hodnot nejsou podporovány. Použijte jednotlivé kódy."
+          }
+        }
+      }
+    },
+    "error.readstat_multiple_response": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This format adapter does not support multiple-response variables."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tento převod formátu nepodporuje proměnné s více odpověďmi."
+          }
+        }
+      }
+    },
+    "error.readstat_name": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A variable name is not supported by the target format."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cílový formát nepodporuje název proměnné."
+          }
+        }
+      }
+    },
+    "error.readstat_precision": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "An integer cannot be represented exactly in this file format."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "V tomto formátu souboru nelze celé číslo vyjádřit přesně."
+          }
+        }
+      }
+    },
+    "error.readstat_schema": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The statistical file has an unsupported schema or codebook."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Statistický soubor má nepodporované schéma nebo slovník proměnných."
+          }
+        }
+      }
+    },
+    "error.readstat_tagged_missing": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tagged missing values are not supported by this importer."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tento import nepodporuje označené chybějící hodnoty."
+          }
+        }
+      }
+    },
+    "error.readstat_type": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The statistical file contains an unsupported variable type."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Statistický soubor obsahuje nepodporovaný typ proměnné."
+          }
+        }
+      }
+    },
+    "export.format.sav": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "SPSS data (.sav)"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Data SPSS (.sav)"
+          }
+        }
+      }
+    },
+    "export.format.dta": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stata data (.dta)"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Data Stata (.dta)"
+          }
+        }
+      }
+    },
+    "export.format_note.sav": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bounded SPSS export: up to 100,000 rows and 2,000,000 cells. Field and case IDs, context, observation unit, and missing-code declarations are lost. Null and empty text merge. Integers beyond ±2^53 and multiple-response fields are rejected."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Omezený export SPSS: nejvýše 100 000 řádků a 2 000 000 buněk. Ztratí se ID proměnných a případů, kontext, jednotka pozorování a deklarace chybějících kódů. Null a prázdný text se sloučí. Celá čísla mimo ±2^53 a proměnné s více odpověďmi se odmítnou."
+          }
+        }
+      }
+    },
+    "export.format_note.dta": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bounded Stata export: up to 100,000 rows and 2,000,000 cells. Field and case IDs, context, observation unit, and missing-code declarations are lost. Null and empty text merge. Integers beyond ±2^53 and multiple-response fields are rejected."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Omezený export Stata: nejvýše 100 000 řádků a 2 000 000 buněk. Ztratí se ID proměnných a případů, kontext, jednotka pozorování a deklarace chybějících kódů. Null a prázdný text se sloučí. Celá čísla mimo ±2^53 a proměnné s více odpověďmi se odmítnou."
+          }
+        }
+      }
+    },
+    "export.loss.row_ids": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Case IDs are not preserved."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ID případů se nezachovají."
+          }
+        }
+      }
+    },
+    "export.loss.observation_unit": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The observation unit is not preserved."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jednotka pozorování se nezachová."
+          }
+        }
+      }
+    },
+    "export.loss.codebook_missing_codes": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Engine missing-code declarations are not preserved."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deklarace chybějících kódů enginu se nezachovají."
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}
