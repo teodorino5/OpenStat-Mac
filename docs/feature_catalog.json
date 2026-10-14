@@ -611,10 +611,14 @@
       "reference": "M18",
       "library": "NSDocument / UndoManager + custom journal",
       "phase": 0,
-      "status": "in progress",
+      "status": "verified against reference values",
       "evidence": "brief",
-      "tests": [],
-      "fixtures": []
+      "tests": [
+        "engine/tests/test_store.py::test_undo_redo_autosave_contract"
+      ],
+      "fixtures": [
+        "engine/fixtures/foundations/undo_redo.json"
+      ]
     },
     {
       "id": "DESC-001",

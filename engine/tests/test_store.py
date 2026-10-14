@@ -1,4 +1,5 @@
 import json
+from collections.abc import Callable
 from dataclasses import replace
 from pathlib import Path
 from typing import Any
@@ -556,3 +557,102 @@ def test_extend_crosses_multiple_row_group_boundaries(
     assert boundary["row_ids"] == [8191, 8192, 8193]
     last = store.page(result["revision"], 16384, 2)
     assert last["rows"] == [[None], [None]] and last["row_ids"] == [16384, 16385]
+
+
+@pytest.mark.feature("DATA-039")
+def test_undo_redo_autosave_contract(
+    store: Store, reference_fixture: Callable[[str], dict[str, Any]], tmp_path: Path
+) -> None:
+    fixture = reference_fixture("engine/fixtures/foundations/undo_redo.json")
+    inp = fixture["input"]
+    exp = fixture["expected"]
+
+    # 1. Step 0: create initial dataset (R0)
+    created = store.create(
+        inp["name"], inp["fields"], inp["rows"], inp["context"], inp["observation_unit"]
+    )
+    r0 = created["revision"]
+    assert store.page(r0)["rows"] == exp["r0"]["rows"]
+    assert store.page(r0)["row_ids"] == [0, 1, 2, 3]
+
+    # 2. Sequential forward edits forming revision journal
+    e1 = store.edit(r0, 0, "f_score", 12.0)
+    r1 = e1["revision"]
+    assert store.page(r1)["rows"] == exp["r1"]["rows"]
+
+    e2 = store.edit(r1, 1, "f_score", 25.5)
+    r2 = e2["revision"]
+    assert store.page(r2)["rows"] == exp["r2"]["rows"]
+
+    e3 = store.edit(r2, 0, "f_score", 14.0)
+    r3 = e3["revision"]
+    assert store.page(r3)["rows"] == exp["r3"]["rows"]
+
+    # 3. LIFO Undo traversal across revisions
+    # Undo R3 -> R2
+    p_undo_r2 = store.page(r2)
+    assert p_undo_r2["rows"] == exp["r2"]["rows"]
+    # Undo R2 -> R1
+    p_undo_r1 = store.page(r1)
+    assert p_undo_r1["rows"] == exp["r1"]["rows"]
+    # Undo R1 -> R0
+    p_undo_r0 = store.page(r0)
+    assert p_undo_r0["rows"] == exp["r0"]["rows"]
+
+    # 4. Symmetric Redo traversal across revisions
+    # Redo R0 -> R1
+    assert store.page(r1)["rows"] == exp["r1"]["rows"]
+    # Redo R1 -> R2
+    assert store.page(r2)["rows"] == exp["r2"]["rows"]
+    # Redo R2 -> R3
+    assert store.page(r3)["rows"] == exp["r3"]["rows"]
+
+    # 5. Branch divergence: edit from an earlier undone revision (R1)
+    e_branch = store.edit(r1, 2, "f_group", "treatment")
+    r4 = e_branch["revision"]
+    assert store.page(r4)["rows"] == exp["branch_r4"]["rows"]
+    assert len(store.get(r4).edits) == 2  # (row 0: 12.0) and (row 2: treatment)
+    # The abandoned branch (R3, R2) remains fully intact and immutable
+    assert store.page(r3)["rows"] == exp["r3"]["rows"]
+    assert store.page(r2)["rows"] == exp["r2"]["rows"]
+
+    # 6. Structural modification on branch and undo
+    new_field = {
+        "id": "f_dose",
+        "name": "Dosage",
+        "storage": "float64",
+        "measurement": "continuous",
+    }
+    ext = store.extend(r4, [new_field], rows=1)
+    r5 = ext["revision"]
+    assert store.page(r5)["rows"] == exp["extended_r5"]["rows"]
+    assert store.page(r5)["row_ids"] == [0, 1, 2, 3, 4]
+    # Undo from R5 back to R4
+    assert store.page(r4)["rows"] == exp["branch_r4"]["rows"]
+    assert store.page(r4)["row_ids"] == [0, 1, 2, 3]
+    assert len(store.get(r4).fields) == 3
+
+    # 7. Atomic snapshot publication and autosave recovery
+    save_result = store.save(r4, str(tmp_path / "Autosave-test.openstat"))
+    project_dir = Path(save_result["path"])
+    manifest = json.loads((project_dir / "manifest.json").read_text())
+    assert manifest["format"] == "openstat"
+    assert manifest["format_version"] == 1
+    assert manifest["dataset"]["revision"] == r4
+    assert (project_dir / manifest["data"]).exists()
+    assert digest(project_dir / manifest["data"]) == manifest["sha256"]
+    assert (project_dir / manifest["edits"]).exists()
+    assert digest(project_dir / manifest["edits"]) == manifest["edits_sha256"]
+
+    # Reopen snapshot in fresh store session
+    reopened_store = Store(tmp_path / "reopened-session")
+    opened = reopened_store.open(str(project_dir))
+    r_reopened = opened["revision"]
+    assert reopened_store.page(r_reopened)["rows"] == exp["branch_r4"]["rows"]
+    assert reopened_store.page(r_reopened)["row_ids"] == [0, 1, 2, 3]
+
+    # Additional edit on reopened session with reversible undo
+    e_reopen = reopened_store.edit(r_reopened, 3, "f_score", 32.5)
+    r6 = e_reopen["revision"]
+    assert reopened_store.page(r6)["rows"][3][1] == 32.5
+    assert reopened_store.page(r_reopened)["rows"][3][1] == 30.0
