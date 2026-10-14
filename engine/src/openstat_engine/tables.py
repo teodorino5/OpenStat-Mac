@@ -444,6 +444,74 @@ def pivot(
     return _write(store, name, [*output, *value_fields], rows)
 
 
+def melt(
+    store: Store,
+    revision: str,
+    id_vars: list[str],
+    value_vars: list[str],
+    name: str,
+    var_name: str = "variable",
+    value_name: str = "value",
+) -> dict[str, Any]:
+    item = store.get(revision)
+    _check_global(store, [revision], len(item.fields))
+    if (
+        not isinstance(id_vars, list)
+        or not all(isinstance(field, str) for field in id_vars)
+        or len(set(id_vars)) != len(id_vars)
+        or not isinstance(value_vars, list)
+        or not value_vars
+        or not all(isinstance(field, str) for field in value_vars)
+        or len(set(value_vars)) != len(value_vars)
+        or not isinstance(name, str)
+        or not name.strip()
+        or not isinstance(var_name, str)
+        or not var_name.strip()
+        or not isinstance(value_name, str)
+        or not value_name.strip()
+        or bool(set(id_vars) & set(value_vars))
+    ):
+        _fail()
+    id_fields = [_field(item, field) for field in id_vars]
+    value_fields = [_field(item, field) for field in value_vars]
+
+    storages = {field.storage for field in value_fields}
+    if "multiple_response" in storages:
+        raise EngineError("error.value_type")
+    if len(storages) == 1:
+        storage = value_fields[0].storage
+        measurement = value_fields[0].measurement
+    elif storages <= {"int64", "float64"}:
+        storage = "float64"
+        measurement = "continuous"
+    else:
+        raise EngineError("error.value_type")
+
+    total_rows = item.row_count * len(value_vars)
+    if total_rows > GLOBAL_LIMIT:
+        raise EngineError("error.global_limit")
+
+    output_id_fields = [_fresh(field) for field in id_fields]
+    var_field = Field(str(uuid4()), var_name, "string", "nominal")
+    val_field = Field(str(uuid4()), value_name, storage, measurement)
+    out = [*output_id_fields, var_field, val_field]
+    if len({f.name for f in out}) != len(out):
+        raise EngineError("error.duplicate_fields")
+    if len(out) > COLUMN_LIMIT:
+        raise EngineError("error.global_limit")
+
+    def rows() -> Iterator[list[Any]]:
+        for _, row in _materialize(store, revision, [*id_vars, *value_vars]):
+            id_vals = [row[field_id] for field_id in id_vars]
+            for vf in value_fields:
+                val = row[vf.id]
+                if val is not None and storage == "float64" and vf.storage == "int64":
+                    val = float(val)
+                yield [*id_vals, vf.name, val]
+
+    return _write(store, name, out, rows())
+
+
 def aggregate(
     store: Store,
     revision: str,

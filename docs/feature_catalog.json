@@ -243,12 +243,16 @@
       "name": "Unstack and reshape",
       "method": "Long/wide reshape with duplicate-key checks",
       "reference": "M08",
-      "library": "Original bounded wide pivot; long reshape pending",
+      "library": "Original typed table operations; see docs/TABLE_OPERATIONS.md for limits",
       "phase": 0,
-      "status": "in progress",
+      "status": "verified against reference values",
       "evidence": "brief",
-      "tests": [],
-      "fixtures": []
+      "tests": [
+        "engine/tests/test_tables.py::test_hand_calculated_table_contract"
+      ],
+      "fixtures": [
+        "engine/fixtures/foundations/tables.json"
+      ]
     },
     {
       "id": "DATA-016",

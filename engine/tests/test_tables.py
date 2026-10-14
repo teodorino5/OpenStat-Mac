@@ -61,6 +61,17 @@ def test_hand_calculated_table_contract(
     pivot_source = store.create(**fixture["pivot_input"])
     pivoted = tables.pivot(store, pivot_source["revision"], ["case"], "variable", "score", "Wide")
     assert rows(store, pivoted["revision"]) == fixture["expected"]["pivot"]
+    wide_fields = [f["id"] for f in pivoted["fields"]]
+    melted = tables.melt(
+        store,
+        pivoted["revision"],
+        id_vars=[wide_fields[0]],
+        value_vars=[wide_fields[1], wide_fields[2]],
+        name="Melted",
+        var_name="variable",
+        value_name="score",
+    )
+    assert rows(store, melted["revision"]) == fixture["expected"]["melt"]
     matrix = store.create(**fixture["matrix"])
     source_rows = rows(store, matrix["revision"])
     transposed = tables.transpose(store, matrix["revision"], "Transposed")
@@ -539,3 +550,52 @@ def test_aggregate_singleton_and_empty_results(store: Store) -> None:
         "Empty summary",
     )
     assert rows(store, summary["revision"]) == []
+
+
+def test_melt_edge_cases_and_validations(store: Store) -> None:
+    fields = [
+        {"id": "id", "name": "ID", "storage": "int64", "measurement": "discrete"},
+        {"id": "a", "name": "A", "storage": "int64", "measurement": "discrete"},
+        {"id": "b", "name": "B", "storage": "float64", "measurement": "continuous"},
+        {"id": "s", "name": "S", "storage": "string", "measurement": "nominal"},
+        {
+            "id": "resp",
+            "name": "Resp",
+            "storage": "multiple_response",
+            "measurement": "multiple_response",
+            "levels": ["x"],
+        },
+    ]
+    ds = store.create("Sample", fields, [[1, 10, 1.5, "alpha", ["x"]], [2, 20, 2.5, "beta", []]])
+    rev = ds["revision"]
+
+    # 1. Empty id_vars (unpivot all value_vars)
+    all_melted = tables.melt(store, rev, [], ["a", "b"], "NoIDs")
+    assert rows(store, all_melted["revision"]) == [
+        ["A", 10.0],
+        ["B", 1.5],
+        ["A", 20.0],
+        ["B", 2.5],
+    ]
+    assert [f["name"] for f in all_melted["fields"]] == ["variable", "value"]
+
+    # 2. Incompatible types (int64 + string)
+    with pytest.raises(EngineError, match="error.value_type"):
+        tables.melt(store, rev, ["id"], ["a", "s"], "BadTypes")
+
+    # 3. Multiple response rejected
+    with pytest.raises(EngineError, match="error.value_type"):
+        tables.melt(store, rev, ["id"], ["resp"], "BadResp")
+
+    # 4. Overlap between id_vars and value_vars
+    with pytest.raises(EngineError, match="error.operation_options"):
+        tables.melt(store, rev, ["id"], ["id", "a"], "Overlap")
+
+    # 5. Empty value_vars
+    with pytest.raises(EngineError, match="error.operation_options"):
+        tables.melt(store, rev, ["id"], [], "EmptyVals")
+
+    # 6. Duplicate output name
+    with pytest.raises(EngineError, match="error.duplicate_fields"):
+        tables.melt(store, rev, ["id"], ["a", "b"], "Dupe", var_name="ID")
+

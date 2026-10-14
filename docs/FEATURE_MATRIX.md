@@ -2,7 +2,7 @@
 
 Audit date: 2026-10-14 (Europe/Prague). Phase 0 active; implementation authorized.
 
-**Coverage: 25 of 353 planned functions implemented, 25 verified against reference values.**
+**Coverage: 26 of 353 planned functions implemented, 26 verified against reference values.**
 
 ## Scope and evidence limits
 
@@ -22,7 +22,7 @@ The five accepted rows are engine data foundations. The three verified rows shar
 
 | Phase | Planned functions | Implemented | Verified |
 | --- | ---: | ---: | ---: |
-| 0 | 47 | 25 | 25 |
+| 0 | 47 | 26 | 26 |
 | 1 | 65 | 0 | 0 |
 | 2 | 37 | 0 | 0 |
 | 3 | 62 | 0 | 0 |
@@ -50,7 +50,7 @@ The five accepted rows are engine data foundations. The three verified rows shar
 | DATA-012 | Transpose table | Dimension exchange with size checks and metadata policy | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original typed table operations; see docs/TABLE_OPERATIONS.md for limits | 0 | verified against reference values | brief | `engine/tests/test_tables.py::test_hand_calculated_table_contract` | `engine/fixtures/foundations/tables.json` |
 | DATA-013 | Join tables | Keyed join with cardinality and unmatched-row checks | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original typed table operations; see docs/TABLE_OPERATIONS.md for limits | 0 | verified against reference values | brief | `engine/tests/test_tables.py::test_hand_calculated_table_contract` | `engine/fixtures/foundations/tables.json` |
 | DATA-014 | Stack tables | Schema-compatible row concatenation | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original typed table operations; see docs/TABLE_OPERATIONS.md for limits | 0 | verified against reference values | brief | `engine/tests/test_tables.py::test_hand_calculated_table_contract` | `engine/fixtures/foundations/tables.json` |
-| DATA-015 | Unstack and reshape | Long/wide reshape with duplicate-key checks | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original bounded wide pivot; long reshape pending | 0 | in progress | brief | — | — |
+| DATA-015 | Unstack and reshape | Long/wide reshape with duplicate-key checks | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original typed table operations; see docs/TABLE_OPERATIONS.md for limits | 0 | verified against reference values | brief | `engine/tests/test_tables.py::test_hand_calculated_table_contract` | `engine/fixtures/foundations/tables.json` |
 | DATA-016 | Simple classification | Disjoint exhaustive categories and explicit unknown handling | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original typed classification and declared contingency denominators | 0 | verified against reference values | brief | `engine/tests/test_classification.py::test_original_classification_contract` | `engine/fixtures/foundations/classification.json` |
 | DATA-017 | Interval classification | Endpoint ownership, coverage, overlaps and gaps | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original typed classification and declared contingency denominators | 0 | verified against reference values | brief | `engine/tests/test_classification.py::test_original_classification_contract` | `engine/fixtures/foundations/classification.json` |
 | DATA-018 | Open-ended classes | Infinite bounds and explicit undefined-midpoint policy | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original typed classification and declared contingency denominators | 0 | verified against reference values | brief | `engine/tests/test_classification.py::test_original_classification_contract` | `engine/fixtures/foundations/classification.json` |
