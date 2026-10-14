@@ -2,7 +2,7 @@
 
 Audit date: 2026-10-14 (Europe/Prague). Phase 0 active; implementation authorized.
 
-**Coverage: 24 of 353 planned functions implemented, 24 verified against reference values.**
+**Coverage: 25 of 353 planned functions implemented, 25 verified against reference values.**
 
 ## Scope and evidence limits
 
@@ -22,7 +22,7 @@ The five accepted rows are engine data foundations. The three verified rows shar
 
 | Phase | Planned functions | Implemented | Verified |
 | --- | ---: | ---: | ---: |
-| 0 | 47 | 24 | 24 |
+| 0 | 47 | 25 | 25 |
 | 1 | 65 | 0 | 0 |
 | 2 | 37 | 0 | 0 |
 | 3 | 62 | 0 | 0 |
@@ -55,7 +55,7 @@ The five accepted rows are engine data foundations. The three verified rows shar
 | DATA-017 | Interval classification | Endpoint ownership, coverage, overlaps and gaps | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original typed classification and declared contingency denominators | 0 | verified against reference values | brief | `engine/tests/test_classification.py::test_original_classification_contract` | `engine/fixtures/foundations/classification.json` |
 | DATA-018 | Open-ended classes | Infinite bounds and explicit undefined-midpoint policy | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original typed classification and declared contingency denominators | 0 | verified against reference values | brief | `engine/tests/test_classification.py::test_original_classification_contract` | `engine/fixtures/foundations/classification.json` |
 | DATA-019 | Contingency counts and margins | Two-way count table with row/column totals | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original typed classification and declared contingency denominators | 0 | verified against reference values | brief | `engine/tests/test_classification.py::test_original_classification_contract` | `engine/fixtures/foundations/classification.json` |
-| DATA-020 | Missing-data audit | Per-variable and pattern-based missing counts | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original per-field missing audit; full missing-pattern counts pending | 0 | in progress | brief | — | — |
+| DATA-020 | Missing-data audit | Per-variable and pattern-based missing counts | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original per-field and pattern-based missing audit | 0 | verified against reference values | brief | `engine/tests/test_classification.py::test_original_classification_contract` | `engine/fixtures/foundations/classification.json` |
 | DATA-021 | Outlier flags | Declared Tukey fences and optional standardized scores | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original exact type-7 quartiles and strict Tukey fences; 100k-case limit | 0 | verified against reference values | brief | `engine/tests/test_outliers.py::test_hand_calculated_outlier_contract` | `engine/fixtures/foundations/outliers.json` |
 | DATA-022 | Ranks | Average/min/max/dense ranks with documented ties | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original immutable column operations; global operations bounded to 100k cases | 0 | verified against reference values | brief | `engine/tests/test_columns.py::test_original_columns_contract` | `engine/fixtures/foundations/columns.json` |
 | DATA-023 | Lag and lead columns | Ordered offsets within optional groups | [M08](https://pandas.pydata.org/docs/reference/index.html) | Original immutable column operations; global operations bounded to 100k cases | 0 | verified against reference values | brief | `engine/tests/test_columns.py::test_original_columns_contract` | `engine/fixtures/foundations/columns.json` |

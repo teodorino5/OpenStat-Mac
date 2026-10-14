@@ -324,12 +324,16 @@
       "name": "Missing-data audit",
       "method": "Per-variable and pattern-based missing counts",
       "reference": "M08",
-      "library": "Original per-field missing audit; full missing-pattern counts pending",
+      "library": "Original per-field and pattern-based missing audit",
       "phase": 0,
-      "status": "in progress",
+      "status": "verified against reference values",
       "evidence": "brief",
-      "tests": [],
-      "fixtures": []
+      "tests": [
+        "engine/tests/test_classification.py::test_original_classification_contract"
+      ],
+      "fixtures": [
+        "engine/fixtures/foundations/classification.json"
+      ]
     },
     {
       "id": "DATA-021",
