@@ -530,10 +530,14 @@
       "reference": "M20",
       "library": "Audited PyReadStat SAV subset; missing declarations lost on export",
       "phase": 0,
-      "status": "in progress",
-      "evidence": "brief",
-      "tests": [],
-      "fixtures": []
+      "status": "verified against reference values",
+      "evidence": "test",
+      "tests": [
+        "engine/tests/test_readstat_io.py::test_spss_reference_fixture"
+      ],
+      "fixtures": [
+        "engine/fixtures/foundations/spss.json"
+      ]
     },
     {
       "id": "DATA-034",

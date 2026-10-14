@@ -1,6 +1,8 @@
 import math
+from collections.abc import Callable
 from pathlib import Path
 from types import SimpleNamespace
+from typing import Any
 
 import pandas as pd
 import pyreadstat
@@ -467,3 +469,105 @@ def test_export_preserves_long_strings_and_exact_integer_boundary(tmp_path: Path
     data, _ = pyreadstat.read_dta(path, output_format="dict")
     assert data["text"] == ["x" * 3000, ""]
     assert data["integer"] == [float(2**53), float(-(2**53))]
+
+
+@pytest.mark.feature("DATA-033")
+def test_spss_reference_fixture(
+    store: Store,
+    tmp_path: Path,
+    reference_fixture: Callable[[str], dict[str, Any]],
+) -> None:
+    fixture = reference_fixture("engine/fixtures/foundations/spss.json")
+    raw_input = fixture["input"]
+    source_path = tmp_path / "source.sav"
+
+    # 1. Author source SPSS file matching fixture input
+    df = pd.DataFrame(
+        {
+            "score": pd.array(raw_input["columns"]["score"], dtype="Float64"),
+            "status": pd.array(raw_input["columns"]["status"], dtype="Int64"),
+            "description": pd.array(raw_input["columns"]["description"], dtype="string"),
+        }
+    )
+    val_labels = {
+        col: {int(k) if k.isdigit() else float(k): v for k, v in labels.items()}
+        for col, labels in raw_input["variable_value_labels"].items()
+    }
+    pyreadstat.write_sav(
+        df,
+        source_path,
+        column_labels=raw_input["column_labels"],
+        variable_value_labels=val_labels,
+        missing_ranges=raw_input["missing_ranges"],
+        variable_measure=raw_input["variable_measure"],
+    )
+
+    # 2. Import into OpenStat
+    import_desc = import_sav(store, str(source_path))
+    expected = fixture["expected"]
+
+    assert import_desc["row_count"] == expected["row_count"]
+    assert import_desc["losses"] == expected["import_losses"]
+    assert import_desc["source_metadata"]["format"] == expected["source_metadata"]["format"]
+    assert (
+        import_desc["source_metadata"]["column_labels"]
+        == expected["source_metadata"]["column_labels"]
+    )
+    assert (
+        import_desc["source_metadata"]["file_encoding"]
+        == expected["source_metadata"]["file_encoding"]
+    )
+
+    fields = import_desc["fields"]
+    for expected_field, actual_field in zip(expected["imported_fields"], fields, strict=True):
+        assert actual_field["name"] == expected_field["name"]
+        assert actual_field["storage"] == expected_field["storage"]
+        assert actual_field["measurement"] == expected_field["measurement"]
+        assert actual_field["missing_codes"] == expected_field["missing_codes"]
+        assert actual_field["value_labels"] == expected_field["value_labels"]
+
+    # Verify rows & negative zero & coded missing vs null
+    batch = next(store.iter_tables(import_desc["revision"]))
+    imported_rows = [
+        [batch[f["id"]].to_pylist()[i] for f in fields]
+        for i in range(import_desc["row_count"])
+    ]
+    assert imported_rows == expected["imported_rows"]
+
+    # Verify IEEE negative zero
+    score_col = batch[fields[0]["id"]].to_pylist()
+    assert math.copysign(1.0, score_col[1]) == -1.0
+
+    # Verify missing kinds
+    score_def = Field.from_dict(fields[0])
+    status_def = Field.from_dict(fields[1])
+    assert missing_kind(score_def, score_col[2]) == "coded_missing"  # 99.0
+    assert missing_kind(score_def, score_col[3]) == "null"           # None
+    status_col = batch[fields[1]["id"]].to_pylist()
+    assert missing_kind(status_def, status_col[2]) == "coded_missing"  # 9.0
+    assert missing_kind(status_def, status_col[3]) == "null"           # None
+
+    # 3. Export to target SAV file
+    export_path = tmp_path / "exported.sav"
+    export_desc = export_sav(store, import_desc["revision"], str(export_path))
+    assert export_desc["rows"] == expected["row_count"]
+    assert export_desc["losses"] == expected["export_losses"]
+
+    # 4. Re-import in an independent store instance
+    store2 = Store(tmp_path / "store2")
+    reimport_desc = import_sav(store2, str(export_path))
+    assert reimport_desc["row_count"] == expected["row_count"]
+
+    batch2 = next(store2.iter_tables(reimport_desc["revision"]))
+    fields2 = reimport_desc["fields"]
+    reimported_rows = [
+        [batch2[f["id"]].to_pylist()[i] for f in fields2]
+        for i in range(reimport_desc["row_count"])
+    ]
+    assert reimported_rows == expected["reimported_rows"]
+    for exp_f, act_f in zip(expected["reimported_fields"], fields2, strict=True):
+        assert act_f["name"] == exp_f["name"]
+        assert act_f["storage"] == exp_f["storage"]
+        assert act_f["measurement"] == exp_f["measurement"]
+        assert act_f["value_labels"] == exp_f["value_labels"]
+
