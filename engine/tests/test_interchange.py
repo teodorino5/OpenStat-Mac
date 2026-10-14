@@ -5,6 +5,7 @@ import json
 import math
 import sqlite3
 import struct
+from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
@@ -429,3 +430,130 @@ def test_numeric_flat_text_import_export(
         [None, None],
     ]
     assert math.copysign(1.0, values[1][1]) == -1.0
+
+
+@pytest.mark.feature("DATA-028")
+@pytest.mark.feature("DATA-029")
+def test_csv_tsv_hand_calculated_contract(
+    store: Store, tmp_path: Path, reference_fixture: Callable[[str], dict[str, Any]]
+) -> None:
+    fixture = reference_fixture("engine/fixtures/foundations/csv_tsv.json")
+    dataset = store.create(
+        fixture["input"]["name"],
+        fixture["input"]["fields"],
+        fixture["input"]["rows"],
+    )
+    expected = fixture["expected"]
+
+    # Comma delimiter, dot decimal (DATA-028)
+    csv_path = tmp_path / "export.csv"
+    res_csv = io.export_csv(
+        store, dataset["revision"], str(csv_path), delimiter=",", decimal_point="."
+    )
+    assert res_csv["losses"] == expected["losses"]
+    with csv_path.open(newline="", encoding="utf-8") as stream:
+        assert list(csv.reader(stream, delimiter=",")) == expected["csv_rows"]
+
+    # Tab delimiter, dot decimal (DATA-029)
+    tsv_path = tmp_path / "export.tsv"
+    res_tsv = io.export_csv(
+        store, dataset["revision"], str(tsv_path), delimiter="\t", decimal_point="."
+    )
+    assert res_tsv["losses"] == expected["losses"]
+    with tsv_path.open(newline="", encoding="utf-8") as stream:
+        assert list(csv.reader(stream, delimiter="\t")) == expected["tsv_rows"]
+
+    # Semicolon delimiter, comma decimal (DATA-028 locale option)
+    locale_path = tmp_path / "export_locale.csv"
+    res_locale = io.export_csv(
+        store, dataset["revision"], str(locale_path), delimiter=";", decimal_point=","
+    )
+    assert res_locale["losses"] == expected["losses"]
+    with locale_path.open(newline="", encoding="utf-8") as stream:
+        assert list(csv.reader(stream, delimiter=";")) == expected["locale_rows"]
+
+    # Re-import through new store and verify typed rows + negative zero preservation
+    other = Store(tmp_path / "other")
+    imported = other.import_csv(str(csv_path), delimiter=",", decimal_point=".")
+    reimported_rows = other.page(imported["revision"])["rows"]
+    assert reimported_rows == expected["reimport_rows"]
+    assert math.copysign(1.0, reimported_rows[0][1]) == -1.0
+
+
+@pytest.mark.feature("DATA-032")
+def test_parquet_hand_calculated_contract(
+    store: Store, tmp_path: Path, reference_fixture: Callable[[str], dict[str, Any]]
+) -> None:
+    fixture = reference_fixture("engine/fixtures/foundations/parquet.json")
+    dataset = store.create(
+        fixture["input"]["name"],
+        fixture["input"]["fields"],
+        fixture["input"]["rows"],
+        fixture["input"]["context"],
+        fixture["input"]["observation_unit"],
+    )
+    expected = fixture["expected"]
+
+    parquet_path = tmp_path / "export.parquet"
+    res = io.export_parquet(store, dataset["revision"], str(parquet_path))
+    assert res["losses"] == expected["losses"]
+    assert res["rows"] == expected["row_count"]
+
+    other = Store(tmp_path / "other")
+    imported = io.import_parquet(other, str(parquet_path))
+    assert imported["context"] == expected["context"]
+    assert imported["observation_unit"] == expected["observation_unit"]
+    assert imported["fields"] == dataset["fields"]
+    assert imported["row_count"] == expected["row_count"]
+
+    page = other.page(imported["revision"])
+    assert page["row_ids"] == expected["row_ids"]
+    assert page["rows"] == expected["rows"]
+    assert struct.pack("<d", page["rows"][0][1]) == b"\x00\x00\x00\x00\x00\x00\x00\x80"
+
+
+@pytest.mark.feature("DATA-036")
+def test_sqlite_hand_calculated_contract(
+    store: Store, tmp_path: Path, reference_fixture: Callable[[str], dict[str, Any]]
+) -> None:
+    fixture = reference_fixture("engine/fixtures/foundations/sqlite.json")
+    dataset = store.create(
+        fixture["input"]["name"],
+        fixture["input"]["fields"],
+        fixture["input"]["rows"],
+        fixture["input"]["context"],
+        fixture["input"]["observation_unit"],
+    )
+    expected = fixture["expected"]
+
+    sqlite_path = tmp_path / "export.sqlite"
+    res = io.export_sqlite(store, dataset["revision"], str(sqlite_path))
+    assert res["losses"] == expected["losses"]
+    assert res["rows"] == expected["row_count"]
+
+    with sqlite3.connect(sqlite_path) as conn:
+        tables = [
+            row[0]
+            for row in conn.execute(
+                "SELECT name FROM sqlite_schema WHERE type='table' ORDER BY name"
+            )
+        ]
+        assert tables == expected["sqlite_tables"]
+        blob = conn.execute(
+            'SELECT "f64" FROM "_openstat_data" WHERE "_openstat_position" = 0'
+        ).fetchone()[0]
+        assert blob.hex() == expected["float_blob_hex"]
+
+    other = Store(tmp_path / "other")
+    imported = io.import_sqlite(other, str(sqlite_path))
+    assert imported["context"] == expected["context"]
+    assert imported["observation_unit"] == expected["observation_unit"]
+    assert imported["fields"] == dataset["fields"]
+    assert imported["row_count"] == expected["row_count"]
+
+    page = other.page(imported["revision"])
+    assert page["row_ids"] == expected["row_ids"]
+    assert page["rows"] == expected["rows"]
+    assert struct.pack("<d", page["rows"][0][1]) == b"\x00\x00\x00\x00\x00\x00\x00\x80"
+
+

@@ -61,6 +61,17 @@ def test_hand_calculated_table_contract(
     pivot_source = store.create(**fixture["pivot_input"])
     pivoted = tables.pivot(store, pivot_source["revision"], ["case"], "variable", "score", "Wide")
     assert rows(store, pivoted["revision"]) == fixture["expected"]["pivot"]
+    wide_fields = [f["id"] for f in pivoted["fields"]]
+    melted = tables.melt(
+        store,
+        pivoted["revision"],
+        id_vars=[wide_fields[0]],
+        value_vars=[wide_fields[1], wide_fields[2]],
+        name="Melted",
+        var_name="variable",
+        value_name="score",
+    )
+    assert rows(store, melted["revision"]) == fixture["expected"]["melt"]
     matrix = store.create(**fixture["matrix"])
     source_rows = rows(store, matrix["revision"])
     transposed = tables.transpose(store, matrix["revision"], "Transposed")
@@ -539,3 +550,115 @@ def test_aggregate_singleton_and_empty_results(store: Store) -> None:
         "Empty summary",
     )
     assert rows(store, summary["revision"]) == []
+
+
+def test_melt_edge_cases_and_validations(store: Store) -> None:
+    fields = [
+        {"id": "id", "name": "ID", "storage": "int64", "measurement": "discrete"},
+        {"id": "a", "name": "A", "storage": "int64", "measurement": "continuous"},
+        {"id": "b", "name": "B", "storage": "float64", "measurement": "continuous"},
+        {"id": "s", "name": "S", "storage": "string", "measurement": "nominal"},
+        {
+            "id": "resp",
+            "name": "Resp",
+            "storage": "multiple_response",
+            "measurement": "multiple_response",
+            "levels": ["x"],
+        },
+    ]
+    ds = store.create("Sample", fields, [[1, 10, 1.5, "alpha", ["x"]], [2, 20, 2.5, "beta", []]])
+    rev = ds["revision"]
+
+    # 1. Empty id_vars (unpivot all value_vars)
+    all_melted = tables.melt(store, rev, [], ["a", "b"], "NoIDs")
+    assert rows(store, all_melted["revision"]) == [
+        ["A", 10.0],
+        ["B", 1.5],
+        ["A", 20.0],
+        ["B", 2.5],
+    ]
+    assert [f["name"] for f in all_melted["fields"]] == ["variable", "value"]
+
+    # 2. Incompatible types (int64 + string)
+    with pytest.raises(EngineError, match="error.value_type"):
+        tables.melt(store, rev, ["id"], ["a", "s"], "BadTypes")
+
+    # 3. Multiple response rejected
+    with pytest.raises(EngineError, match="error.value_type"):
+        tables.melt(store, rev, ["id"], ["resp"], "BadResp")
+
+    # 4. Overlap between id_vars and value_vars
+    with pytest.raises(EngineError, match="error.operation_options"):
+        tables.melt(store, rev, ["id"], ["id", "a"], "Overlap")
+
+    # 5. Empty value_vars
+    with pytest.raises(EngineError, match="error.operation_options"):
+        tables.melt(store, rev, ["id"], [], "EmptyVals")
+
+    # 6. Duplicate output name
+    with pytest.raises(EngineError, match="error.duplicate_fields"):
+        tables.melt(store, rev, ["id"], ["a", "b"], "Dupe", var_name="ID")
+
+    # Value metadata must agree before source columns can share one output field.
+    labeled = store.create(
+        "Labeled values",
+        [
+            {"id": "left", "name": "Left", "storage": "int64", "measurement": "ordinal",
+             "levels": ["1", "2"], "value_labels": {"1": "Agree", "2": "Disagree"},
+             "missing_codes": ["99"]},
+            {"id": "right", "name": "Right", "storage": "int64", "measurement": "ordinal",
+             "levels": ["1", "2"], "value_labels": {"1": "Agree", "2": "Disagree"},
+             "missing_codes": ["99"]},
+        ],
+        [[1, 2]],
+    )
+    preserved = tables.melt(
+        store, labeled["revision"], [], ["left", "right"], "Labeled melt"
+    )
+    assert preserved["fields"][-1]["measurement"] == "ordinal"
+    assert preserved["fields"][-1]["levels"] == ["1", "2"]
+    assert preserved["fields"][-1]["value_labels"] == {"1": "Agree", "2": "Disagree"}
+    assert preserved["fields"][-1]["missing_codes"] == ["99"]
+
+    different_labels = store.create(
+        "Conflicting labels",
+        [
+            {"id": "left", "name": "Left", "storage": "int64", "measurement": "ordinal",
+             "value_labels": {"1": "Agree"}},
+            {"id": "right", "name": "Right", "storage": "int64", "measurement": "ordinal",
+             "value_labels": {"1": "Disagree"}},
+        ],
+        [[1, 1]],
+    )
+    with pytest.raises(EngineError, match="error.incompatible_melt_fields"):
+        tables.melt(
+            store, different_labels["revision"], [], ["left", "right"], "Conflicting melt"
+        )
+
+    coded_numeric = store.create(
+        "Coded numeric",
+        [
+            {"id": "integer", "name": "Integer", "storage": "int64", "measurement": "continuous"},
+            {"id": "float", "name": "Float", "storage": "float64", "measurement": "continuous",
+             "missing_codes": ["-99"]},
+        ],
+        [[1, 1.0]],
+    )
+    with pytest.raises(EngineError, match="error.incompatible_melt_fields"):
+        tables.melt(
+            store, coded_numeric["revision"], [], ["integer", "float"], "Coded numeric melt"
+        )
+
+    imprecise_numeric = store.create(
+        "Imprecise numeric",
+        [
+            {"id": "integer", "name": "Integer", "storage": "int64", "measurement": "continuous"},
+            {"id": "float", "name": "Float", "storage": "float64", "measurement": "continuous"},
+        ],
+        [[9_007_199_254_740_993, 1.5]],
+    )
+    with pytest.raises(EngineError, match="error.melt_precision_loss"):
+        tables.melt(
+            store, imprecise_numeric["revision"], [], ["integer", "float"], "Imprecise melt"
+        )
+

@@ -59,6 +59,8 @@ def test_original_classification_contract(
     assert audit["complete_cases"] == expected["complete_cases"]
     assert audit["total_cases"] == 9
     assert audit["denominator"] == "total_cases"
+    assert audit["pattern_fields"] == expected["pattern_fields"]
+    assert audit["patterns"] == expected["patterns"]
     assert store.get(revision).fields == tuple(store.get(mapped["revision"]).fields[:-1])
 
 
@@ -210,9 +212,19 @@ def test_sources_codes_modes_and_audit_selection(store: Store) -> None:
     for fields in [[], ["label", "label"]]:
         with pytest.raises(EngineError, match="error.field_id"):
             missing_audit(store, revision, fields)
-    assert missing_audit(store, revision, ["label"])["fields"] == {
+    audit_label = missing_audit(store, revision, ["label"])
+    assert audit_label["fields"] == {
         "label": {"null": 0, "coded_missing": 1, "valid": 2, "empty_response": 0}
     }
+    assert audit_label["patterns"] == [
+        {"pattern": {"label": "valid"}, "kinds": ["valid"], "count": 2, "complete": True},
+        {
+            "pattern": {"label": "coded_missing"},
+            "kinds": ["coded_missing"],
+            "count": 1,
+            "complete": False,
+        },
+    ]
     for source in ["label", "response"]:
         with pytest.raises(EngineError, match="error.classification_source"):
             intervals(store, revision, source, OUTPUT, CLASSES)

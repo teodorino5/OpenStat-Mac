@@ -1,6 +1,6 @@
 {
   "provenance": "Original hand-calculated tiny tables. Expected rows below were derived manually from the stated inputs, independent of OpenStat table functions.",
-  "independent_method": "Hand enumerate the left and right key rows and retain right duplicates in source order; form full-join unmatched rows in input order. Sum listed group values and count non-null values. Transpose the listed 2-by-3 matrix by exchanging its row and column positions. Stack the listed source rows twice in order. Pivot each listed case/category pair into its corresponding wide cell; leave absent cells null.",
+  "independent_method": "Hand enumerate the left and right key rows and retain right duplicates in source order; form full-join unmatched rows in input order. Sum listed group values and count non-null values. Transpose the listed 2-by-3 matrix by exchanging its row and column positions. Stack the listed source rows twice in order. Pivot each listed case/category pair into its corresponding wide cell; leave absent cells null. Melt the wide pivoted table back into long form by repeating the case index across value columns A and B.",
   "tolerance": {
     "comparison": "Exact row values, row order, matched source positions, and provenance; all numeric fixture values are exactly representable."
   },
@@ -258,6 +258,29 @@
         4,
         null
       ]
+    ],
+    "melt": [
+      [
+        1,
+        "A",
+        2
+      ],
+      [
+        1,
+        "B",
+        3
+      ],
+      [
+        2,
+        "A",
+        4
+      ],
+      [
+        2,
+        "B",
+        null
+      ]
     ]
   }
 }
+

@@ -1185,6 +1185,38 @@
         }
       }
     },
+    "error.incompatible_melt_fields": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Melt requires matching measurement, role, and codebook metadata. Mixed integer and floating-point fields cannot carry levels, value labels, or coded missing values."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Převod do dlouhého formátu vyžaduje shodné údaje o měření, roli a číselníku. Smíšená celočíselná a desetinná pole nesmějí obsahovat úrovně, popisky hodnot ani kódy chybějících hodnot."
+          }
+        }
+      }
+    },
+    "error.melt_precision_loss": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Melt cannot convert this integer to floating point without losing precision."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Převod do dlouhého formátu by změnil přesnost tohoto celého čísla."
+          }
+        }
+      }
+    },
     "error.duplicate_levels": {
       "localizations": {
         "en": {
