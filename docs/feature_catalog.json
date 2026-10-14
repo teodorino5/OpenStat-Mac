@@ -572,12 +572,16 @@
       "name": "SQLite import and export",
       "method": "Read-only import query and transactional explicit export",
       "reference": "M19",
-      "library": "Original typed SQLite envelope; general read-only table/query import pending",
+      "library": "Original typed SQLite envelope; see docs/INTERCHANGE.md for limits",
       "phase": 0,
-      "status": "in progress",
+      "status": "verified against reference values",
       "evidence": "brief",
-      "tests": [],
-      "fixtures": []
+      "tests": [
+        "engine/tests/test_interchange.py::test_sqlite_hand_calculated_contract"
+      ],
+      "fixtures": [
+        "engine/fixtures/foundations/sqlite.json"
+      ]
     },
     {
       "id": "DATA-037",

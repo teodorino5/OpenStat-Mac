@@ -478,14 +478,35 @@ def melt(
     storages = {field.storage for field in value_fields}
     if "multiple_response" in storages:
         raise EngineError("error.value_type")
-    if len(storages) == 1:
-        storage = value_fields[0].storage
-        measurement = value_fields[0].measurement
-    elif storages <= {"int64", "float64"}:
-        storage = "float64"
-        measurement = "continuous"
-    else:
+    if len(storages) > 1 and not storages <= {"int64", "float64"}:
         raise EngineError("error.value_type")
+
+    metadata = (
+        value_fields[0].measurement,
+        value_fields[0].role,
+        value_fields[0].levels,
+        value_fields[0].value_labels,
+        value_fields[0].missing_codes,
+    )
+    if any(
+        (
+            field.measurement,
+            field.role,
+            field.levels,
+            field.value_labels,
+            field.missing_codes,
+        )
+        != metadata
+        for field in value_fields[1:]
+    ):
+        raise EngineError("error.incompatible_melt_fields")
+
+    storage = value_fields[0].storage
+    measurement = value_fields[0].measurement
+    if len(storages) > 1 and storages <= {"int64", "float64"}:
+        if any(field.levels or field.value_labels or field.missing_codes for field in value_fields):
+            raise EngineError("error.incompatible_melt_fields")
+        storage = "float64"
 
     total_rows = item.row_count * len(value_vars)
     if total_rows > GLOBAL_LIMIT:
@@ -493,7 +514,16 @@ def melt(
 
     output_id_fields = [_fresh(field) for field in id_fields]
     var_field = Field(str(uuid4()), var_name, "string", "nominal")
-    val_field = Field(str(uuid4()), value_name, storage, measurement)
+    val_field = Field(
+        str(uuid4()),
+        value_name,
+        storage,
+        measurement,
+        value_fields[0].role,
+        value_fields[0].levels,
+        dict(value_fields[0].value_labels),
+        value_fields[0].missing_codes,
+    )
     out = [*output_id_fields, var_field, val_field]
     if len({f.name for f in out}) != len(out):
         raise EngineError("error.duplicate_fields")
@@ -506,7 +536,10 @@ def melt(
             for vf in value_fields:
                 val = row[vf.id]
                 if val is not None and storage == "float64" and vf.storage == "int64":
-                    val = float(val)
+                    promoted = float(val)
+                    if int(promoted) != val:
+                        raise EngineError("error.melt_precision_loss")
+                    val = promoted
                 yield [*id_vals, vf.name, val]
 
     return _write(store, name, out, rows())
