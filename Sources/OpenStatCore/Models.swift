@@ -135,3 +135,18 @@ public enum CellParser {
   }
   public enum ParseError: Error { case invalid }
 }
+
+public enum LocaleFormatter {
+  public static func format(number: Double, locale: Locale) -> String {
+    let separator = locale.decimalSeparator ?? "."
+    return String(number).replacingOccurrences(of: ".", with: separator)
+  }
+
+  public static func parse(number text: String, locale: Locale) -> Double? {
+    let separator = locale.decimalSeparator ?? "."
+    let normalized = text.trimmingCharacters(in: .whitespacesAndNewlines)
+      .replacingOccurrences(of: separator, with: ".")
+    guard let value = Double(normalized), value.isFinite else { return nil }
+    return value
+  }
+}

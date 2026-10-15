@@ -1,0 +1,125 @@
+{
+  "feature_ids": [
+    "WORK-007"
+  ],
+  "provenance": "Original English and Czech localization reference fixture authored for OpenStat-Mac, 2026-10-15; no vendor or course data.",
+  "independent_method": "String catalog parity and dual-locale translation verification, IEEE 754 float formatting and parsing with Czech decimal comma vs English decimal point, and CSN 97 6030 Czech collation with 'ch' digraph ordering.",
+  "tolerance": {
+    "comparison": "exact string matches and exact float equality"
+  },
+  "test_selector": "engine/tests/test_store.py::test_english_czech_localization_contract",
+  "expected": {
+    "translations": {
+      "menu.file": {
+        "en": "File",
+        "cs": "Soubor"
+      },
+      "menu.edit": {
+        "en": "Edit",
+        "cs": "Úpravy"
+      },
+      "menu.statistics": {
+        "en": "Statistics",
+        "cs": "Statistika"
+      },
+      "menu.window": {
+        "en": "Window",
+        "cs": "Okno"
+      },
+      "error.stale_revision": {
+        "en": "Dataset revision is unavailable.",
+        "cs": "Revize dat není dostupná."
+      }
+    },
+    "number_parsing": {
+      "en_cases": [
+        {
+          "input": "1234.56",
+          "expected": 1234.56
+        },
+        {
+          "input": "-42.125",
+          "expected": -42.125
+        },
+        {
+          "input": "-0.0",
+          "expected": -0.0
+        }
+      ],
+      "cs_cases": [
+        {
+          "input": "1234,56",
+          "expected": 1234.56
+        },
+        {
+          "input": "-42,125",
+          "expected": -42.125
+        },
+        {
+          "input": "-0,0",
+          "expected": -0.0
+        }
+      ]
+    },
+    "number_formatting": {
+      "en_cases": [
+        {
+          "value": 1234.56,
+          "precision": 2,
+          "expected": "1234.56"
+        },
+        {
+          "value": -42.125,
+          "precision": 3,
+          "expected": "-42.125"
+        },
+        {
+          "value": -0.0,
+          "precision": 1,
+          "expected": "-0.0"
+        }
+      ],
+      "cs_cases": [
+        {
+          "value": 1234.56,
+          "precision": 2,
+          "expected": "1234,56"
+        },
+        {
+          "value": -42.125,
+          "precision": 3,
+          "expected": "-42,125"
+        },
+        {
+          "value": -0.0,
+          "precision": 1,
+          "expected": "-0,0"
+        }
+      ]
+    },
+    "czech_collation": {
+      "input": [
+        "chata",
+        "bota",
+        "hora",
+        "jehla",
+        "čáp",
+        "auto",
+        "árie",
+        "švestka",
+        "sova"
+      ],
+      "expected_cs_order": [
+        "auto",
+        "árie",
+        "bota",
+        "čáp",
+        "hora",
+        "chata",
+        "jehla",
+        "sova",
+        "švestka"
+      ]
+    }
+  }
+}

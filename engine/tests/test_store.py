@@ -556,3 +556,117 @@ def test_extend_crosses_multiple_row_group_boundaries(
     assert boundary["row_ids"] == [8191, 8192, 8193]
     last = store.page(result["revision"], 16384, 2)
     assert last["rows"] == [[None], [None]] and last["row_ids"] == [16384, 16385]
+
+
+@pytest.mark.feature("WORK-007")
+def test_english_czech_localization_contract(reference_fixture: Any, tmp_path: Path) -> None:
+    import math
+
+    from openstat_engine.localization import (
+        StringCatalog,
+        format_localized_number,
+        parse_localized_number,
+        sort_strings,
+    )
+    from openstat_engine.rpc import Service
+
+    fixture = reference_fixture("engine/fixtures/foundations/localization.json")
+    expected = fixture["expected"]
+
+    # 1. String catalog verification
+    catalog = StringCatalog()
+    assert catalog.is_loaded
+    info = catalog.catalog_info()
+    assert info["total_keys"] == 452
+    assert info["coverage"]["en"] == 1.0
+    assert info["coverage"]["cs"] == 1.0
+
+    for key, trans in expected["translations"].items():
+        assert catalog.translate(key, "en") == trans["en"]
+        assert catalog.translate(key, "cs") == trans["cs"]
+
+    with pytest.raises(EngineError, match="error.unknown_field"):
+        catalog.translate("nonexistent.key.for.test")
+
+    # 2. Number parsing
+    for case in expected["number_parsing"]["en_cases"]:
+        parsed = parse_localized_number(case["input"], "en")
+        assert parsed == case["expected"]
+        if case["expected"] == 0.0 and case["input"].startswith("-"):
+            assert math.copysign(1.0, parsed) == -1.0
+
+    for case in expected["number_parsing"]["cs_cases"]:
+        parsed = parse_localized_number(case["input"], "cs")
+        assert parsed == case["expected"]
+        if case["expected"] == 0.0 and case["input"].startswith("-"):
+            assert math.copysign(1.0, parsed) == -1.0
+
+    # Error handling on invalid numeric input
+    with pytest.raises(EngineError, match="error.operation_options"):
+        parse_localized_number("not_a_number", "cs")
+    with pytest.raises(EngineError, match="error.operation_options"):
+        parse_localized_number("", "en")
+
+    # 3. Number formatting
+    for case in expected["number_formatting"]["en_cases"]:
+        formatted = format_localized_number(case["value"], "en", case["precision"])
+        assert formatted == case["expected"]
+
+    for case in expected["number_formatting"]["cs_cases"]:
+        formatted = format_localized_number(case["value"], "cs", case["precision"])
+        assert formatted == case["expected"]
+
+    with pytest.raises(EngineError, match="error.operation_options"):
+        format_localized_number(12.5, "en", precision=-1)
+
+    # 4. Czech collation with 'ch' digraph
+    czech_input = expected["czech_collation"]["input"]
+    sorted_cs = sort_strings(czech_input, "cs")
+    assert sorted_cs == expected["czech_collation"]["expected_cs_order"]
+
+    # 5. JSON-RPC service dispatch
+    service = Service(tmp_path)
+    rpc_info = service.dispatch(
+        {"jsonrpc": "2.0", "id": "loc-1", "method": "localization.catalog_info"}
+    )
+    assert rpc_info is not None and rpc_info["result"]["total_keys"] == 452
+
+    rpc_trans = service.dispatch(
+        {
+            "jsonrpc": "2.0",
+            "id": "loc-2",
+            "method": "localization.translate",
+            "params": {"key": "menu.statistics", "locale": "cs"},
+        }
+    )
+    assert rpc_trans is not None and rpc_trans["result"] == "Statistika"
+
+    rpc_fmt = service.dispatch(
+        {
+            "jsonrpc": "2.0",
+            "id": "loc-3",
+            "method": "localization.format_number",
+            "params": {"value": 12.5, "locale": "cs"},
+        }
+    )
+    assert rpc_fmt is not None and rpc_fmt["result"] == "12,5"
+
+    rpc_parse = service.dispatch(
+        {
+            "jsonrpc": "2.0",
+            "id": "loc-4",
+            "method": "localization.parse_number",
+            "params": {"text": "12,5", "locale": "cs"},
+        }
+    )
+    assert rpc_parse is not None and rpc_parse["result"] == 12.5
+
+    rpc_sort = service.dispatch(
+        {
+            "jsonrpc": "2.0",
+            "id": "loc-5",
+            "method": "localization.sort_strings",
+            "params": {"items": ["chata", "hora"], "locale": "cs"},
+        }
+    )
+    assert rpc_sort is not None and rpc_sort["result"] == ["hora", "chata"]
