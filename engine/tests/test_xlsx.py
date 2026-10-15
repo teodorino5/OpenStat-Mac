@@ -440,4 +440,3 @@ def test_xlsx_hand_calculated_contract(
         assert actual_field["measurement"] == expected_field["measurement"]
     formula_page = store2.page(formula_imported["revision"])
     assert formula_page["rows"] == raw_spec["expected_rows"]
-
