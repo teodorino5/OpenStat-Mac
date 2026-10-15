@@ -556,3 +556,191 @@ def test_extend_crosses_multiple_row_group_boundaries(
     assert boundary["row_ids"] == [8191, 8192, 8193]
     last = store.page(result["revision"], 16384, 2)
     assert last["rows"] == [[None], [None]] and last["row_ids"] == [16384, 16385]
+
+
+@pytest.mark.feature("WORK-004")
+def test_type_aware_variable_pickers_contract(
+    reference_fixture: Any,
+) -> None:
+    from openstat_engine.forms import FormRegistry, PickerSession
+    from openstat_engine.model import Field
+
+    fixture = reference_fixture("engine/fixtures/foundations/variable_pickers.json")
+    expected = fixture["expected"]
+    input_data = fixture["input"]
+
+    fields = [Field.from_dict(f) for f in input_data["fields"]]
+    registry = FormRegistry()
+
+    # 1. Forms list and discovery
+    all_forms = registry.list_forms()
+    assert len(all_forms) == expected["total_forms"]
+    assert [f["id"] for f in all_forms] == expected["form_ids"]
+
+    # 2. Form get & eligibility evaluation
+    target_form = registry.get_form(input_data["target_form"])
+    eligibility = target_form.evaluate_eligibility(fields)
+
+    for field_id, expected_slots in expected["eligibility_ttest_ind"].items():
+        for slot_id, expected_eligible in expected_slots.items():
+            actual = eligibility[field_id][slot_id]["eligible"]
+            assert actual == expected_eligible, (
+                f"Field {field_id} slot {slot_id} expected {expected_eligible}, got {actual}"
+            )
+
+    # 3. Interactive keyboard-accessible picker session walkthrough
+    walk = expected["keyboard_walkthrough"]
+    session = PickerSession(target_form, fields)
+
+    # Step 1: Initial candidates
+    assert len(session.candidates) == walk["step1_candidate_count"]
+    assert session.selected_candidate_id == "v_id"
+
+    # Navigation test: next & prev candidate
+    assert session.keyboard_next_candidate() == "v_age"
+    assert session.keyboard_prev_candidate() == "v_id"
+
+    # Step 2: Keyboard select v_age, assign to dependent
+    session.keyboard_select_candidate("v_age")
+    session.keyboard_focus_slot("dependent")
+    success, reason = session.keyboard_assign()
+    assert success == walk["step2_assign_v_age_success"]
+    assert session.assignments["dependent"] == walk["step2_dependent_assigned"]
+    assert len(session.candidates) == walk["step2_remaining_candidate_count"]
+
+    # Step 3: Attempt assign v_id to grouping (ineligible role)
+    session.keyboard_select_candidate("v_id")
+    session.keyboard_focus_slot("grouping")
+    success, reason = session.keyboard_assign()
+    assert success == walk["step3_assign_v_id_grouping_success"]
+    assert reason is not None and "ineligible_role" in reason
+
+    # Step 4: Keyboard select v_gender, assign to grouping
+    session.keyboard_select_candidate("v_gender")
+    success, reason = session.keyboard_assign()
+    assert success == walk["step4_assign_v_gender_grouping_success"]
+    assert session.assignments["grouping"] == walk["step4_grouping_assigned"]
+    assert len(session.candidates) == walk["step4_remaining_candidate_count"]
+
+    # Step 5: Validate completed assignment
+    validation = session.validate()
+    assert validation["valid"] == walk["step5_validate_valid"]
+
+    # Step 6: Attempt assign v_score to dependent (capacity exceeded: max 1)
+    session.keyboard_select_candidate("v_score")
+    session.keyboard_focus_slot("dependent")
+    success, reason = session.keyboard_assign()
+    assert success == walk["step6_assign_v_score_dependent_success"]
+    assert reason is not None and "slot_capacity_exceeded" in reason
+
+    # Step 7: Keyboard remove v_age from dependent
+    success, reason = session.keyboard_remove("dependent", "v_age")
+    assert success == walk["step7_remove_v_age_success"]
+    assert session.assignments["dependent"] == walk["step7_dependent_assigned"]
+    assert len(session.candidates) == walk["step7_candidate_count"]
+    assert "v_age" in session.candidates
+
+    # Step 8: Validate now fails due to missing dependent variable
+    validation = session.validate()
+    assert validation["valid"] == walk["step8_validate_valid"]
+    assert any("missing_required_slot: dependent" in err for err in validation["errors"])
+
+    # 4. State snapshot & edge cases coverage
+    state = session.state()
+    assert state["form_id"] == "ttest_ind"
+    assert "v_age" in state["candidates"]
+    assert state["valid"] is False
+
+    # Keyboard navigation & error branches
+    session.focused_slot_id = None
+    assert session.keyboard_assign() == (False, "no_focused_slot")
+    assert session.keyboard_assign("nonexistent_slot") == (
+        False,
+        "unknown_slot: nonexistent_slot",
+    )
+
+    empty_session = PickerSession(target_form, fields, auto_populate=False)
+    assert empty_session.selected_candidate_id is None
+    assert empty_session.keyboard_next_candidate() is None
+    assert empty_session.keyboard_prev_candidate() is None
+    assert empty_session.keyboard_assign("dependent") == (
+        False,
+        "no_candidate_selected",
+    )
+
+    session.keyboard_select_candidate("nonexistent_var")
+    session.keyboard_focus_slot("nonexistent_slot")
+
+    assert session.keyboard_remove("bad_slot", "x") == (False, "unknown_slot: bad_slot")
+    assert session.keyboard_remove("grouping", "not_there") == (
+        False,
+        "not_in_slot: not_there",
+    )
+
+    # Allowed storage constraint check
+    from openstat_engine.forms import VariableSlot
+
+    slot_with_storage = VariableSlot(
+        id="strict_float",
+        label="Strict Float",
+        allowed_storage=("float64",),
+    )
+    score_field = next(f for f in fields if f.id == "v_score")
+    ok, reason = slot_with_storage.check_eligibility(score_field)
+    assert not ok and reason is not None and "ineligible_storage" in reason
+
+    # Validation errors: unknown slot, unknown variable, duplicate assignment
+    raw_validation = target_form.validate_assignments(
+        fields,
+        {
+            "unknown_slot": ["v_age"],
+            "dependent": ["missing_id"],
+            "grouping": ["v_age"],
+        },
+    )
+    assert raw_validation["valid"] is False
+    assert any("unknown_slot: unknown_slot" in e for e in raw_validation["errors"])
+    assert any("unknown_variable: missing_id" in e for e in raw_validation["errors"])
+
+    dup_validation = target_form.validate_assignments(
+        fields,
+        {
+            "dependent": ["v_age"],
+            "grouping": ["v_age"],
+        },
+    )
+    assert any("duplicate_assignment: v_age" in e for e in dup_validation["errors"])
+
+    # Unknown form raises EngineError
+    from openstat_engine.errors import EngineError
+
+    with pytest.raises(EngineError):
+        registry.get_form("nonexistent_form")
+
+    # 5. RPC Service integration
+    import tempfile
+    from pathlib import Path
+
+    from openstat_engine.rpc import Service
+
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        service = Service(Path(tmp_dir))
+        rpc_methods = service.methods()
+
+        rpc_list = rpc_methods["forms.list"]()
+        assert len(rpc_list) == expected["total_forms"]
+
+        rpc_get = rpc_methods["forms.get"]("ttest_ind")
+        assert rpc_get["id"] == "ttest_ind"
+
+        rpc_eval = rpc_methods["forms.evaluate"]("ttest_ind", input_data["fields"])
+        assert "v_age" in rpc_eval
+
+        rpc_valid = rpc_methods["forms.validate"](
+            "ttest_ind",
+            input_data["fields"],
+            {"dependent": ["v_age"], "grouping": ["v_gender"]},
+        )
+        assert rpc_valid["valid"] is True
+
+

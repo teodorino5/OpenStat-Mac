@@ -135,3 +135,37 @@ public enum CellParser {
   }
   public enum ParseError: Error { case invalid }
 }
+
+public struct VariableSlot: Identifiable, Codable, Equatable, Sendable {
+  public let id: String
+  public let label: String
+  public let required: Bool
+  public let multiple: Bool
+  public let minItems: Int
+  public let maxItems: Int?
+  public let allowedMeasurements: [String]
+  public let allowedStorage: [String]?
+  public let allowedRoles: [String]
+
+  enum CodingKeys: String, CodingKey {
+    case id, label, required, multiple
+    case minItems = "min_items"
+    case maxItems = "max_items"
+    case allowedMeasurements = "allowed_measurements"
+    case allowedStorage = "allowed_storage"
+    case allowedRoles = "allowed_roles"
+  }
+
+  public func isEligible(variable: Variable) -> Bool {
+    if !allowedRoles.contains(variable.role) { return false }
+    if !allowedMeasurements.contains(variable.measurement) { return false }
+    if let storage = allowedStorage, !storage.contains(variable.storage) { return false }
+    return true
+  }
+}
+
+public struct FormModel: Identifiable, Codable, Equatable, Sendable {
+  public let id: String
+  public let title: String
+  public let slots: [VariableSlot]
+}
