@@ -1,15 +1,13 @@
 {
-  "feature_ids": [
-    "WORK-001"
-  ],
-  "provenance": "Original multi-document ownership and coordinated edit contracts authored for OpenStat-Mac project, 2026-10-15; no course or vendor data.",
-  "independent_method": "Hand-calculated sequential state machine of concurrent multi-document ownership: independent dataset revision isolation, concurrent disparate schemas and row sets, coordinated non-interfering edits, isolated undo stacks, separate project package persistence, resource cleanup on document close, and exact state preservation across save/reopen.",
+  "feature_ids": [],
+  "provenance": "Project-authored examples for independent Python Store datasets, 2026-10-15; no external source or vendor data.",
+  "independent_method": "Not an independent reference fixture. The test exercises sequential Python Store dataset creation, edits, immutable revision snapshots, and separate package save/reopen. It does not exercise NSDocument ownership, native window or tab behavior, UndoManager, or document-close cleanup.",
   "tolerance": {
-    "comparison": "exact schema, cell values, row IDs, checksums and revision isolation"
+    "comparison": "exact cell values and row counts; distinct dataset IDs and separate package reloads"
   },
-  "test_selector": "engine/tests/test_store.py::test_native_document_windows_and_tabs_contract",
+  "test_selector": "engine/tests/test_store.py::test_independent_dataset_revision_and_persistence",
   "input": {
-    "doc1": {
+    "dataset_a": {
       "name": "Employee Records",
       "context": "sample",
       "observation_unit": "employee",
@@ -41,7 +39,7 @@
         ["E104", 81000.0, "Engineering"]
       ]
     },
-    "doc2": {
+    "dataset_b": {
       "name": "Clinical Biomarkers",
       "context": "population",
       "observation_unit": "patient",
@@ -80,28 +78,28 @@
     },
     "operations": [
       {
-        "target": "doc1",
+        "target": "dataset_a",
         "action": "edit",
         "row": 0,
         "field": "f_salary",
         "value": 68000.0
       },
       {
-        "target": "doc2",
+        "target": "dataset_b",
         "action": "edit",
         "row": 1,
         "field": "f_sbp",
         "value": 140
       },
       {
-        "target": "doc1",
+        "target": "dataset_a",
         "action": "edit",
         "row": 2,
         "field": "f_dept",
         "value": "Sales"
       },
       {
-        "target": "doc2",
+        "target": "dataset_b",
         "action": "edit",
         "row": 0,
         "field": "f_chol",
@@ -110,7 +108,7 @@
     ]
   },
   "expected": {
-    "doc1_initial": {
+    "dataset_a_initial": {
       "row_count": 4,
       "rows": [
         ["E101", 65000.0, "Engineering"],
@@ -119,7 +117,7 @@
         ["E104", 81000.0, "Engineering"]
       ]
     },
-    "doc2_initial": {
+    "dataset_b_initial": {
       "row_count": 3,
       "rows": [
         ["P001", 120, 195.5, false],
@@ -127,7 +125,7 @@
         ["P003", 118, 175.2, false]
       ]
     },
-    "doc1_step1": {
+    "dataset_a_step1": {
       "row_count": 4,
       "rows": [
         ["E101", 68000.0, "Engineering"],
@@ -136,7 +134,7 @@
         ["E104", 81000.0, "Engineering"]
       ]
     },
-    "doc2_step2": {
+    "dataset_b_step2": {
       "row_count": 3,
       "rows": [
         ["P001", 120, 195.5, false],
@@ -144,7 +142,7 @@
         ["P003", 118, 175.2, false]
       ]
     },
-    "doc1_step3": {
+    "dataset_a_step3": {
       "row_count": 4,
       "rows": [
         ["E101", 68000.0, "Engineering"],
@@ -153,7 +151,7 @@
         ["E104", 81000.0, "Engineering"]
       ]
     },
-    "doc2_step4": {
+    "dataset_b_step4": {
       "row_count": 3,
       "rows": [
         ["P001", 120, 200.0, false],
@@ -161,7 +159,7 @@
         ["P003", 118, 175.2, false]
       ]
     },
-    "doc1_reverted": {
+    "dataset_a_after_first_edit": {
       "row_count": 4,
       "rows": [
         ["E101", 68000.0, "Engineering"],
