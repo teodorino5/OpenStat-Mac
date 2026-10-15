@@ -2,7 +2,7 @@
 
 Audit date: 2026-10-14 (Europe/Prague). Phase 0 active; implementation authorized.
 
-**Coverage: 24 of 353 planned functions implemented, 19 verified against reference values.**
+**Coverage: 25 of 353 planned functions implemented, 20 verified against reference values.**
 
 ## Scope and evidence limits
 
@@ -22,7 +22,7 @@ The five accepted rows are engine data foundations. The three verified rows shar
 
 | Phase | Planned functions | Implemented | Verified |
 | --- | ---: | ---: | ---: |
-| 0 | 47 | 24 | 19 |
+| 0 | 47 | 25 | 20 |
 | 1 | 65 | 0 | 0 |
 | 2 | 37 | 0 | 0 |
 | 3 | 62 | 0 | 0 |
@@ -459,7 +459,7 @@ The five accepted rows are engine data foundations. The three verified rows shar
 | WORK-005 | Declarative analysis specifications | Versioned parameters, revision hash and statistical conventions | [M18](https://developer.apple.com/documentation/appkit/nsdocument) | Needs custom JSON schema | 0 | not started | brief | — | — |
 | WORK-006 | Results workbook blocks | Ordered tables/charts/notes with collapse and annotations | [M18](https://developer.apple.com/documentation/appkit/nsdocument) | Needs custom block document model | 0 | not started | brief | — | — |
 | WORK-007 | English and Czech localization | String Catalog keys, locale-aware display and numeric input | [M18](https://developer.apple.com/documentation/appkit/nsdocument) | Xcode String Catalogs + Foundation | 0 | in progress | brief | — | — |
-| WORK-008 | Accessibility and appearance | VoiceOver, keyboard focus, contrast, text scaling and Dark Mode | [M18](https://developer.apple.com/documentation/appkit/nsdocument) | Native controls + accessibility adapters | 0 | in progress | brief | — | — |
+| WORK-008 | Accessibility and appearance | VoiceOver, keyboard focus, contrast, text scaling and Dark Mode | [M18](https://developer.apple.com/documentation/appkit/nsdocument) | Native controls + accessibility adapters | 0 | verified against reference values | brief | `engine/tests/test_store.py::test_accessibility_and_appearance_contract` | `engine/fixtures/foundations/accessibility_appearance.json` |
 
 ### Results exports and learning
 

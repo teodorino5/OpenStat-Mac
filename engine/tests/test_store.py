@@ -556,3 +556,138 @@ def test_extend_crosses_multiple_row_group_boundaries(
     assert boundary["row_ids"] == [8191, 8192, 8193]
     last = store.page(result["revision"], 16384, 2)
     assert last["rows"] == [[None], [None]] and last["row_ids"] == [16384, 16385]
+
+
+@pytest.mark.feature("WORK-008")
+def test_accessibility_and_appearance_contract(reference_fixture: Any, tmp_path: Path) -> None:
+    from openstat_engine.accessibility import (
+        THEMES,
+        AccessibilityManager,
+        calculate_contrast_ratio,
+    )
+    from openstat_engine.rpc import Service
+
+    fixture = reference_fixture("engine/fixtures/foundations/accessibility_appearance.json")
+    expected = fixture["expected"]
+
+    # 1. Elements verification
+    mgr = AccessibilityManager()
+    elements = mgr.list_elements()
+    assert len(elements) == len(expected["elements"])
+    for exp_elem in expected["elements"]:
+        match = next((e for e in elements if e["identifier"] == exp_elem["identifier"]), None)
+        assert match is not None
+        assert match["role"] == exp_elem["role"]
+        assert match["label_key"] == exp_elem["label_key"]
+        assert match["keyboard_shortcut"] == exp_elem["keyboard_shortcut"]
+        assert "focusable" in match["traits"]
+
+    # 2. Focus cycle verification
+    focus_state = mgr.focus_cycle_state()
+    assert focus_state["current"] == expected["focus_cycle"]["initial"]
+
+    for expected_id in expected["focus_cycle"]["forward_sequence"]:
+        assert mgr.focus_next() == expected_id
+
+    fresh_mgr = AccessibilityManager()
+    assert fresh_mgr.focus_prev() == expected["focus_cycle"]["reverse_from_start"]
+
+    fresh_mgr._focus_cycle.set_focus("data_grid")
+    assert fresh_mgr.focus_cycle_state()["current"] == "data_grid"
+    with pytest.raises(EngineError, match="error.unknown_field"):
+        fresh_mgr._focus_cycle.set_focus("nonexistent_element")
+
+    # 3. Contrast ratios verification
+    exp_contrasts = expected["contrast_ratios"]
+    assert calculate_contrast_ratio("#000000", "#FFFFFF") == exp_contrasts["black_on_white"]
+
+    light_theme = THEMES["light"]
+    dark_theme = THEMES["dark"]
+
+    assert calculate_contrast_ratio(
+        light_theme.text_primary, light_theme.background
+    ) == pytest.approx(exp_contrasts["light_primary"], abs=0.05)
+    assert calculate_contrast_ratio(
+        light_theme.text_secondary, light_theme.background
+    ) == pytest.approx(exp_contrasts["light_secondary"], abs=0.05)
+    assert calculate_contrast_ratio(
+        light_theme.accent, light_theme.background
+    ) == pytest.approx(exp_contrasts["light_accent"], abs=0.05)
+
+    assert calculate_contrast_ratio(
+        dark_theme.text_primary, dark_theme.background
+    ) == pytest.approx(exp_contrasts["dark_primary"], abs=0.05)
+    assert calculate_contrast_ratio(
+        dark_theme.text_secondary, dark_theme.background
+    ) == pytest.approx(exp_contrasts["dark_secondary"], abs=0.05)
+    assert calculate_contrast_ratio(
+        dark_theme.accent, dark_theme.background
+    ) == pytest.approx(exp_contrasts["dark_accent"], abs=0.05)
+
+    # Invalid hex error handling
+    with pytest.raises(EngineError, match="error.operation_options"):
+        calculate_contrast_ratio("#123", "#ffffff")
+    with pytest.raises(EngineError, match="error.operation_options"):
+        calculate_contrast_ratio("#ZZZZZZ", "#ffffff")
+
+    # 4. Themes verification & WCAG AA validation
+    for theme_name in expected["themes"]:
+        theme_dict = mgr.get_theme(theme_name)
+        assert theme_dict["name"] == theme_name
+        wcag = theme_dict["wcag_validation"]
+        assert wcag["text_primary_aa"] is True
+        assert wcag["text_secondary_aa"] is True
+        assert wcag["surface_text_aa"] is True
+        assert wcag["accent_ui_aa"] is True
+
+    with pytest.raises(EngineError, match="error.operation_options"):
+        mgr.get_theme("nonexistent_theme")
+
+    # 5. RPC Service dispatch integration
+    service = Service(tmp_path)
+
+    rpc_elements = service.dispatch(
+        {"jsonrpc": "2.0", "id": "a11y-1", "method": "accessibility.elements", "params": {}}
+    )
+    assert rpc_elements is not None and isinstance(rpc_elements["result"], list)
+    assert len(rpc_elements["result"]) == len(expected["elements"])
+
+    rpc_focus_state = service.dispatch(
+        {"jsonrpc": "2.0", "id": "a11y-2", "method": "accessibility.focus_state", "params": {}}
+    )
+    assert (
+        rpc_focus_state is not None
+        and rpc_focus_state["result"]["current"] == "analysis_launcher"
+    )
+
+    rpc_next = service.dispatch(
+        {"jsonrpc": "2.0", "id": "a11y-3", "method": "accessibility.focus_next", "params": {}}
+    )
+    assert rpc_next is not None and rpc_next["result"] == "data_grid"
+
+    rpc_prev = service.dispatch(
+        {"jsonrpc": "2.0", "id": "a11y-4", "method": "accessibility.focus_prev", "params": {}}
+    )
+    assert rpc_prev is not None and rpc_prev["result"] == "analysis_launcher"
+
+    rpc_contrast = service.dispatch(
+        {
+            "jsonrpc": "2.0",
+            "id": "a11y-5",
+            "method": "accessibility.contrast_ratio",
+            "params": {"color1": "#000000", "color2": "#FFFFFF"},
+        }
+    )
+    assert rpc_contrast is not None and rpc_contrast["result"] == 21.0
+
+    rpc_theme = service.dispatch(
+        {
+            "jsonrpc": "2.0",
+            "id": "a11y-6",
+            "method": "accessibility.theme",
+            "params": {"theme_name": "dark"},
+        }
+    )
+    assert rpc_theme is not None and rpc_theme["result"]["name"] == "dark"
+    assert rpc_theme["result"]["wcag_validation"]["text_primary_aa"] is True
+
