@@ -471,13 +471,13 @@ def test_export_preserves_long_strings_and_exact_integer_boundary(tmp_path: Path
     assert data["integer"] == [float(2**53), float(-(2**53))]
 
 
-@pytest.mark.feature("DATA-035")
-def test_sas_reference_fixture(
+def test_sas_adapter_metadata_mapping_with_mock_reader(
     store: Store,
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
     reference_fixture: Callable[[str], dict[str, Any]],
 ) -> None:
+    # This synthetic fixture checks metadata mapping only; it does not test PyReadStat parsing.
     fixture = reference_fixture("engine/fixtures/foundations/sas.json")
     inp = fixture["input"]
     expected = fixture["expected"]

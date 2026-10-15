@@ -554,16 +554,12 @@
       "name": "SAS dataset reading",
       "method": "SAS7BDAT read only; preserve metadata where available",
       "reference": "M20",
-      "library": "Audited PyReadStat SAS7BDAT reader; source metadata persistence and genuine fixture pending",
+      "library": "PyReadStat SAS7BDAT adapter; genuine fixture and source metadata persistence pending",
       "phase": 0,
-      "status": "verified against reference values",
+      "status": "in progress",
       "evidence": "brief",
-      "tests": [
-        "engine/tests/test_readstat_io.py::test_sas_reference_fixture"
-      ],
-      "fixtures": [
-        "engine/fixtures/foundations/sas.json"
-      ]
+      "tests": [],
+      "fixtures": []
     },
     {
       "id": "DATA-036",
