@@ -7252,6 +7252,38 @@
           }
         }
       }
+    },
+    "error.incompatible_melt_fields": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Melt value columns must share compatible field metadata."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sloupce slučované operací melt musí mít kompatibilní metadata."
+          }
+        }
+      }
+    },
+    "error.melt_precision_loss": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Melt cannot promote this integer to float64 without losing precision."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Operace melt nemůže převést toto celé číslo na float64 bez ztráty přesnosti."
+          }
+        }
+      }
     }
   },
   "version": "1.0"

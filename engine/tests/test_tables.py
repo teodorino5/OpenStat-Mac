@@ -599,3 +599,60 @@ def test_melt_edge_cases_and_validations(store: Store) -> None:
     with pytest.raises(EngineError, match="error.duplicate_fields"):
         tables.melt(store, rev, ["id"], ["a", "b"], "Dupe", var_name="ID")
 
+
+def test_melt_preserves_shared_value_metadata_and_rejects_mismatches(store: Store) -> None:
+    fields = [
+        {
+            "id": "a",
+            "name": "A",
+            "storage": "int64",
+            "measurement": "discrete",
+            "role": "characteristic",
+            "levels": ["1", "2"],
+            "value_labels": {"1": "One", "2": "Two"},
+            "missing_codes": ["-9"],
+        },
+        {
+            "id": "b",
+            "name": "B",
+            "storage": "int64",
+            "measurement": "discrete",
+            "role": "characteristic",
+            "levels": ["1", "2"],
+            "value_labels": {"1": "One", "2": "Two"},
+            "missing_codes": ["-9"],
+        },
+    ]
+    source = store.create("Shared metadata", fields, [[1, 2]])
+    melted = tables.melt(store, source["revision"], [], ["a", "b"], "Preserved metadata")
+    value_field = next(field for field in melted["fields"] if field["name"] == "value")
+    assert value_field["measurement"] == "discrete"
+    assert value_field["levels"] == ["1", "2"]
+    assert value_field["value_labels"] == {"1": "One", "2": "Two"}
+    assert value_field["missing_codes"] == ["-9"]
+
+    incompatible = [dict(fields[0]), dict(fields[1])]
+    incompatible[1]["value_labels"] = {"1": "Yes", "2": "No"}
+    other = store.create("Different labels", incompatible, [[1, 2]])
+    with pytest.raises(EngineError, match="error.incompatible_melt_fields"):
+        tables.melt(store, other["revision"], [], ["a", "b"], "Rejected metadata")
+
+    different_measure = [dict(fields[0]), dict(fields[1])]
+    different_measure[1]["measurement"] = "nominal"
+    other = store.create("Different measures", different_measure, [[1, 2]])
+    with pytest.raises(EngineError, match="error.incompatible_melt_fields"):
+        tables.melt(store, other["revision"], [], ["a", "b"], "Rejected measures")
+
+
+def test_melt_integer_promotion_rejects_inexact_values(store: Store) -> None:
+    fields = [
+        {"id": "whole", "name": "Whole", "storage": "int64", "measurement": "discrete"},
+        {"id": "fraction", "name": "Fraction", "storage": "float64", "measurement": "continuous"},
+    ]
+    exact = store.create("Exact promotion", fields, [[2**53 + 2, 1.5]])
+    melted = tables.melt(store, exact["revision"], [], ["whole", "fraction"], "Exact values")
+    assert rows(store, melted["revision"]) == [["Whole", float(2**53 + 2)], ["Fraction", 1.5]]
+
+    inexact = store.create("Inexact promotion", fields, [[2**53 + 1, 1.5]])
+    with pytest.raises(EngineError, match="error.melt_precision_loss"):
+        tables.melt(store, inexact["revision"], [], ["whole", "fraction"], "Inexact values")
