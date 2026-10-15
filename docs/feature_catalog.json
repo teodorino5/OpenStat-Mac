@@ -582,8 +582,8 @@
       "reference": "M18",
       "library": "Original openstat_engine store and manifest package envelope",
       "phase": 0,
-      "status": "verified against reference values",
-      "evidence": "brief",
+      "status": "implemented",
+      "evidence": "hand-calculated project-authored contract fixture",
       "tests": [
         "engine/tests/test_store.py::test_project_package_contract"
       ],

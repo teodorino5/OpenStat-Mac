@@ -634,6 +634,25 @@ def test_project_package_contract(
     with pytest.raises(EngineError, match="error.checksum"):
         independent_store.open(str(tampered_edits_project))
 
+    escaped_project = tmp_path / "Escaped.openstat"
+    shutil.copytree(project_path, escaped_project)
+    escaped_manifest_path = escaped_project / "manifest.json"
+    escaped_manifest = json.loads(escaped_manifest_path.read_text())
+    escaped_manifest["data"] = "../outside.parquet"
+    escaped_manifest_path.write_text(json.dumps(escaped_manifest))
+    with pytest.raises(EngineError, match=exp["path_escape_error"]):
+        independent_store.open(str(escaped_project))
+
+    symlink_project = tmp_path / "SymlinkEscaped.openstat"
+    shutil.copytree(project_path, symlink_project)
+    (symlink_project / "escape").symlink_to(tmp_path, target_is_directory=True)
+    symlink_manifest_path = symlink_project / "manifest.json"
+    symlink_manifest = json.loads(symlink_manifest_path.read_text())
+    symlink_manifest["data"] = "escape/data.parquet"
+    symlink_manifest_path.write_text(json.dumps(symlink_manifest))
+    with pytest.raises(EngineError, match=exp["symlink_escape_error"]):
+        independent_store.open(str(symlink_project))
+
     unsupported_project = tmp_path / "Unsupported.openstat"
     shutil.copytree(project_path, unsupported_project)
     unsupported_manifest = json.loads((unsupported_project / "manifest.json").read_text())

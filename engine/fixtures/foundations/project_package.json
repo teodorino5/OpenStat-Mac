@@ -1,7 +1,7 @@
 {
   "feature_ids": ["DATA-037"],
   "provenance": "Original fixture authored for this project, 2026-10-15. No external vendor or sample data.",
-  "independent_method": "Hand-calculated native project package contract. Verifies version 1 manifest structure, immutable data-<sha256>.parquet storage, sparse edits-<uuid>.json overlay, SHA-256 integrity validation, path traversal rejection, unsupported array refusal, and round-trip state preservation across save and independent open.",
+  "independent_method": "Hand-calculated native project package contract. Verifies version 1 manifest structure, immutable data-<sha256>.parquet storage, sparse edits-<uuid>.json overlay, SHA-256 integrity validation, path traversal and symlink escape rejection, unsupported array refusal, and round-trip state preservation across save and independent open.",
   "tolerance": {"comparison": "exact manifest schema, hash integrity, sparse overlay cells, and dataset descriptor"},
   "test_selector": "engine/tests/test_store.py::test_project_package_contract",
   "input": {
@@ -63,6 +63,8 @@
       "results",
       "sha256",
       "workflows"
-    ]
+    ],
+    "path_escape_error": "error.project_path",
+    "symlink_escape_error": "error.project_path"
   }
 }
