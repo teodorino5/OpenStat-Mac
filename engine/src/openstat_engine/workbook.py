@@ -295,6 +295,8 @@ class WorkbookStore:
         id: str | None = None,
     ) -> dict[str, Any]:
         wb_id = id or f"wb-{uuid.uuid4().hex[:8]}"
+        if wb_id in self._workbooks:
+            raise EngineError("error.duplicate_fields")
         parsed_blocks = [Block.from_dict(b) for b in (blocks or [])]
         wb = Workbook(id=wb_id, title=title, blocks=parsed_blocks)
         self._workbooks[wb.id] = wb

@@ -4483,10 +4483,10 @@
       "name": "Results workbook blocks",
       "method": "Ordered tables/charts/notes with collapse and annotations",
       "reference": "M18",
-      "library": "Needs custom block document model",
+      "library": "Original openstat_engine workbook model and Swift OpenStatCore types; native workbook UI pending",
       "phase": 0,
-      "status": "verified against reference values",
-      "evidence": "V05:function",
+      "status": "in progress",
+      "evidence": "brief",
       "tests": [
         "engine/tests/test_store.py::test_results_workbook_blocks_contract"
       ],
