@@ -2,7 +2,7 @@
 
 Audit date: 2026-10-14 (Europe/Prague). Phase 0 active; implementation authorized.
 
-**Coverage: 25 of 353 planned functions implemented, 20 verified against reference values.**
+**Coverage: 24 of 353 planned functions implemented, 19 verified against reference values.**
 
 ## Scope and evidence limits
 
@@ -22,7 +22,7 @@ The five accepted rows are engine data foundations. The three verified rows shar
 
 | Phase | Planned functions | Implemented | Verified |
 | --- | ---: | ---: | ---: |
-| 0 | 47 | 25 | 20 |
+| 0 | 47 | 24 | 19 |
 | 1 | 65 | 0 | 0 |
 | 2 | 37 | 0 | 0 |
 | 3 | 62 | 0 | 0 |
@@ -454,7 +454,7 @@ The five accepted rows are engine data foundations. The three verified rows shar
 | --- | --- | --- | --- | --- | ---: | --- | --- | --- | --- |
 | WORK-001 | Native document windows and tabs | Document ownership, coordinated edits and native tab behavior | [M18](https://developer.apple.com/documentation/appkit/nsdocument) | NSDocument / NSWindow | 0 | in progress | brief | — | — |
 | WORK-002 | Project sidebar and inspector | Dataset/analysis/result/workflow navigation and nonmodal forms | [M18](https://developer.apple.com/documentation/appkit/nsdocument) | SwiftUI / AppKit | 0 | in progress | brief | — | — |
-| WORK-003 | Searchable analysis launcher | Stable command registry shared with Statistics menu | [M18](https://developer.apple.com/documentation/appkit/nsdocument) | Original openstat_engine command registry and RPC | 0 | verified against reference values | brief | `engine/tests/test_store.py::test_searchable_analysis_launcher_contract` | `engine/fixtures/foundations/command_launcher.json` |
+| WORK-003 | Searchable analysis launcher | Stable command registry shared with Statistics menu | [M18](https://developer.apple.com/documentation/appkit/nsdocument) | Original openstat_engine command registry and RPC | 0 | in progress | brief | — | — |
 | WORK-004 | Type-aware variable pickers | Eligibility by scale/role with accessible keyboard alternatives | [M18](https://developer.apple.com/documentation/appkit/nsdocument) | Needs custom declarative form model | 0 | not started | brief | — | — |
 | WORK-005 | Declarative analysis specifications | Versioned parameters, revision hash and statistical conventions | [M18](https://developer.apple.com/documentation/appkit/nsdocument) | Needs custom JSON schema | 0 | not started | brief | — | — |
 | WORK-006 | Results workbook blocks | Ordered tables/charts/notes with collapse and annotations | [M18](https://developer.apple.com/documentation/appkit/nsdocument) | Needs custom block document model | 0 | not started | brief | — | — |

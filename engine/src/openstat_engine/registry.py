@@ -13,7 +13,7 @@ class Command:
     keywords: tuple[str, ...]
     method: str | None = None
 
-    def to_dict(self) -> dict[str, Any]:
+    def to_dict(self, enabled: bool) -> dict[str, Any]:
         return {
             "id": self.id,
             "title": self.title,
@@ -21,7 +21,7 @@ class Command:
             "phase": self.phase,
             "keywords": list(self.keywords),
             "method": self.method,
-            "enabled": self.phase == 0,
+            "enabled": enabled,
         }
 
 
@@ -65,7 +65,7 @@ DEFAULT_COMMANDS: tuple[Command, ...] = (
         category="transform",
         phase=0,
         keywords=("power", "lambda", "mle", "log", "normal"),
-        method="columns.compute",
+        method="columns.box_cox",
     ),
     Command(
         id="classification.intervals",
@@ -200,12 +200,27 @@ DEFAULT_COMMANDS: tuple[Command, ...] = (
 
 
 class CommandRegistry:
-    def __init__(self, commands: tuple[Command, ...] = DEFAULT_COMMANDS) -> None:
+    def __init__(
+        self,
+        commands: tuple[Command, ...] = DEFAULT_COMMANDS,
+        available_methods: set[str] | None = None,
+    ) -> None:
         self._commands = commands
+        self._available_methods = (
+            None if available_methods is None else frozenset(available_methods)
+        )
+
+    def set_available_methods(self, available_methods: set[str]) -> None:
+        self._available_methods = frozenset(available_methods)
+
+    def _is_enabled(self, command: Command) -> bool:
+        if command.phase != 0 or command.method is None:
+            return False
+        return self._available_methods is None or command.method in self._available_methods
 
     def list_commands(self, phase: int | None = None) -> list[dict[str, Any]]:
         result = [
-            c.to_dict()
+            c.to_dict(self._is_enabled(c))
             for c in self._commands
             if phase is None or c.phase == phase
         ]
@@ -218,18 +233,25 @@ class CommandRegistry:
                 seen.append(c.category)
         return seen
 
-    def search(self, query: str = "", max_phase: int | None = None) -> list[dict[str, Any]]:
+    def search(
+        self,
+        query: str = "",
+        max_phase: int | None = None,
+        category: str | None = None,
+    ) -> list[dict[str, Any]]:
         tokens = [t.lower() for t in query.strip().split() if t]
         matched: list[dict[str, Any]] = []
         for cmd in self._commands:
+            if category is not None and cmd.category != category:
+                continue
             if max_phase is not None and cmd.phase > max_phase:
                 continue
             if not tokens:
-                matched.append(cmd.to_dict())
+                matched.append(cmd.to_dict(self._is_enabled(cmd)))
                 continue
             searchable = (
                 f"{cmd.id} {cmd.title} {cmd.category} {' '.join(cmd.keywords)}".lower()
             )
             if all(token in searchable for token in tokens):
-                matched.append(cmd.to_dict())
+                matched.append(cmd.to_dict(self._is_enabled(cmd)))
         return matched
