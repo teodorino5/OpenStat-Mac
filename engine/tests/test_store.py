@@ -561,7 +561,7 @@ def test_extend_crosses_multiple_row_group_boundaries(
 @pytest.mark.feature("WORK-006")
 def test_results_workbook_blocks_contract(reference_fixture: Any, tmp_path: Path) -> None:
     from openstat_engine.rpc import Service
-    from openstat_engine.workbook import Block, Workbook, create_note_block
+    from openstat_engine.workbook import Block, Workbook, WorkbookStore, create_note_block
 
     fixture = reference_fixture("engine/fixtures/foundations/results_workbook.json")
 
@@ -639,6 +639,13 @@ def test_results_workbook_blocks_contract(reference_fixture: Any, tmp_path: Path
     serialized = wb.to_dict()
     reconstructed = Workbook.from_dict(serialized)
     assert reconstructed.to_dict() == serialized
+
+    # Explicit IDs must not silently replace an active workbook.
+    workbook_store = WorkbookStore()
+    stored = workbook_store.create("Preserved Workbook", id="wb-preserved")
+    with pytest.raises(EngineError, match="error.duplicate_fields"):
+        workbook_store.create("Replacement Workbook", id="wb-preserved")
+    assert workbook_store.get("wb-preserved") == stored
 
     # 8. JSON-RPC dispatch verification
     service = Service(tmp_path)

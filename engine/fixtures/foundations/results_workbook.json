@@ -2,8 +2,8 @@
   "feature_ids": [
     "WORK-006"
   ],
-  "provenance": "Original results workbook block document specification authored for OpenStat-Mac, 2026-10-15; no vendor or course data.",
-  "independent_method": "Ordered sequence of analytical tables, charts, notes and collapsible sections; discrete state transitions for collapse/expand, block reordering, user annotation persistence and rerun updates.",
+  "provenance": "Project-authored deterministic acceptance fixture for OpenStat-Mac, 2026-10-15; expected values are not independently sourced reference data.",
+  "independent_method": "Project-authored ordered blocks and state transitions are acceptance data. They are not independently sourced reference results.",
   "tolerance": {
     "comparison": "exact block IDs, types, order, collapse booleans, annotations, and table contents"
   },
