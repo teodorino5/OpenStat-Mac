@@ -4444,12 +4444,16 @@
       "name": "Searchable analysis launcher",
       "method": "Stable command registry shared with Statistics menu",
       "reference": "M18",
-      "library": "Needs custom command registry",
+      "library": "Original openstat_engine command registry and RPC",
       "phase": 0,
-      "status": "not started",
+      "status": "verified against reference values",
       "evidence": "brief",
-      "tests": [],
-      "fixtures": []
+      "tests": [
+        "engine/tests/test_store.py::test_searchable_analysis_launcher_contract"
+      ],
+      "fixtures": [
+        "engine/fixtures/foundations/command_launcher.json"
+      ]
     },
     {
       "id": "WORK-004",

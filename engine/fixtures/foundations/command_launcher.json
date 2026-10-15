@@ -1,0 +1,57 @@
+{
+  "feature_ids": [
+    "WORK-003"
+  ],
+  "provenance": "Original command registry and searchable analysis launcher specifications authored for OpenStat-Mac project, 2026-10-15; no course or vendor data.",
+  "independent_method": "Hand-calculated tokenized search matching over canonical command registry (exact name, substring, keyword alias, category filtering, phase boundary gating, and empty-query full catalog discovery).",
+  "tolerance": {
+    "comparison": "exact command id, category, phase and ordering match"
+  },
+  "test_selector": "engine/tests/test_store.py::test_searchable_analysis_launcher_contract",
+  "input": {
+    "queries": [
+      "",
+      "compute",
+      "formula",
+      "outlier",
+      "pivot",
+      "ttest",
+      "nonexistent_command_xyz"
+    ]
+  },
+  "expected": {
+    "total_commands": 21,
+    "phase_0_commands": 16,
+    "phase_1_commands": 5,
+    "categories": [
+      "transform",
+      "classification",
+      "tables",
+      "cases",
+      "descriptive",
+      "inference"
+    ],
+    "query_results": {
+      "empty": 21,
+      "compute": [
+        "columns.compute"
+      ],
+      "formula": [
+        "columns.compute"
+      ],
+      "outlier": [
+        "columns.outliers"
+      ],
+      "pivot": [
+        "tables.pivot",
+        "tables.melt"
+      ],
+      "ttest": [
+        "stats.ttest_1samp",
+        "stats.ttest_ind",
+        "stats.ttest_rel"
+      ],
+      "nonexistent_command_xyz": []
+    }
+  }
+}

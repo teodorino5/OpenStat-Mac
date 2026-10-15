@@ -14,6 +14,7 @@ from . import (
     interchange,
     outliers,
     readstat_io,
+    registry,
     structure,
     tables,
     views,
@@ -87,12 +88,13 @@ def write_frame(stream: BinaryIO, value: dict[str, Any]) -> None:
 class Service:
     def __init__(self, directory: Path) -> None:
         self.store = Store(directory)
+        self.cmd_registry = registry.CommandRegistry()
         self.shutdown = False
-        registry = self.methods()
+        available_methods = self.methods()
         self.jobs = Jobs(
             {
                 name: operation
-                for name, operation in registry.items()
+                for name, operation in available_methods.items()
                 if not name.startswith(("engine.", "jobs.")) and name != "artifact.release"
             }
         )
@@ -132,6 +134,8 @@ class Service:
             "project.save": self.store.save,
             "project.open": self.store.open,
             "artifact.release": self.store.release,
+            "commands.list": self.cmd_registry.list_commands,
+            "commands.search": self.cmd_registry.search,
             **(
                 {
                     "jobs.submit": self.jobs.submit,
