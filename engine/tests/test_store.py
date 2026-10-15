@@ -556,3 +556,107 @@ def test_extend_crosses_multiple_row_group_boundaries(
     assert boundary["row_ids"] == [8191, 8192, 8193]
     last = store.page(result["revision"], 16384, 2)
     assert last["rows"] == [[None], [None]] and last["row_ids"] == [16384, 16385]
+
+
+@pytest.mark.feature("WORK-001")
+def test_native_document_windows_and_tabs_contract(
+    store: Store,
+    reference_fixture: Any,
+    tmp_path: Path,
+) -> None:
+    fixture = reference_fixture("engine/fixtures/foundations/native_documents.json")
+    doc1_spec = fixture["input"]["doc1"]
+    doc2_spec = fixture["input"]["doc2"]
+    expected = fixture["expected"]
+
+    # 1. Independent document creation with disparate schemas and contexts
+    doc1 = store.create(
+        doc1_spec["name"],
+        doc1_spec["fields"],
+        doc1_spec["rows"],
+        context=doc1_spec["context"],
+        observation_unit=doc1_spec["observation_unit"],
+    )
+    doc2 = store.create(
+        doc2_spec["name"],
+        doc2_spec["fields"],
+        doc2_spec["rows"],
+        context=doc2_spec["context"],
+        observation_unit=doc2_spec["observation_unit"],
+    )
+
+    assert doc1["id"] != doc2["id"]
+    assert doc1["revision"] != doc2["revision"]
+    assert doc1["row_count"] == expected["doc1_initial"]["row_count"]
+    assert doc2["row_count"] == expected["doc2_initial"]["row_count"]
+
+    # Check initial page data
+    page1_0 = store.page(doc1["revision"], 0, 10)
+    page2_0 = store.page(doc2["revision"], 0, 10)
+    assert page1_0["rows"] == expected["doc1_initial"]["rows"]
+    assert page2_0["rows"] == expected["doc2_initial"]["rows"]
+
+    # 2. Interleaved edits: Step 1 (Doc 1)
+    doc1_rev1 = store.edit(doc1["revision"], 0, "f_salary", 68000.0)
+    assert doc1_rev1["revision"] != doc1["revision"]
+    page1_1 = store.page(doc1_rev1["revision"], 0, 10)
+    assert page1_1["rows"] == expected["doc1_step1"]["rows"]
+    # Doc 2 is completely unchanged
+    page2_check1 = store.page(doc2["revision"], 0, 10)
+    assert page2_check1["rows"] == expected["doc2_initial"]["rows"]
+
+    # Step 2 (Doc 2)
+    doc2_rev1 = store.edit(doc2["revision"], 1, "f_sbp", 140)
+    assert doc2_rev1["revision"] != doc2["revision"]
+    page2_2 = store.page(doc2_rev1["revision"], 0, 10)
+    assert page2_2["rows"] == expected["doc2_step2"]["rows"]
+    # Doc 1 is completely unchanged
+    assert store.page(doc1_rev1["revision"], 0, 10)["rows"] == expected["doc1_step1"]["rows"]
+
+    # Step 3 (Doc 1)
+    doc1_rev2 = store.edit(doc1_rev1["revision"], 2, "f_dept", "Sales")
+    page1_3 = store.page(doc1_rev2["revision"], 0, 10)
+    assert page1_3["rows"] == expected["doc1_step3"]["rows"]
+
+    # Step 4 (Doc 2)
+    doc2_rev2 = store.edit(doc2_rev1["revision"], 0, "f_chol", 200.0)
+    page2_4 = store.page(doc2_rev2["revision"], 0, 10)
+    assert page2_4["rows"] == expected["doc2_step4"]["rows"]
+
+    # 3. Isolated undo simulation: Doc 1 reverts to doc1_rev1
+    assert store.page(doc1_rev1["revision"], 0, 10)["rows"] == expected["doc1_reverted"]["rows"]
+    # Doc 2 remains at doc2_rev2
+    assert store.page(doc2_rev2["revision"], 0, 10)["rows"] == expected["doc2_step4"]["rows"]
+
+    # 4. Independent project package save
+    pkg1_path = tmp_path / "project_doc1.openstat"
+    pkg2_path = tmp_path / "project_doc2.openstat"
+
+    store.save(doc1_rev1["revision"], str(pkg1_path))
+    store.save(doc2_rev2["revision"], str(pkg2_path))
+
+    assert (pkg1_path / "manifest.json").is_file()
+    assert (pkg2_path / "manifest.json").is_file()
+
+    manifest1 = json.loads((pkg1_path / "manifest.json").read_text())
+    manifest2 = json.loads((pkg2_path / "manifest.json").read_text())
+
+    assert manifest1["dataset"]["name"] == "Employee Records"
+    assert manifest1["dataset"]["row_count"] == 4
+    assert len(manifest1["dataset"]["fields"]) == 3
+
+    assert manifest2["dataset"]["name"] == "Clinical Biomarkers"
+    assert manifest2["dataset"]["row_count"] == 3
+    assert len(manifest2["dataset"]["fields"]) == 4
+
+    # 5. Clean reload in a new Store instance
+    reopen_store = Store(tmp_path / "reopen_cache")
+    reopened_doc1 = reopen_store.open(str(pkg1_path))
+    reopened_doc2 = reopen_store.open(str(pkg2_path))
+
+    assert reopened_doc1["id"] != reopened_doc2["id"]
+    page1_reopened = reopen_store.page(reopened_doc1["revision"], 0, 10)
+    assert page1_reopened["rows"] == expected["doc1_reverted"]["rows"]
+    page2_reopened = reopen_store.page(reopened_doc2["revision"], 0, 10)
+    assert page2_reopened["rows"] == expected["doc2_step4"]["rows"]
+
