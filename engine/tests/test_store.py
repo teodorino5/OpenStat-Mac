@@ -606,6 +606,11 @@ def test_english_czech_localization_contract(reference_fixture: Any, tmp_path: P
         parse_localized_number("not_a_number", "cs")
     with pytest.raises(EngineError, match="error.operation_options"):
         parse_localized_number("", "en")
+    for locale, malformed in (("en", "1,2"), ("en", "12,34,567"), ("cs", "12 34,5")):
+        with pytest.raises(EngineError, match="error.operation_options"):
+            parse_localized_number(malformed, locale)
+    assert parse_localized_number("1,234.5", "en") == 1234.5
+    assert parse_localized_number("1\u00a0234,5", "cs") == 1234.5
 
     # 3. Number formatting
     for case in expected["number_formatting"]["en_cases"]:
