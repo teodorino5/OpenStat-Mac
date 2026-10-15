@@ -1,0 +1,174 @@
+{
+  "feature_ids": [
+    "WORK-001"
+  ],
+  "provenance": "Original multi-document ownership and coordinated edit contracts authored for OpenStat-Mac project, 2026-10-15; no course or vendor data.",
+  "independent_method": "Hand-calculated sequential state machine of concurrent multi-document ownership: independent dataset revision isolation, concurrent disparate schemas and row sets, coordinated non-interfering edits, isolated undo stacks, separate project package persistence, resource cleanup on document close, and exact state preservation across save/reopen.",
+  "tolerance": {
+    "comparison": "exact schema, cell values, row IDs, checksums and revision isolation"
+  },
+  "test_selector": "engine/tests/test_store.py::test_native_document_windows_and_tabs_contract",
+  "input": {
+    "doc1": {
+      "name": "Employee Records",
+      "context": "sample",
+      "observation_unit": "employee",
+      "fields": [
+        {
+          "id": "f_emp_id",
+          "name": "EmployeeID",
+          "storage": "string",
+          "measurement": "nominal",
+          "role": "identifier"
+        },
+        {
+          "id": "f_salary",
+          "name": "Salary",
+          "storage": "float64",
+          "measurement": "continuous"
+        },
+        {
+          "id": "f_dept",
+          "name": "Department",
+          "storage": "string",
+          "measurement": "nominal"
+        }
+      ],
+      "rows": [
+        ["E101", 65000.0, "Engineering"],
+        ["E102", 72000.0, "Research"],
+        ["E103", 58000.0, "Marketing"],
+        ["E104", 81000.0, "Engineering"]
+      ]
+    },
+    "doc2": {
+      "name": "Clinical Biomarkers",
+      "context": "population",
+      "observation_unit": "patient",
+      "fields": [
+        {
+          "id": "f_patient_id",
+          "name": "PatientID",
+          "storage": "string",
+          "measurement": "nominal",
+          "role": "identifier"
+        },
+        {
+          "id": "f_sbp",
+          "name": "SystolicBP",
+          "storage": "int64",
+          "measurement": "discrete"
+        },
+        {
+          "id": "f_chol",
+          "name": "Cholesterol",
+          "storage": "float64",
+          "measurement": "continuous"
+        },
+        {
+          "id": "f_smoker",
+          "name": "Smoker",
+          "storage": "bool",
+          "measurement": "binary"
+        }
+      ],
+      "rows": [
+        ["P001", 120, 195.5, false],
+        ["P002", 145, 230.0, true],
+        ["P003", 118, 175.2, false]
+      ]
+    },
+    "operations": [
+      {
+        "target": "doc1",
+        "action": "edit",
+        "row": 0,
+        "field": "f_salary",
+        "value": 68000.0
+      },
+      {
+        "target": "doc2",
+        "action": "edit",
+        "row": 1,
+        "field": "f_sbp",
+        "value": 140
+      },
+      {
+        "target": "doc1",
+        "action": "edit",
+        "row": 2,
+        "field": "f_dept",
+        "value": "Sales"
+      },
+      {
+        "target": "doc2",
+        "action": "edit",
+        "row": 0,
+        "field": "f_chol",
+        "value": 200.0
+      }
+    ]
+  },
+  "expected": {
+    "doc1_initial": {
+      "row_count": 4,
+      "rows": [
+        ["E101", 65000.0, "Engineering"],
+        ["E102", 72000.0, "Research"],
+        ["E103", 58000.0, "Marketing"],
+        ["E104", 81000.0, "Engineering"]
+      ]
+    },
+    "doc2_initial": {
+      "row_count": 3,
+      "rows": [
+        ["P001", 120, 195.5, false],
+        ["P002", 145, 230.0, true],
+        ["P003", 118, 175.2, false]
+      ]
+    },
+    "doc1_step1": {
+      "row_count": 4,
+      "rows": [
+        ["E101", 68000.0, "Engineering"],
+        ["E102", 72000.0, "Research"],
+        ["E103", 58000.0, "Marketing"],
+        ["E104", 81000.0, "Engineering"]
+      ]
+    },
+    "doc2_step2": {
+      "row_count": 3,
+      "rows": [
+        ["P001", 120, 195.5, false],
+        ["P002", 140, 230.0, true],
+        ["P003", 118, 175.2, false]
+      ]
+    },
+    "doc1_step3": {
+      "row_count": 4,
+      "rows": [
+        ["E101", 68000.0, "Engineering"],
+        ["E102", 72000.0, "Research"],
+        ["E103", 58000.0, "Sales"],
+        ["E104", 81000.0, "Engineering"]
+      ]
+    },
+    "doc2_step4": {
+      "row_count": 3,
+      "rows": [
+        ["P001", 120, 200.0, false],
+        ["P002", 140, 230.0, true],
+        ["P003", 118, 175.2, false]
+      ]
+    },
+    "doc1_reverted": {
+      "row_count": 4,
+      "rows": [
+        ["E101", 68000.0, "Engineering"],
+        ["E102", 72000.0, "Research"],
+        ["E103", 58000.0, "Marketing"],
+        ["E104", 81000.0, "Engineering"]
+      ]
+    }
+  }
+}

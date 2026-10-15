@@ -32,6 +32,7 @@ enum NativeSmoke {
       guard model.errorKey == nil, model.dataset?.rowCount == 50,
         L.text("default.measurement") != "default.measurement",
         document.windowControllers.first?.window?.contentViewController != nil,
+        document.windowControllers.first?.window?.tabbingMode == .preferred,
         document.windowControllers.first?.window?.toolbar != nil
       else {
         throw NSError(domain: "OpenStatNativeSmoke", code: 3)
