@@ -4511,14 +4511,10 @@
       "reference": "M18",
       "library": "Native controls + accessibility adapters",
       "phase": 0,
-      "status": "verified against reference values",
-      "evidence": "V05:function",
-      "tests": [
-        "engine/tests/test_store.py::test_accessibility_and_appearance_contract"
-      ],
-      "fixtures": [
-        "engine/fixtures/foundations/accessibility_appearance.json"
-      ]
+      "status": "in progress",
+      "evidence": "brief",
+      "tests": [],
+      "fixtures": []
     },
     {
       "id": "REPORT-001",

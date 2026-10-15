@@ -1,13 +1,11 @@
 {
-  "feature_ids": [
-    "WORK-008"
-  ],
-  "provenance": "Original accessibility, appearance and WCAG contrast reference specification authored for OpenStat-Mac, 2026-10-15; no vendor or course data.",
-  "independent_method": "VoiceOver semantic contract registry, deterministic keyboard focus order cycle, WCAG 2.1 relative luminance and contrast ratio calculations for light, dark and high-contrast palettes, and dynamic text scale multipliers.",
+  "feature_ids": [],
+  "provenance": "Project-authored engine accessibility prototype specification for OpenStat-Mac, 2026-10-15; no vendor or course data.",
+  "independent_method": "Not independent acceptance evidence for native WORK-008. This fixture describes engine-side accessibility descriptors, deterministic focus-cycle prototypes, WCAG contrast calculations and theme palettes; it does not test native VoiceOver, AppKit or SwiftUI focus, Dynamic Type, or appearance integration.",
   "tolerance": {
     "comparison": "exact element identifiers, roles, label keys, exact focus order, and contrast ratios within 0.05"
   },
-  "test_selector": "engine/tests/test_store.py::test_accessibility_and_appearance_contract",
+  "test_selector": "engine/tests/test_store.py::test_accessibility_engine_primitives",
   "expected": {
     "elements": [
       {
