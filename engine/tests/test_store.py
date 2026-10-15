@@ -556,3 +556,130 @@ def test_extend_crosses_multiple_row_group_boundaries(
     assert boundary["row_ids"] == [8191, 8192, 8193]
     last = store.page(result["revision"], 16384, 2)
     assert last["rows"] == [[None], [None]] and last["row_ids"] == [16384, 16385]
+
+
+@pytest.mark.feature("WORK-005")
+def test_declarative_analysis_specifications_contract(
+    store: Store,
+    reference_fixture: Any,
+) -> None:
+    from openstat_engine.analysis_spec import (
+        SUPPORTED_ANALYSES,
+        AnalysisSpecification,
+        StatisticalConventions,
+    )
+    from openstat_engine.errors import EngineError
+
+    fixture = reference_fixture("engine/fixtures/foundations/analysis_specifications.json")
+    expected = fixture["expected"]
+    inp = fixture["input"]
+
+    # 1. Supported analyses set
+    assert sorted(SUPPORTED_ANALYSES) == expected["supported_analyses"]
+
+    # 2. Spec A (Independent T-Test) canonical digest
+    spec_t = AnalysisSpecification.from_dict(inp["spec_ttest"])
+    assert spec_t.digest() == expected["spec_ttest_digest"]
+    assert spec_t.to_dict()["digest"] == expected["spec_ttest_digest"]
+
+    # 3. Spec B (Contingency Table) canonical digest
+    spec_c = AnalysisSpecification.from_dict(inp["spec_contingency"])
+    assert spec_c.digest() == expected["spec_contingency_digest"]
+
+    # 4. Error conditions validation
+    errs = expected["validation_errors"]
+
+    # Invalid schema version
+    with pytest.raises(EngineError) as exc_info:
+        AnalysisSpecification.from_dict({**inp["spec_ttest"], "schema_version": 2})
+    assert exc_info.value.key == errs["invalid_version"]
+
+    # Invalid analysis id
+    with pytest.raises(EngineError) as exc_info:
+        AnalysisSpecification.from_dict(
+            {**inp["spec_ttest"], "analysis_id": "nonexistent_analysis"}
+        )
+    assert exc_info.value.key == errs["invalid_analysis"]
+
+    # Empty dataset id
+    with pytest.raises(EngineError) as exc_info:
+        AnalysisSpecification.from_dict({**inp["spec_ttest"], "dataset_id": ""})
+    assert exc_info.value.key == "error.field_name"
+
+    # Invalid confidence level
+    with pytest.raises(EngineError) as exc_info:
+        AnalysisSpecification(
+            analysis_id="ttest_ind",
+            dataset_id="ds1",
+            dataset_revision="rev1",
+            variables={"dependent": ["y"]},
+            conventions=StatisticalConventions(confidence_level=1.5),
+        )
+    assert exc_info.value.key == errs["invalid_confidence"]
+
+    # Invalid missing strategy
+    with pytest.raises(EngineError) as exc_info:
+        AnalysisSpecification(
+            analysis_id="ttest_ind",
+            dataset_id="ds1",
+            dataset_revision="rev1",
+            variables={"dependent": ["y"]},
+            conventions=StatisticalConventions(missing_strategy="invalid_strategy"),
+        )
+    assert exc_info.value.key == errs["invalid_strategy"]
+
+    # Invalid alpha / p_value_threshold
+    with pytest.raises(EngineError) as exc_info:
+        StatisticalConventions(p_value_threshold=0.0).validate()
+    assert exc_info.value.key == "error.operation_options"
+
+    # Invalid degrees_of_freedom_adjustment
+    with pytest.raises(EngineError) as exc_info:
+        StatisticalConventions(degrees_of_freedom_adjustment=2).validate()
+    assert exc_info.value.key == "error.operation_options"
+
+    # Invalid rounding_precision
+    with pytest.raises(EngineError) as exc_info:
+        StatisticalConventions(rounding_precision=-1).validate()
+    assert exc_info.value.key == "error.operation_options"
+
+    # 5. Store validation against actual revision
+    fields = [
+        {"id": "f_bmi", "name": "BMI", "storage": "float64", "measurement": "continuous"},
+        {"id": "f_treatment", "name": "Treatment", "storage": "string", "measurement": "nominal"},
+    ]
+    created = store.create("Clinical Dataset", fields, [[22.5, "Control"], [26.1, "Drug"]])
+    valid_spec = AnalysisSpecification(
+        analysis_id="ttest_ind",
+        dataset_id=created["id"],
+        dataset_revision=created["revision"],
+        variables={"dependent": ["f_bmi"], "grouping": ["f_treatment"]},
+    )
+    result = valid_spec.validate_against_store(store)
+    assert result["valid"] is True
+    assert result["revision"] == created["revision"]
+    assert result["row_count"] == 2
+    assert result["field_count"] == 2
+
+    # Unknown field validation failure
+    missing_field_spec = AnalysisSpecification(
+        analysis_id="ttest_ind",
+        dataset_id=created["id"],
+        dataset_revision=created["revision"],
+        variables={"dependent": ["f_nonexistent"], "grouping": ["f_treatment"]},
+    )
+    with pytest.raises(EngineError) as exc_info:
+        missing_field_spec.validate_against_store(store)
+    assert exc_info.value.key == errs["missing_field"]
+
+    # 6. RPC integration
+    from openstat_engine.rpc import Service
+
+    service = Service(store.directory)
+    service.store = store
+    rpc_digest = service.methods()["analysis.spec_digest"](valid_spec.to_dict())
+    assert rpc_digest["digest"] == valid_spec.digest()
+
+    rpc_val = service.methods()["analysis.spec_validate"](valid_spec.to_dict())
+    assert rpc_val["valid"] is True
+

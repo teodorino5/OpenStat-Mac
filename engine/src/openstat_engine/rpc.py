@@ -9,6 +9,7 @@ from typing import Any, BinaryIO, cast
 
 from . import (
     __version__,
+    analysis_spec,
     classification,
     columns,
     interchange,
@@ -132,6 +133,14 @@ class Service:
             "project.save": self.store.save,
             "project.open": self.store.open,
             "artifact.release": self.store.release,
+            "analysis.spec_digest": (
+                lambda spec: analysis_spec.AnalysisSpecification.from_dict(spec).to_dict()
+            ),
+            "analysis.spec_validate": (
+                lambda spec: analysis_spec.AnalysisSpecification.from_dict(
+                    spec
+                ).validate_against_store(self.store)
+            ),
             **(
                 {
                     "jobs.submit": self.jobs.submit,
