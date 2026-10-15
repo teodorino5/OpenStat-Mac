@@ -2,12 +2,12 @@
   "feature_ids": [
     "WORK-002"
   ],
-  "provenance": "Original project navigation and nonmodal inspector specifications authored for OpenStat-Mac project, 2026-10-15; no course or vendor data.",
-  "independent_method": "Hand-calculated state transitions for project sidebar section navigation (datasets, analyses, results, workflows) and nonmodal inspector metadata modifications: field renaming, role transitions, measurement scale reclassification, observation unit updates, population/sample context transitions, and reversible undo/redo.",
+  "provenance": "Project-authored Store metadata examples for OpenStat-Mac, 2026-10-15; no external source or vendor data.",
+  "independent_method": "Not an independent reference fixture. Expected values describe Python Store metadata revisions only; they do not exercise SwiftUI/AppKit sidebar navigation, inspector forms, or NSUndoManager.",
   "tolerance": {
     "comparison": "exact string and dictionary match for metadata, roles, measurement types and context"
   },
-  "test_selector": "engine/tests/test_store.py::test_project_sidebar_and_inspector_contract",
+  "test_selector": "engine/tests/test_store.py::test_project_metadata_revision_primitives",
   "input": {
     "initial_dataset": {
       "name": "Health Study",
@@ -134,15 +134,6 @@
     "step5_unit": {
       "context": "population",
       "observation_unit": "resident"
-    },
-    "sidebar_navigation": {
-      "supported_sections": [
-        "datasets",
-        "analyses",
-        "results",
-        "workflows"
-      ],
-      "active_section": "datasets"
     }
   }
 }
