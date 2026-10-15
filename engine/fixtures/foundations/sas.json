@@ -1,13 +1,11 @@
 {
-  "feature_ids": [
-    "DATA-035"
-  ],
-  "provenance": "Original hand-authored SAS dataset specification for OpenStat Mac, 2026-10-15; no vendor or course data.",
-  "independent_method": "Hand-calculated schema translation from PyReadStat SAS7BDAT metadata (column names, column labels, original variable types, formats, value labels, measure types) into OpenStat typed fields, loss tracking, and Arrow table streaming.",
+  "feature_ids": [],
+  "provenance": "Project-authored synthetic SAS metadata contract for adapter tests; no genuine .sas7bdat source or external reference.",
+  "independent_method": "Not an independent verification fixture: the test builds both mocked PyReadStat metadata and input columns from this JSON, then injects a mocked reader. It checks adapter mapping only, not parsing a real SAS file.",
   "tolerance": {
     "comparison": "exact fields, roles, measurements, cell values, and reported metadata losses"
   },
-  "test_selector": "engine/tests/test_readstat_io.py::test_sas_reference_fixture",
+  "test_selector": "engine/tests/test_readstat_io.py::test_sas_adapter_metadata_mapping_with_mock_reader",
   "input": {
     "file_label": "Clinical Trial Cohort",
     "file_encoding": "UTF-8",
