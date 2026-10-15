@@ -12,6 +12,7 @@ from . import (
     classification,
     columns,
     interchange,
+    localization,
     outliers,
     readstat_io,
     structure,
@@ -87,6 +88,7 @@ def write_frame(stream: BinaryIO, value: dict[str, Any]) -> None:
 class Service:
     def __init__(self, directory: Path) -> None:
         self.store = Store(directory)
+        self.string_catalog = localization.StringCatalog()
         self.shutdown = False
         registry = self.methods()
         self.jobs = Jobs(
@@ -132,6 +134,11 @@ class Service:
             "project.save": self.store.save,
             "project.open": self.store.open,
             "artifact.release": self.store.release,
+            "localization.catalog_info": self.string_catalog.catalog_info,
+            "localization.translate": self.string_catalog.translate,
+            "localization.format_number": localization.format_localized_number,
+            "localization.parse_number": localization.parse_localized_number,
+            "localization.sort_strings": localization.sort_strings,
             **(
                 {
                     "jobs.submit": self.jobs.submit,
