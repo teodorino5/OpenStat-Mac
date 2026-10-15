@@ -556,3 +556,67 @@ def test_extend_crosses_multiple_row_group_boundaries(
     assert boundary["row_ids"] == [8191, 8192, 8193]
     last = store.page(result["revision"], 16384, 2)
     assert last["rows"] == [[None], [None]] and last["row_ids"] == [16384, 16385]
+
+
+@pytest.mark.feature("WORK-003")
+def test_searchable_analysis_launcher_contract(
+    reference_fixture: Any,
+) -> None:
+    from openstat_engine.registry import CommandRegistry
+
+    fixture = reference_fixture("engine/fixtures/foundations/command_launcher.json")
+    expected = fixture["expected"]
+
+    cmd_registry = CommandRegistry()
+
+    # 1. Full command catalog and phase counts
+    all_commands = cmd_registry.list_commands()
+    assert len(all_commands) == expected["total_commands"]
+
+    phase_0_commands = cmd_registry.list_commands(phase=0)
+    assert len(phase_0_commands) == expected["phase_0_commands"]
+    assert all(c["enabled"] for c in phase_0_commands)
+
+    phase_1_commands = cmd_registry.list_commands(phase=1)
+    assert len(phase_1_commands) == expected["phase_1_commands"]
+    assert all(not c["enabled"] for c in phase_1_commands)
+
+    # 2. Categories
+    assert cmd_registry.categories() == expected["categories"]
+
+    # 3. Query results
+    query_results = expected["query_results"]
+
+    # Empty query returns full catalog
+    assert len(cmd_registry.search("")) == query_results["empty"]
+
+    # "compute" matches columns.compute
+    compute_matches = [c["id"] for c in cmd_registry.search("compute")]
+    assert compute_matches == query_results["compute"]
+
+    # "formula" keyword search matches columns.compute
+    formula_matches = [c["id"] for c in cmd_registry.search("formula")]
+    assert formula_matches == query_results["formula"]
+
+    # "outlier" matches columns.outliers
+    outlier_matches = [c["id"] for c in cmd_registry.search("outlier")]
+    assert outlier_matches == query_results["outlier"]
+
+    # "pivot" matches tables.pivot
+    pivot_matches = [c["id"] for c in cmd_registry.search("pivot")]
+    assert pivot_matches == query_results["pivot"]
+
+    # "ttest" matches 3 t-test variants
+    ttest_matches = [c["id"] for c in cmd_registry.search("ttest")]
+    assert ttest_matches == query_results["ttest"]
+
+    # Nonexistent query returns 0 matches
+    assert (
+        cmd_registry.search("nonexistent_command_xyz")
+        == query_results["nonexistent_command_xyz"]
+    )
+
+    # 4. Phase gating in search: max_phase=0 filters out phase 1 t-tests
+    p0_ttest = cmd_registry.search("ttest", max_phase=0)
+    assert p0_ttest == []
+
