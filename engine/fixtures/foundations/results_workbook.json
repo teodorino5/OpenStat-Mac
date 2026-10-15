@@ -1,0 +1,304 @@
+{
+  "feature_ids": [
+    "WORK-006"
+  ],
+  "provenance": "Original results workbook block document specification authored for OpenStat-Mac, 2026-10-15; no vendor or course data.",
+  "independent_method": "Ordered sequence of analytical tables, charts, notes and collapsible sections; discrete state transitions for collapse/expand, block reordering, user annotation persistence and rerun updates.",
+  "tolerance": {
+    "comparison": "exact block IDs, types, order, collapse booleans, annotations, and table contents"
+  },
+  "test_selector": "engine/tests/test_store.py::test_results_workbook_blocks_contract",
+  "expected": {
+    "initial_block_ids": [
+      "sec-descriptives",
+      "tbl-descriptives",
+      "chart-histogram",
+      "tbl-ttest",
+      "note-conclusion"
+    ],
+    "reordered_block_ids": [
+      "note-conclusion",
+      "sec-descriptives",
+      "tbl-descriptives",
+      "chart-histogram",
+      "tbl-ttest"
+    ],
+    "rerun_revision": 2,
+    "rerun_annotations": {
+      "sec-descriptives": "Preliminary inspection",
+      "tbl-descriptives": "Baseline check",
+      "chart-histogram": "Normal unimodal distribution confirmed",
+      "tbl-ttest": "Initial run without Welch correction",
+      "note-conclusion": "Draft summary for peer review"
+    },
+    "rerun_collapsed": {
+      "sec-descriptives": false,
+      "tbl-descriptives": false,
+      "chart-histogram": false,
+      "tbl-ttest": true,
+      "note-conclusion": false
+    }
+  },
+  "initial_workbook": {
+    "id": "wb-reference-001",
+    "title": "Two-Sample Comparison Results",
+    "revision": 1,
+    "blocks": [
+      {
+        "id": "sec-descriptives",
+        "type": "section",
+        "title": "Descriptive Overview",
+        "collapsed": false,
+        "annotation": "Preliminary inspection",
+        "source_analysis": "procedure.descriptives",
+        "content": {
+          "child_block_ids": [
+            "tbl-descriptives",
+            "chart-histogram"
+          ]
+        }
+      },
+      {
+        "id": "tbl-descriptives",
+        "type": "table",
+        "title": "Group Statistics",
+        "collapsed": false,
+        "annotation": "Baseline check",
+        "source_analysis": "procedure.descriptives",
+        "content": {
+          "headers": [
+            "Group",
+            "N",
+            "Mean",
+            "Std Dev"
+          ],
+          "rows": [
+            [
+              "Control",
+              20,
+              102.5,
+              14.2
+            ],
+            [
+              "Treatment",
+              20,
+              118.4,
+              15.1
+            ]
+          ],
+          "alignment": [
+            "left",
+            "right",
+            "right",
+            "right"
+          ],
+          "footnotes": [
+            "Valid cases only"
+          ]
+        }
+      },
+      {
+        "id": "chart-histogram",
+        "type": "chart",
+        "title": "Distribution by Cohort",
+        "collapsed": false,
+        "annotation": null,
+        "source_analysis": "procedure.descriptives",
+        "content": {
+          "chart_type": "histogram",
+          "spec": {
+            "x": "value",
+            "bins": 8,
+            "facet": "group"
+          }
+        }
+      },
+      {
+        "id": "tbl-ttest",
+        "type": "table",
+        "title": "Independent Samples T-Test",
+        "collapsed": false,
+        "annotation": "Initial run without Welch correction",
+        "source_analysis": "procedure.ttest_ind",
+        "content": {
+          "headers": [
+            "Test",
+            "t",
+            "df",
+            "p-value",
+            "Mean Diff"
+          ],
+          "rows": [
+            [
+              "Student t",
+              -3.428,
+              38,
+              0.00147,
+              -15.9
+            ]
+          ],
+          "alignment": [
+            "left",
+            "right",
+            "right",
+            "right",
+            "right"
+          ],
+          "footnotes": [
+            "Two-tailed p-value"
+          ]
+        }
+      },
+      {
+        "id": "note-conclusion",
+        "type": "note",
+        "title": "Analyst Conclusion",
+        "collapsed": false,
+        "annotation": "Draft summary for peer review",
+        "source_analysis": null,
+        "content": {
+          "content": "Significant treatment effect detected (p < 0.01).",
+          "author": "lead_analyst"
+        }
+      }
+    ]
+  },
+  "step_collapse": {
+    "target_block_id": "tbl-ttest",
+    "collapsed": true
+  },
+  "step_reorder": {
+    "order": [
+      "note-conclusion",
+      "sec-descriptives",
+      "tbl-descriptives",
+      "chart-histogram",
+      "tbl-ttest"
+    ]
+  },
+  "step_annotation": {
+    "target_block_id": "chart-histogram",
+    "annotation": "Normal unimodal distribution confirmed"
+  },
+  "step_rerun": {
+    "new_blocks": [
+      {
+        "id": "sec-descriptives",
+        "type": "section",
+        "title": "Descriptive Overview",
+        "collapsed": false,
+        "annotation": null,
+        "source_analysis": "procedure.descriptives",
+        "content": {
+          "child_block_ids": [
+            "tbl-descriptives",
+            "chart-histogram"
+          ]
+        }
+      },
+      {
+        "id": "tbl-descriptives",
+        "type": "table",
+        "title": "Group Statistics",
+        "collapsed": false,
+        "annotation": null,
+        "source_analysis": "procedure.descriptives",
+        "content": {
+          "headers": [
+            "Group",
+            "N",
+            "Mean",
+            "Std Dev"
+          ],
+          "rows": [
+            [
+              "Control",
+              25,
+              101.8,
+              13.9
+            ],
+            [
+              "Treatment",
+              25,
+              119.2,
+              14.8
+            ]
+          ],
+          "alignment": [
+            "left",
+            "right",
+            "right",
+            "right"
+          ],
+          "footnotes": [
+            "Valid cases only (n=50)"
+          ]
+        }
+      },
+      {
+        "id": "chart-histogram",
+        "type": "chart",
+        "title": "Distribution by Cohort",
+        "collapsed": false,
+        "annotation": null,
+        "source_analysis": "procedure.descriptives",
+        "content": {
+          "chart_type": "histogram",
+          "spec": {
+            "x": "value",
+            "bins": 10,
+            "facet": "group"
+          }
+        }
+      },
+      {
+        "id": "tbl-ttest",
+        "type": "table",
+        "title": "Independent Samples T-Test",
+        "collapsed": false,
+        "annotation": null,
+        "source_analysis": "procedure.ttest_ind",
+        "content": {
+          "headers": [
+            "Test",
+            "t",
+            "df",
+            "p-value",
+            "Mean Diff"
+          ],
+          "rows": [
+            [
+              "Student t",
+              -4.215,
+              48,
+              0.00011,
+              -17.4
+            ]
+          ],
+          "alignment": [
+            "left",
+            "right",
+            "right",
+            "right",
+            "right"
+          ],
+          "footnotes": [
+            "Two-tailed p-value"
+          ]
+        }
+      },
+      {
+        "id": "note-conclusion",
+        "type": "note",
+        "title": "Analyst Conclusion",
+        "collapsed": false,
+        "annotation": null,
+        "source_analysis": null,
+        "content": {
+          "content": "Re-run with expanded cohort confirms effect (p < 0.001).",
+          "author": "lead_analyst"
+        }
+      }
+    ]
+  }
+}

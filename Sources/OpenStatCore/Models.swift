@@ -135,3 +135,55 @@ public enum CellParser {
   }
   public enum ParseError: Error { case invalid }
 }
+
+public struct WorkbookBlock: Identifiable, Codable, Equatable, Sendable {
+  public var id: String
+  public var type: String
+  public var title: String
+  public var collapsed: Bool
+  public var annotation: String?
+  public var sourceAnalysis: String?
+  public var content: [String: JSONValue]
+
+  enum CodingKeys: String, CodingKey {
+    case id, type, title, collapsed, annotation, content
+    case sourceAnalysis = "source_analysis"
+  }
+
+  public init(
+    id: String,
+    type: String,
+    title: String,
+    collapsed: Bool = false,
+    annotation: String? = nil,
+    sourceAnalysis: String? = nil,
+    content: [String: JSONValue] = [:]
+  ) {
+    self.id = id
+    self.type = type
+    self.title = title
+    self.collapsed = collapsed
+    self.annotation = annotation
+    self.sourceAnalysis = sourceAnalysis
+    self.content = content
+  }
+}
+
+public struct ResultsWorkbook: Identifiable, Codable, Equatable, Sendable {
+  public var id: String
+  public var title: String
+  public var revision: Int
+  public var blocks: [WorkbookBlock]
+
+  public init(
+    id: String,
+    title: String,
+    revision: Int = 1,
+    blocks: [WorkbookBlock] = []
+  ) {
+    self.id = id
+    self.title = title
+    self.revision = revision
+    self.blocks = blocks
+  }
+}
