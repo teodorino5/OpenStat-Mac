@@ -110,6 +110,8 @@ class AnalysisSpecification:
     def validate_against_store(self, store: Store) -> dict[str, Any]:
         """Validates that dataset revision exists and all referenced fields exist."""
         revision_info = store.get(self.dataset_revision)
+        if revision_info.dataset_id != self.dataset_id:
+            raise EngineError("error.operation_options")
         field_ids = {f.id for f in revision_info.fields}
 
         missing_fields: list[str] = []

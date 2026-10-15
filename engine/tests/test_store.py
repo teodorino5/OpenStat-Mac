@@ -661,6 +661,16 @@ def test_declarative_analysis_specifications_contract(
     assert result["row_count"] == 2
     assert result["field_count"] == 2
 
+    mismatched_dataset_spec = AnalysisSpecification(
+        analysis_id="ttest_ind",
+        dataset_id="another-dataset",
+        dataset_revision=created["revision"],
+        variables={"dependent": ["f_bmi"], "grouping": ["f_treatment"]},
+    )
+    with pytest.raises(EngineError) as exc_info:
+        mismatched_dataset_spec.validate_against_store(store)
+    assert exc_info.value.key == "error.operation_options"
+
     # Unknown field validation failure
     missing_field_spec = AnalysisSpecification(
         analysis_id="ttest_ind",

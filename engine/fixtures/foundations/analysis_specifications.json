@@ -2,8 +2,8 @@
   "feature_ids": [
     "WORK-005"
   ],
-  "provenance": "Original declarative analysis specification and statistical conventions schema authored for OpenStat-Mac project, 2026-10-15; no course or vendor data.",
-  "independent_method": "Hand-calculated canonical JSON serialization, deterministic sorting of variable slots and options, SHA-256 revision/spec hashing, statistical convention range validation (confidence level in (0,1), alpha in (0,1), ddof in {0,1}), and store revision field existence verification.",
+  "provenance": "Project-authored deterministic acceptance fixture for OpenStat-Mac, 2026-10-15; expected values are not independently sourced reference data.",
+  "independent_method": "Project-authored specification contract values (canonical digests and schema constraints) are acceptance data. They are not independently sourced reference results.",
   "tolerance": {
     "comparison": "exact SHA-256 digest, schema version, canonical field mapping and error codes"
   },
@@ -15,8 +15,12 @@
       "dataset_id": "ds_clinical",
       "dataset_revision": "rev_initial_clinical",
       "variables": {
-        "dependent": ["f_bmi"],
-        "grouping": ["f_treatment"]
+        "dependent": [
+          "f_bmi"
+        ],
+        "grouping": [
+          "f_treatment"
+        ]
       },
       "options": {
         "alternative": "two-sided",
@@ -37,8 +41,12 @@
       "dataset_id": "ds_survey",
       "dataset_revision": "rev_initial_survey",
       "variables": {
-        "row_variable": ["f_gender"],
-        "column_variable": ["f_satisfaction"]
+        "row_variable": [
+          "f_gender"
+        ],
+        "column_variable": [
+          "f_satisfaction"
+        ]
       },
       "options": {
         "chi_square": true,
