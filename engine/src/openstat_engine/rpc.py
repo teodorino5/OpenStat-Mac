@@ -9,6 +9,7 @@ from typing import Any, BinaryIO, cast
 
 from . import (
     __version__,
+    accessibility,
     classification,
     columns,
     interchange,
@@ -87,6 +88,7 @@ def write_frame(stream: BinaryIO, value: dict[str, Any]) -> None:
 class Service:
     def __init__(self, directory: Path) -> None:
         self.store = Store(directory)
+        self.accessibility_mgr = accessibility.AccessibilityManager()
         self.shutdown = False
         registry = self.methods()
         self.jobs = Jobs(
@@ -132,6 +134,12 @@ class Service:
             "project.save": self.store.save,
             "project.open": self.store.open,
             "artifact.release": self.store.release,
+            "accessibility.elements": self.accessibility_mgr.list_elements,
+            "accessibility.focus_state": self.accessibility_mgr.focus_cycle_state,
+            "accessibility.focus_next": self.accessibility_mgr.focus_next,
+            "accessibility.focus_prev": self.accessibility_mgr.focus_prev,
+            "accessibility.contrast_ratio": self.accessibility_mgr.contrast_ratio,
+            "accessibility.theme": self.accessibility_mgr.get_theme,
             **(
                 {
                     "jobs.submit": self.jobs.submit,

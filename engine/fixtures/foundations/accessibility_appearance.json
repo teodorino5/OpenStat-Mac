@@ -1,0 +1,71 @@
+{
+  "feature_ids": [
+    "WORK-008"
+  ],
+  "provenance": "Original accessibility, appearance and WCAG contrast reference specification authored for OpenStat-Mac, 2026-10-15; no vendor or course data.",
+  "independent_method": "VoiceOver semantic contract registry, deterministic keyboard focus order cycle, WCAG 2.1 relative luminance and contrast ratio calculations for light, dark and high-contrast palettes, and dynamic text scale multipliers.",
+  "tolerance": {
+    "comparison": "exact element identifiers, roles, label keys, exact focus order, and contrast ratios within 0.05"
+  },
+  "test_selector": "engine/tests/test_store.py::test_accessibility_and_appearance_contract",
+  "expected": {
+    "elements": [
+      {
+        "identifier": "data_grid",
+        "role": "table",
+        "label_key": "grid.label",
+        "keyboard_shortcut": "Tab"
+      },
+      {
+        "identifier": "import_button",
+        "role": "button",
+        "label_key": "toolbar.import",
+        "keyboard_shortcut": "Cmd+O"
+      },
+      {
+        "identifier": "export_button",
+        "role": "button",
+        "label_key": "toolbar.export",
+        "keyboard_shortcut": "Cmd+Shift+E"
+      },
+      {
+        "identifier": "analysis_launcher",
+        "role": "search_field",
+        "label_key": "launcher.search",
+        "keyboard_shortcut": "Cmd+K"
+      },
+      {
+        "identifier": "variable_sidebar",
+        "role": "list",
+        "label_key": "sidebar.variables",
+        "keyboard_shortcut": "Cmd+1"
+      }
+    ],
+    "focus_cycle": {
+      "initial": "analysis_launcher",
+      "forward_sequence": [
+        "data_grid",
+        "variable_sidebar",
+        "import_button",
+        "export_button",
+        "analysis_launcher"
+      ],
+      "reverse_from_start": "export_button"
+    },
+    "contrast_ratios": {
+      "black_on_white": 21.0,
+      "light_primary": 16.83,
+      "light_secondary": 5.07,
+      "light_accent": 4.7,
+      "dark_primary": 15.31,
+      "dark_secondary": 6.48,
+      "dark_accent": 5.53
+    },
+    "themes": [
+      "light",
+      "dark",
+      "high_contrast_light",
+      "high_contrast_dark"
+    ]
+  }
+}

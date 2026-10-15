@@ -135,3 +135,43 @@ public enum CellParser {
   }
   public enum ParseError: Error { case invalid }
 }
+
+public struct AccessibilityDescriptor: Identifiable, Codable, Equatable, Sendable {
+  public var id: String { identifier }
+  public var identifier: String
+  public var role: String
+  public var labelKey: String
+  public var helpKey: String?
+  public var keyboardShortcut: String?
+  public var traits: [String]
+
+  enum CodingKeys: String, CodingKey {
+    case identifier, role, traits
+    case labelKey = "label_key"
+    case helpKey = "help_key"
+    case keyboardShortcut = "keyboard_shortcut"
+  }
+
+  public init(
+    identifier: String,
+    role: String,
+    labelKey: String,
+    helpKey: String? = nil,
+    keyboardShortcut: String? = nil,
+    traits: [String] = ["focusable"]
+  ) {
+    self.identifier = identifier
+    self.role = role
+    self.labelKey = labelKey
+    self.helpKey = helpKey
+    self.keyboardShortcut = keyboardShortcut
+    self.traits = traits
+  }
+}
+
+public enum AppearanceTheme: String, Codable, Sendable {
+  case light
+  case dark
+  case highContrastLight = "high_contrast_light"
+  case highContrastDark = "high_contrast_dark"
+}
