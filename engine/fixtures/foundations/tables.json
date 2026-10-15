@@ -1,6 +1,6 @@
 {
   "provenance": "Original hand-calculated tiny tables. Expected rows below were derived manually from the stated inputs, independent of OpenStat table functions.",
-  "independent_method": "Hand enumerate the left and right key rows and retain right duplicates in source order; form full-join unmatched rows in input order. Sum listed group values and count non-null values. For grouped aggregation, sum each numeric column independently, count non-null integer values, and list the original case IDs in input order for each group. The five input rows receive IDs 0 through 4, so expected group memberships are [0, 1] and [2, 3, 4]. Transpose the listed 2-by-3 matrix by exchanging its row and column positions. Stack the listed source rows twice in order. Pivot each listed case/category pair into its corresponding wide cell; leave absent cells null. Melt the wide pivoted table back into long form by repeating the case index across value columns A and B.",
+  "independent_method": "Hand enumerate the left and right key rows and retain right duplicates in source order; form full-join unmatched rows in input order. Sum listed group values and count non-null values. For aggregate_input, sum each numeric field independently, count eligible values, and record every source case ID in first-seen group order. The five input rows receive IDs 0 through 4, so memberships are [0, 1] and [2, 3, 4]. For pivot_input, case 1 has score sum 5, count 2, and source IDs [0, 1]; case 2 has score sum 4, count 1, and source ID [2]. Transpose the listed 2-by-3 matrix by exchanging row and column positions. Stack the listed source rows twice in order. Pivot each listed case/category pair into its corresponding wide cell; leave absent cells null. Melt the wide pivoted table back into long form by repeating the case index across value columns A and B.",
   "tolerance": {
     "comparison": "Exact row values, row order, matched source positions, and provenance; all numeric fixture values are exactly representable."
   },
@@ -244,49 +244,17 @@
       [
         1,
         10.0,
-        1,
-        [
-          "0"
-        ]
+        1
       ],
       [
         2,
         20.0,
-        1,
-        [
-          "1"
-        ]
+        1
       ],
       [
         3,
         null,
-        0,
-        [
-          "2"
-        ]
-      ]
-    ],
-    "aggregate_provenance": [
-      [
-        1,
-        10,
-        1,
-        4.0,
-        [
-          "0",
-          "1"
-        ]
-      ],
-      [
-        2,
-        15,
-        3,
-        10.0,
-        [
-          "2",
-          "3",
-          "4"
-        ]
+        0
       ]
     ],
     "transpose": [
@@ -362,7 +330,52 @@
         "B",
         null
       ]
+    ],
+    "aggregate_input_provenance": [
+      [
+        1,
+        10,
+        1,
+        4.0,
+        2,
+        [
+          "0",
+          "1"
+        ]
+      ],
+      [
+        2,
+        15,
+        3,
+        10.0,
+        3,
+        [
+          "2",
+          "3",
+          "4"
+        ]
+      ]
+    ],
+    "aggregate_provenance": [
+      [
+        1,
+        5,
+        2,
+        2,
+        [
+          "0",
+          "1"
+        ]
+      ],
+      [
+        2,
+        4,
+        1,
+        1,
+        [
+          "2"
+        ]
+      ]
     ]
   }
 }
-

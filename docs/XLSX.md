@@ -1,12 +1,12 @@
 # XLSX interchange
 
-OpenStat reads and writes a bounded subset of SpreadsheetML OOXML workbooks. The implementation uses Python's standard `zipfile` and `xml.etree.ElementTree` modules. It does not evaluate formulas or load macros.
+OpenStat reads and writes a bounded subset of SpreadsheetML OOXML workbooks. The implementation uses Python's standard `zipfile` and `xml.etree.ElementTree` modules. It imports formulas as cached pre-calculated values and never executes workbook code or macros.
 
 ## Import
 
-`import_xlsx(store, path, sheet=None)` imports the first worksheet by default. Pass `sheet` to select another worksheet by its workbook name. The first used row must contain unique, non-empty text headers. Blank rows inside the data region become null rows. The importer supports shared strings, inline strings, numeric cells, booleans, and empty cells. It infers one column type from cell values. Mixed types become strings. XLSX cell dates and non-default cell styles are rejected because their interpretation depends on workbook formatting.
+`import_xlsx(store, path, sheet=None)` imports the first worksheet by default. Pass `sheet` to select another worksheet by its workbook name. The first used row must contain unique, non-empty text headers. Blank rows inside the data region become null rows. The importer supports shared strings, inline strings, numeric cells, booleans, empty cells, and formula cells with cached values (numeric, boolean, or string formula results). It infers one column type from cell values. Mixed types become strings. XLSX cell dates and non-default cell styles are rejected because their interpretation depends on workbook formatting.
 
-The importer rejects formulas, macro content, external links, encrypted or malformed archives, XML DTDs and entities, unsupported cell types, and packages that exceed member, expanded-size, part-size, row, column, or shared-string limits. It imports values as data only. It never runs workbook code.
+The importer reads formula cells as cached values and rejects uncalculated formulas without cached values, macro content, external links, encrypted or malformed archives, XML DTDs and entities, unsupported cell types, and packages that exceed member, expanded-size, part-size, row, column, or shared-string limits. It imports values as data only. It never runs workbook code.
 
 ## Export
 

@@ -413,14 +413,15 @@
       "name": "Group aggregation",
       "method": "Typed split-apply-combine with row provenance",
       "reference": "M08",
-      "library": "Original bounded count/sum/mean/min/max with source dataset and case-ID provenance",
+      "library": "Original bounded count/sum/mean/min/max with optional typed source provenance",
       "phase": 0,
       "status": "verified against reference values",
       "evidence": "independent fixture",
       "tests": [
         "engine/tests/test_tables.py::test_hand_calculated_table_contract",
         "engine/tests/test_tables.py::test_aggregate_preserves_original_case_ids_after_filter",
-        "engine/tests/test_tables.py::test_aggregate_validates_provenance_schema"
+        "engine/tests/test_tables.py::test_aggregate_validates_provenance_schema",
+        "engine/tests/test_tables.py::test_aggregate_row_provenance_and_duplicate_safety"
       ],
       "fixtures": [
         "engine/fixtures/foundations/tables.json"
@@ -496,12 +497,16 @@
       "name": "Excel import and export",
       "method": "Workbook cells, sheets and typed values; import formulas as cached values",
       "reference": "M08",
-      "library": "Original bounded OOXML subset; cached formulas and broader workbook support pending",
+      "library": "Original bounded OOXML tabular subset reading workbook cells, sheets, typed values, and cached formula values",
       "phase": 0,
-      "status": "in progress",
-      "evidence": "brief",
-      "tests": [],
-      "fixtures": []
+      "status": "verified against reference values",
+      "evidence": "test",
+      "tests": [
+        "engine/tests/test_xlsx.py::test_xlsx_hand_calculated_contract"
+      ],
+      "fixtures": [
+        "engine/fixtures/foundations/xlsx.json"
+      ]
     },
     {
       "id": "DATA-031",
