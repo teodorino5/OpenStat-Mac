@@ -4433,10 +4433,14 @@
       "reference": "M18",
       "library": "SwiftUI / AppKit",
       "phase": 0,
-      "status": "in progress",
+      "status": "verified against reference values",
       "evidence": "brief",
-      "tests": [],
-      "fixtures": []
+      "tests": [
+        "engine/tests/test_store.py::test_project_sidebar_and_inspector_contract"
+      ],
+      "fixtures": [
+        "engine/fixtures/foundations/sidebar_inspector.json"
+      ]
     },
     {
       "id": "WORK-003",

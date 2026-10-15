@@ -556,3 +556,125 @@ def test_extend_crosses_multiple_row_group_boundaries(
     assert boundary["row_ids"] == [8191, 8192, 8193]
     last = store.page(result["revision"], 16384, 2)
     assert last["rows"] == [[None], [None]] and last["row_ids"] == [16384, 16385]
+
+
+@pytest.mark.feature("WORK-002")
+def test_project_sidebar_and_inspector_contract(
+    store: Store,
+    reference_fixture: Any,
+) -> None:
+    fixture = reference_fixture("engine/fixtures/foundations/sidebar_inspector.json")
+    spec = fixture["input"]["initial_dataset"]
+    expected = fixture["expected"]
+
+    # 1. Initial creation
+    initial = store.create(
+        spec["name"],
+        spec["fields"],
+        spec["rows"],
+        context=spec["context"],
+        observation_unit=spec["observation_unit"],
+    )
+    assert initial["name"] == expected["initial"]["name"]
+    assert initial["context"] == expected["initial"]["context"]
+    assert initial["observation_unit"] == expected["initial"]["observation_unit"]
+    assert initial["row_count"] == expected["initial"]["row_count"]
+    assert len(initial["fields"]) == 3
+
+    # Verify initial field metadata
+    for actual_field, expected_field in zip(
+        initial["fields"], expected["initial"]["fields"], strict=True
+    ):
+        assert actual_field["id"] == expected_field["id"]
+        assert actual_field["name"] == expected_field["name"]
+        assert actual_field["storage"] == expected_field["storage"]
+        assert actual_field["measurement"] == expected_field["measurement"]
+        assert actual_field["role"] == expected_field["role"]
+
+    # 2. Step 1: Rename field f_age -> "Participant Age"
+    step1_fields = [
+        f | ({"name": "Participant Age"} if f["id"] == "f_age" else {})
+        for f in initial["fields"]
+    ]
+    step1 = store.metadata(
+        initial["revision"],
+        step1_fields,
+        initial["context"],
+        initial["observation_unit"],
+    )
+    assert step1["revision"] != initial["revision"]
+    age_field_1 = next(f for f in step1["fields"] if f["id"] == "f_age")
+    assert age_field_1["name"] == expected["step1_rename"]["field_name"]
+    assert age_field_1["role"] == expected["step1_rename"]["field_role"]
+    assert age_field_1["measurement"] == expected["step1_rename"]["field_measurement"]
+
+    # 3. Step 2: Change role f_age -> "identifier"
+    step2_fields = [
+        f | ({"role": "identifier"} if f["id"] == "f_age" else {})
+        for f in step1["fields"]
+    ]
+    step2 = store.metadata(
+        step1["revision"],
+        step2_fields,
+        step1["context"],
+        step1["observation_unit"],
+    )
+    assert step2["revision"] != step1["revision"]
+    age_field_2 = next(f for f in step2["fields"] if f["id"] == "f_age")
+    assert age_field_2["role"] == expected["step2_role"]["field_role"]
+
+    # 4. Step 3: Change measurement scale f_bmi -> "ordinal"
+    step3_fields = [
+        f | ({"measurement": "ordinal"} if f["id"] == "f_bmi" else {})
+        for f in step2["fields"]
+    ]
+    step3 = store.metadata(
+        step2["revision"],
+        step3_fields,
+        step2["context"],
+        step2["observation_unit"],
+    )
+    assert step3["revision"] != step2["revision"]
+    bmi_field_3 = next(f for f in step3["fields"] if f["id"] == "f_bmi")
+    assert bmi_field_3["measurement"] == expected["step3_measurement"]["field_measurement"]
+
+    # 5. Step 4: Change context -> "population"
+    step4 = store.metadata(
+        step3["revision"],
+        step3["fields"],
+        context="population",
+        observation_unit=step3["observation_unit"],
+    )
+    assert step4["revision"] != step3["revision"]
+    assert step4["context"] == expected["step4_context"]["context"]
+    assert step4["observation_unit"] == expected["step4_context"]["observation_unit"]
+
+    # 6. Step 5: Change observation unit -> "resident"
+    step5 = store.metadata(
+        step4["revision"],
+        step4["fields"],
+        context=step4["context"],
+        observation_unit="resident",
+    )
+    assert step5["revision"] != step4["revision"]
+    assert step5["context"] == expected["step5_unit"]["context"]
+    assert step5["observation_unit"] == expected["step5_unit"]["observation_unit"]
+
+    # 7. Reversible history / undo simulation
+    assert store.get(step4["revision"]).observation_unit == "patient"
+    assert store.get(step4["revision"]).context == "population"
+
+    assert store.get(step3["revision"]).context == "sample"
+    assert store.get(step3["revision"]).observation_unit == "patient"
+
+    bmi_rev2 = next(f for f in store.get(step2["revision"]).fields if f.id == "f_bmi")
+    assert bmi_rev2.measurement == "continuous"
+
+    orig_age = next(f for f in store.get(initial["revision"]).fields if f.id == "f_age")
+    assert orig_age.name == "Age"
+    assert orig_age.role == "characteristic"
+
+    # 8. Sidebar navigation sections validation
+    supported_sections = expected["sidebar_navigation"]["supported_sections"]
+    assert set(supported_sections) == {"datasets", "analyses", "results", "workflows"}
+
