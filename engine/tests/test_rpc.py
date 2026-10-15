@@ -63,6 +63,39 @@ def test_hello_rejects_incompatible_major_and_does_not_claim_analyses(tmp_path: 
     assert bad is not None and bad["error"]["message"] == "error.protocol_version"
 
 
+def test_command_registry_rpc_reports_dispatchable_commands(tmp_path: Path) -> None:
+    service = Service(tmp_path)
+
+    listed = service.dispatch(request("commands.list"))
+    assert listed is not None
+    commands = listed["result"]
+    methods = service.methods()
+    assert all(command["method"] in methods for command in commands if command["enabled"])
+
+    by_id = {command["id"]: command for command in commands}
+    assert by_id["columns.compute"]["enabled"] is True
+    assert by_id["columns.box_cox"]["enabled"] is False
+    assert by_id["tables.melt"]["enabled"] is False
+    assert all(not command["enabled"] for command in commands if command["phase"] == 1)
+
+    categories = service.dispatch(request("commands.categories"))
+    assert categories is not None
+    assert categories["result"] == [
+        "transform",
+        "classification",
+        "tables",
+        "cases",
+        "descriptive",
+        "inference",
+    ]
+
+    filtered = service.dispatch(
+        request("commands.search", {"query": "", "category": "transform", "max_phase": 0})
+    )
+    assert filtered is not None
+    assert all(command["category"] == "transform" for command in filtered["result"])
+
+
 @pytest.mark.parametrize(
     "value,code",
     [

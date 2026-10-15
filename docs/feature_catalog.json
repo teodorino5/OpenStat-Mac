@@ -4446,14 +4446,10 @@
       "reference": "M18",
       "library": "Original openstat_engine command registry and RPC",
       "phase": 0,
-      "status": "verified against reference values",
+      "status": "in progress",
       "evidence": "brief",
-      "tests": [
-        "engine/tests/test_store.py::test_searchable_analysis_launcher_contract"
-      ],
-      "fixtures": [
-        "engine/fixtures/foundations/command_launcher.json"
-      ]
+      "tests": [],
+      "fixtures": []
     },
     {
       "id": "WORK-004",

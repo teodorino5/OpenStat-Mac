@@ -558,8 +558,7 @@ def test_extend_crosses_multiple_row_group_boundaries(
     assert last["rows"] == [[None], [None]] and last["row_ids"] == [16384, 16385]
 
 
-@pytest.mark.feature("WORK-003")
-def test_searchable_analysis_launcher_contract(
+def test_command_registry_search_prototype(
     reference_fixture: Any,
 ) -> None:
     from openstat_engine.registry import CommandRegistry
@@ -619,4 +618,9 @@ def test_searchable_analysis_launcher_contract(
     # 4. Phase gating in search: max_phase=0 filters out phase 1 t-tests
     p0_ttest = cmd_registry.search("ttest", max_phase=0)
     assert p0_ttest == []
+
+    transform_commands = cmd_registry.search("", category="transform")
+    assert [command["id"] for command in transform_commands] == query_results[
+        "transform_category"
+    ]
 

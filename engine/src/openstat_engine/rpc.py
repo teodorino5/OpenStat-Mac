@@ -91,6 +91,7 @@ class Service:
         self.cmd_registry = registry.CommandRegistry()
         self.shutdown = False
         available_methods = self.methods()
+        self.cmd_registry.set_available_methods(set(available_methods))
         self.jobs = Jobs(
             {
                 name: operation
@@ -136,6 +137,7 @@ class Service:
             "artifact.release": self.store.release,
             "commands.list": self.cmd_registry.list_commands,
             "commands.search": self.cmd_registry.search,
+            "commands.categories": self.cmd_registry.categories,
             **(
                 {
                     "jobs.submit": self.jobs.submit,
