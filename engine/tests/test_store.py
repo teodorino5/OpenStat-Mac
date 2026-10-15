@@ -558,8 +558,7 @@ def test_extend_crosses_multiple_row_group_boundaries(
     assert last["rows"] == [[None], [None]] and last["row_ids"] == [16384, 16385]
 
 
-@pytest.mark.feature("WORK-002")
-def test_project_sidebar_and_inspector_contract(
+def test_project_metadata_revision_primitives(
     store: Store,
     reference_fixture: Any,
 ) -> None:
@@ -660,7 +659,7 @@ def test_project_sidebar_and_inspector_contract(
     assert step5["context"] == expected["step5_unit"]["context"]
     assert step5["observation_unit"] == expected["step5_unit"]["observation_unit"]
 
-    # 7. Reversible history / undo simulation
+    # Earlier Store revisions preserve prior metadata snapshots.
     assert store.get(step4["revision"]).observation_unit == "patient"
     assert store.get(step4["revision"]).context == "population"
 
@@ -673,8 +672,4 @@ def test_project_sidebar_and_inspector_contract(
     orig_age = next(f for f in store.get(initial["revision"]).fields if f.id == "f_age")
     assert orig_age.name == "Age"
     assert orig_age.role == "characteristic"
-
-    # 8. Sidebar navigation sections validation
-    supported_sections = expected["sidebar_navigation"]["supported_sections"]
-    assert set(supported_sections) == {"datasets", "analyses", "results", "workflows"}
 
