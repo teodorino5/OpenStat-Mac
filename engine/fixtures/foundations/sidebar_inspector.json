@@ -1,0 +1,148 @@
+{
+  "feature_ids": [
+    "WORK-002"
+  ],
+  "provenance": "Original project navigation and nonmodal inspector specifications authored for OpenStat-Mac project, 2026-10-15; no course or vendor data.",
+  "independent_method": "Hand-calculated state transitions for project sidebar section navigation (datasets, analyses, results, workflows) and nonmodal inspector metadata modifications: field renaming, role transitions, measurement scale reclassification, observation unit updates, population/sample context transitions, and reversible undo/redo.",
+  "tolerance": {
+    "comparison": "exact string and dictionary match for metadata, roles, measurement types and context"
+  },
+  "test_selector": "engine/tests/test_store.py::test_project_sidebar_and_inspector_contract",
+  "input": {
+    "initial_dataset": {
+      "name": "Health Study",
+      "context": "sample",
+      "observation_unit": "patient",
+      "fields": [
+        {
+          "id": "f_id",
+          "name": "Patient ID",
+          "storage": "string",
+          "measurement": "nominal",
+          "role": "identifier"
+        },
+        {
+          "id": "f_age",
+          "name": "Age",
+          "storage": "int64",
+          "measurement": "discrete",
+          "role": "characteristic"
+        },
+        {
+          "id": "f_bmi",
+          "name": "BMI",
+          "storage": "float64",
+          "measurement": "continuous",
+          "role": "characteristic"
+        }
+      ],
+      "rows": [
+        ["P01", 25, 22.4],
+        ["P02", 40, 28.1],
+        ["P03", 65, 31.0]
+      ]
+    },
+    "operations": [
+      {
+        "step": 1,
+        "type": "rename_field",
+        "field_id": "f_age",
+        "new_name": "Participant Age"
+      },
+      {
+        "step": 2,
+        "type": "change_role",
+        "field_id": "f_age",
+        "new_role": "identifier"
+      },
+      {
+        "step": 3,
+        "type": "change_measurement",
+        "field_id": "f_bmi",
+        "new_measurement": "ordinal"
+      },
+      {
+        "step": 4,
+        "type": "change_context",
+        "new_context": "population"
+      },
+      {
+        "step": 5,
+        "type": "change_unit",
+        "new_unit": "resident"
+      }
+    ]
+  },
+  "expected": {
+    "initial": {
+      "name": "Health Study",
+      "context": "sample",
+      "observation_unit": "patient",
+      "row_count": 3,
+      "fields": [
+        {
+          "id": "f_id",
+          "name": "Patient ID",
+          "storage": "string",
+          "measurement": "nominal",
+          "role": "identifier",
+          "levels": [],
+          "missing_codes": [],
+          "value_labels": {}
+        },
+        {
+          "id": "f_age",
+          "name": "Age",
+          "storage": "int64",
+          "measurement": "discrete",
+          "role": "characteristic",
+          "levels": [],
+          "missing_codes": [],
+          "value_labels": {}
+        },
+        {
+          "id": "f_bmi",
+          "name": "BMI",
+          "storage": "float64",
+          "measurement": "continuous",
+          "role": "characteristic",
+          "levels": [],
+          "missing_codes": [],
+          "value_labels": {}
+        }
+      ]
+    },
+    "step1_rename": {
+      "field_name": "Participant Age",
+      "field_role": "characteristic",
+      "field_measurement": "discrete"
+    },
+    "step2_role": {
+      "field_name": "Participant Age",
+      "field_role": "identifier",
+      "field_measurement": "discrete"
+    },
+    "step3_measurement": {
+      "field_name": "BMI",
+      "field_role": "characteristic",
+      "field_measurement": "ordinal"
+    },
+    "step4_context": {
+      "context": "population",
+      "observation_unit": "patient"
+    },
+    "step5_unit": {
+      "context": "population",
+      "observation_unit": "resident"
+    },
+    "sidebar_navigation": {
+      "supported_sections": [
+        "datasets",
+        "analyses",
+        "results",
+        "workflows"
+      ],
+      "active_section": "datasets"
+    }
+  }
+}
