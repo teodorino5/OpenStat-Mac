@@ -17,6 +17,7 @@ from . import (
     structure,
     tables,
     views,
+    workbook,
     xlsx,
 )
 from .errors import EngineError
@@ -87,6 +88,7 @@ def write_frame(stream: BinaryIO, value: dict[str, Any]) -> None:
 class Service:
     def __init__(self, directory: Path) -> None:
         self.store = Store(directory)
+        self.workbook_store = workbook.WorkbookStore()
         self.shutdown = False
         registry = self.methods()
         self.jobs = Jobs(
@@ -132,6 +134,14 @@ class Service:
             "project.save": self.store.save,
             "project.open": self.store.open,
             "artifact.release": self.store.release,
+            "workbook.create": self.workbook_store.create,
+            "workbook.get": self.workbook_store.get,
+            "workbook.add_block": self.workbook_store.add_block,
+            "workbook.remove_block": self.workbook_store.remove_block,
+            "workbook.reorder_blocks": self.workbook_store.reorder_blocks,
+            "workbook.toggle_collapse": self.workbook_store.toggle_collapse,
+            "workbook.set_annotation": self.workbook_store.set_annotation,
+            "workbook.rerun_update": self.workbook_store.rerun_update,
             **(
                 {
                     "jobs.submit": self.jobs.submit,

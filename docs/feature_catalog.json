@@ -4485,10 +4485,14 @@
       "reference": "M18",
       "library": "Needs custom block document model",
       "phase": 0,
-      "status": "not started",
-      "evidence": "brief",
-      "tests": [],
-      "fixtures": []
+      "status": "verified against reference values",
+      "evidence": "V05:function",
+      "tests": [
+        "engine/tests/test_store.py::test_results_workbook_blocks_contract"
+      ],
+      "fixtures": [
+        "engine/fixtures/foundations/results_workbook.json"
+      ]
     },
     {
       "id": "WORK-007",

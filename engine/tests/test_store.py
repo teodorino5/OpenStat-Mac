@@ -556,3 +556,134 @@ def test_extend_crosses_multiple_row_group_boundaries(
     assert boundary["row_ids"] == [8191, 8192, 8193]
     last = store.page(result["revision"], 16384, 2)
     assert last["rows"] == [[None], [None]] and last["row_ids"] == [16384, 16385]
+
+
+@pytest.mark.feature("WORK-006")
+def test_results_workbook_blocks_contract(reference_fixture: Any, tmp_path: Path) -> None:
+    from openstat_engine.rpc import Service
+    from openstat_engine.workbook import Block, Workbook, create_note_block
+
+    fixture = reference_fixture("engine/fixtures/foundations/results_workbook.json")
+
+    # 1. Initialize workbook from fixture
+    wb = Workbook.from_dict(fixture["initial_workbook"])
+    assert wb.id == "wb-reference-001"
+    assert wb.title == "Two-Sample Comparison Results"
+    assert wb.revision == 1
+    assert len(wb.blocks) == 5
+    assert [b.id for b in wb.blocks] == fixture["expected"]["initial_block_ids"]
+    assert wb.get_block("tbl-ttest").collapsed is False
+
+    # 2. Collapse toggling
+    collapse_step = fixture["step_collapse"]
+    target_id = collapse_step["target_block_id"]
+    toggled = wb.toggle_collapse(target_id)
+    assert toggled is True
+    assert wb.get_block(target_id).collapsed is True
+
+    # 3. Reordering
+    reorder_step = fixture["step_reorder"]
+    new_order = reorder_step["order"]
+    wb.reorder_blocks(new_order)
+    assert [b.id for b in wb.blocks] == fixture["expected"]["reordered_block_ids"]
+
+    # Invalid reorder safety
+    with pytest.raises(EngineError, match="error.operation_options"):
+        wb.reorder_blocks(["tbl-ttest"])  # incomplete
+    with pytest.raises(EngineError, match="error.operation_options"):
+        wb.reorder_blocks(new_order + ["nonexistent"])
+
+    # 4. Annotation setting
+    annot_step = fixture["step_annotation"]
+    wb.set_annotation(annot_step["target_block_id"], annot_step["annotation"])
+    assert wb.get_block(annot_step["target_block_id"]).annotation == annot_step["annotation"]
+
+    # 5. Rerun update with annotation and collapse preservation
+    rerun_step = fixture["step_rerun"]
+    new_blocks = [Block.from_dict(b) for b in rerun_step["new_blocks"]]
+    new_rev = wb.rerun_update(new_blocks, preserve_annotations=True, preserve_collapse=True)
+    assert new_rev == fixture["expected"]["rerun_revision"]
+    assert wb.revision == fixture["expected"]["rerun_revision"]
+
+    for b in wb.blocks:
+        expected_annot = fixture["expected"]["rerun_annotations"][b.id]
+        expected_col = fixture["expected"]["rerun_collapsed"][b.id]
+        assert b.annotation == expected_annot, f"Annotation mismatch for block {b.id}"
+        assert b.collapsed == expected_col, f"Collapse mismatch for block {b.id}"
+
+    # Verify updated computed content survived
+    tbl = wb.get_block("tbl-descriptives")
+    assert tbl.content["rows"][0][1] == 25  # updated N
+
+    # 6. Block lifecycle: add, move, remove
+    extra_block = create_note_block(
+        id="note-extra",
+        title="Extra Annotation",
+        content="Post-hoc verification note",
+        annotation="User appended",
+    )
+    wb.add_block(extra_block, index=0)
+    assert wb.blocks[0].id == "note-extra"
+    with pytest.raises(EngineError, match="error.duplicate_fields"):
+        wb.add_block(extra_block)  # duplicate ID rejected
+
+    wb.move_block("note-extra", 2)
+    assert wb.blocks[2].id == "note-extra"
+
+    removed = wb.remove_block("note-extra")
+    assert removed.id == "note-extra"
+    with pytest.raises(EngineError, match="error.unknown_field"):
+        wb.remove_block("note-extra")  # already removed
+
+    # 7. Serialization round-trip
+    serialized = wb.to_dict()
+    reconstructed = Workbook.from_dict(serialized)
+    assert reconstructed.to_dict() == serialized
+
+    # 8. JSON-RPC dispatch verification
+    service = Service(tmp_path)
+    rpc_create = service.dispatch(
+        {
+            "jsonrpc": "2.0",
+            "id": "req-1",
+            "method": "workbook.create",
+            "params": {"title": "RPC Test Workbook", "blocks": [wb.blocks[0].to_dict()]},
+        }
+    )
+    assert rpc_create is not None and "result" in rpc_create
+    wb_id = rpc_create["result"]["id"]
+
+    rpc_toggle = service.dispatch(
+        {
+            "jsonrpc": "2.0",
+            "id": "req-2",
+            "method": "workbook.toggle_collapse",
+            "params": {"workbook_id": wb_id, "block_id": wb.blocks[0].id},
+        }
+    )
+    assert rpc_toggle is not None and rpc_toggle["result"]["blocks"][0]["collapsed"] is True
+
+    rpc_annot = service.dispatch(
+        {
+            "jsonrpc": "2.0",
+            "id": "req-3",
+            "method": "workbook.set_annotation",
+            "params": {
+                "workbook_id": wb_id,
+                "block_id": wb.blocks[0].id,
+                "annotation": "RPC annotation preserved",
+            },
+        }
+    )
+    assert rpc_annot is not None
+    assert rpc_annot["result"]["blocks"][0]["annotation"] == "RPC annotation preserved"
+
+    rpc_get = service.dispatch(
+        {
+            "jsonrpc": "2.0",
+            "id": "req-4",
+            "method": "workbook.get",
+            "params": {"workbook_id": wb_id},
+        }
+    )
+    assert rpc_get is not None and rpc_get["result"]["title"] == "RPC Test Workbook"
