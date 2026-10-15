@@ -135,3 +135,69 @@ public enum CellParser {
   }
   public enum ParseError: Error { case invalid }
 }
+
+public struct StatisticalConventions: Codable, Equatable, Sendable {
+  public var missingStrategy: String
+  public var confidenceLevel: Double
+  public var pValueThreshold: Double
+  public var degreesOfFreedomAdjustment: Int
+  public var roundingPrecision: Int
+
+  enum CodingKeys: String, CodingKey {
+    case missingStrategy = "missing_strategy"
+    case confidenceLevel = "confidence_level"
+    case pValueThreshold = "p_value_threshold"
+    case degreesOfFreedomAdjustment = "degrees_of_freedom_adjustment"
+    case roundingPrecision = "rounding_precision"
+  }
+
+  public init(
+    missingStrategy: String = "exclude_listwise",
+    confidenceLevel: Double = 0.95,
+    pValueThreshold: Double = 0.05,
+    degreesOfFreedomAdjustment: Int = 1,
+    roundingPrecision: Int = 4
+  ) {
+    self.missingStrategy = missingStrategy
+    self.confidenceLevel = confidenceLevel
+    self.pValueThreshold = pValueThreshold
+    self.degreesOfFreedomAdjustment = degreesOfFreedomAdjustment
+    self.roundingPrecision = roundingPrecision
+  }
+}
+
+public struct AnalysisSpecification: Codable, Equatable, Sendable {
+  public var schemaVersion: Int
+  public var analysisID: String
+  public var datasetID: String
+  public var datasetRevision: String
+  public var variables: [String: [String]]
+  public var options: [String: JSONValue]
+  public var conventions: StatisticalConventions
+
+  enum CodingKeys: String, CodingKey {
+    case schemaVersion = "schema_version"
+    case analysisID = "analysis_id"
+    case datasetID = "dataset_id"
+    case datasetRevision = "dataset_revision"
+    case variables, options, conventions
+  }
+
+  public init(
+    schemaVersion: Int = 1,
+    analysisID: String,
+    datasetID: String,
+    datasetRevision: String,
+    variables: [String: [String]],
+    options: [String: JSONValue] = [:],
+    conventions: StatisticalConventions = StatisticalConventions()
+  ) {
+    self.schemaVersion = schemaVersion
+    self.analysisID = analysisID
+    self.datasetID = datasetID
+    self.datasetRevision = datasetRevision
+    self.variables = variables
+    self.options = options
+    self.conventions = conventions
+  }
+}

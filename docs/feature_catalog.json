@@ -4470,12 +4470,16 @@
       "name": "Declarative analysis specifications",
       "method": "Versioned parameters, revision hash and statistical conventions",
       "reference": "M18",
-      "library": "Needs custom JSON schema",
+      "library": "Original openstat_engine analysis specification schema and Swift OpenStatCore",
       "phase": 0,
-      "status": "not started",
+      "status": "verified against reference values",
       "evidence": "brief",
-      "tests": [],
-      "fixtures": []
+      "tests": [
+        "engine/tests/test_store.py::test_declarative_analysis_specifications_contract"
+      ],
+      "fixtures": [
+        "engine/fixtures/foundations/analysis_specifications.json"
+      ]
     },
     {
       "id": "WORK-006",

@@ -1,0 +1,75 @@
+{
+  "feature_ids": [
+    "WORK-005"
+  ],
+  "provenance": "Original declarative analysis specification and statistical conventions schema authored for OpenStat-Mac project, 2026-10-15; no course or vendor data.",
+  "independent_method": "Hand-calculated canonical JSON serialization, deterministic sorting of variable slots and options, SHA-256 revision/spec hashing, statistical convention range validation (confidence level in (0,1), alpha in (0,1), ddof in {0,1}), and store revision field existence verification.",
+  "tolerance": {
+    "comparison": "exact SHA-256 digest, schema version, canonical field mapping and error codes"
+  },
+  "test_selector": "engine/tests/test_store.py::test_declarative_analysis_specifications_contract",
+  "input": {
+    "spec_ttest": {
+      "schema_version": 1,
+      "analysis_id": "ttest_ind",
+      "dataset_id": "ds_clinical",
+      "dataset_revision": "rev_initial_clinical",
+      "variables": {
+        "dependent": ["f_bmi"],
+        "grouping": ["f_treatment"]
+      },
+      "options": {
+        "alternative": "two-sided",
+        "confidence_level": 0.95,
+        "variance_equal": false
+      },
+      "conventions": {
+        "missing_strategy": "exclude_listwise",
+        "confidence_level": 0.95,
+        "p_value_threshold": 0.05,
+        "degrees_of_freedom_adjustment": 1,
+        "rounding_precision": 4
+      }
+    },
+    "spec_contingency": {
+      "schema_version": 1,
+      "analysis_id": "contingency",
+      "dataset_id": "ds_survey",
+      "dataset_revision": "rev_initial_survey",
+      "variables": {
+        "row_variable": ["f_gender"],
+        "column_variable": ["f_satisfaction"]
+      },
+      "options": {
+        "chi_square": true,
+        "expected_counts": true
+      },
+      "conventions": {
+        "missing_strategy": "exclude_pairwise",
+        "confidence_level": 0.99,
+        "p_value_threshold": 0.01,
+        "degrees_of_freedom_adjustment": 0,
+        "rounding_precision": 3
+      }
+    }
+  },
+  "expected": {
+    "spec_ttest_digest": "4318101f606abcde0f61e4ae10420bb5eb1605f095c9e1de0c973cde5bbea7b0",
+    "spec_contingency_digest": "501885eda542069dc66359dd609c17dc0fe75f823d2f577d5fe959179a09bcb7",
+    "supported_analyses": [
+      "contingency",
+      "descriptives",
+      "frequencies",
+      "outliers",
+      "ttest_ind",
+      "ttest_rel"
+    ],
+    "validation_errors": {
+      "invalid_version": "error.project_version",
+      "invalid_analysis": "error.rpc_method",
+      "invalid_confidence": "error.operation_options",
+      "invalid_strategy": "error.operation_options",
+      "missing_field": "error.unknown_field"
+    }
+  }
+}
