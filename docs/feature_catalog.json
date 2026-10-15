@@ -4498,8 +4498,8 @@
       "reference": "M18",
       "library": "Xcode String Catalogs + Foundation",
       "phase": 0,
-      "status": "verified against reference values",
-      "evidence": "V05:function",
+      "status": "in progress",
+      "evidence": "brief",
       "tests": [
         "engine/tests/test_store.py::test_english_czech_localization_contract"
       ],

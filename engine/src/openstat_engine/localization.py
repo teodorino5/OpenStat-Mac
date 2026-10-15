@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import math
+import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -74,15 +75,25 @@ def parse_localized_number(text: str, locale: str = "en") -> float:
     """Parse a locale-formatted decimal number string into float."""
     if not isinstance(text, str):
         raise EngineError("error.operation_options")
-    cleaned = text.strip().replace("\u00a0", "").replace(" ", "")
+    cleaned = text.strip().replace("\u00a0", " ").replace("\u202f", " ")
     if not cleaned:
         raise EngineError("error.operation_options")
 
     cfg = get_locale_config(locale)
     if cfg.language == "cs":
-        normalized = cleaned.replace(cfg.decimal_separator, ".")
+        integer = r"(?:\d{1,3}(?: \d{3})+|\d+)"
+        decimal = ","
+        grouping = " "
     else:
-        normalized = cleaned.replace(",", "")
+        integer = r"(?:\d{1,3}(?:,\d{3})+|\d+)"
+        decimal = r"\."
+        grouping = ","
+
+    number_pattern = rf"[+-]?(?:{integer}(?:{decimal}\d*)?|{decimal}\d+)(?:[eE][+-]?\d+)?"
+    if re.fullmatch(number_pattern, cleaned) is None:
+        raise EngineError("error.operation_options")
+
+    normalized = cleaned.replace(grouping, "").replace(cfg.decimal_separator, ".")
 
     # Preserve negative zero token
     is_neg_zero = normalized in {"-0", "-0.0", "-0."}
