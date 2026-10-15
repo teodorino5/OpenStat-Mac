@@ -11,6 +11,7 @@ from . import (
     __version__,
     classification,
     columns,
+    forms,
     interchange,
     outliers,
     readstat_io,
@@ -21,6 +22,7 @@ from . import (
 )
 from .errors import EngineError
 from .jobs import Jobs
+from .model import Field
 from .store import Store
 
 MAX_FRAME = 8 * 1024 * 1024
@@ -87,6 +89,7 @@ def write_frame(stream: BinaryIO, value: dict[str, Any]) -> None:
 class Service:
     def __init__(self, directory: Path) -> None:
         self.store = Store(directory)
+        self.form_registry = forms.FormRegistry()
         self.shutdown = False
         registry = self.methods()
         self.jobs = Jobs(
@@ -132,6 +135,18 @@ class Service:
             "project.save": self.store.save,
             "project.open": self.store.open,
             "artifact.release": self.store.release,
+            "forms.list": self.form_registry.list_forms,
+            "forms.get": lambda form_id: self.form_registry.get_form(form_id).to_dict(),
+            "forms.evaluate": (
+                lambda form_id, fields: self.form_registry.get_form(
+                    form_id
+                ).evaluate_eligibility([Field.from_dict(f) for f in fields])
+            ),
+            "forms.validate": (
+                lambda form_id, fields, assignments: self.form_registry.get_form(
+                    form_id
+                ).validate_assignments([Field.from_dict(f) for f in fields], assignments)
+            ),
             **(
                 {
                     "jobs.submit": self.jobs.submit,

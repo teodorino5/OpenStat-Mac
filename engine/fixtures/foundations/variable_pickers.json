@@ -1,0 +1,124 @@
+{
+  "feature_ids": [
+    "WORK-004"
+  ],
+  "provenance": "Original declarative variable picker and form model specification authored for OpenStat-Mac project, 2026-10-15; no course or vendor data.",
+  "independent_method": "Hand-calculated type-aware eligibility matrix and keyboard slot state transitions across diverse variable scales, storage types, and roles (continuous, discrete, ordinal, nominal, binary, multiple_response; identifier vs characteristic; single vs multiple slots; keyboard move/assign/remove actions).",
+  "tolerance": {
+    "comparison": "exact eligibility flags, reason codes, slot assignment validation, and keyboard state transitions"
+  },
+  "test_selector": "engine/tests/test_store.py::test_type_aware_variable_pickers_contract",
+  "input": {
+    "fields": [
+      {
+        "id": "v_id",
+        "name": "ID",
+        "storage": "int64",
+        "measurement": "discrete",
+        "role": "identifier"
+      },
+      {
+        "id": "v_age",
+        "name": "Age",
+        "storage": "float64",
+        "measurement": "continuous",
+        "role": "characteristic"
+      },
+      {
+        "id": "v_score",
+        "name": "Exam Score",
+        "storage": "int64",
+        "measurement": "discrete",
+        "role": "characteristic"
+      },
+      {
+        "id": "v_edu",
+        "name": "Education Level",
+        "storage": "string",
+        "measurement": "ordinal",
+        "role": "characteristic",
+        "levels": ["low", "mid", "high"]
+      },
+      {
+        "id": "v_gender",
+        "name": "Gender",
+        "storage": "string",
+        "measurement": "nominal",
+        "role": "characteristic",
+        "levels": ["F", "M"]
+      },
+      {
+        "id": "v_pass",
+        "name": "Pass/Fail",
+        "storage": "bool",
+        "measurement": "binary",
+        "role": "characteristic",
+        "levels": ["false", "true"]
+      },
+      {
+        "id": "v_symptoms",
+        "name": "Symptoms",
+        "storage": "multiple_response",
+        "measurement": "multiple_response",
+        "role": "characteristic"
+      }
+    ],
+    "target_form": "ttest_ind"
+  },
+  "expected": {
+    "total_forms": 5,
+    "form_ids": [
+      "descriptives",
+      "frequencies",
+      "ttest_ind",
+      "ttest_rel",
+      "contingency"
+    ],
+    "eligibility_ttest_ind": {
+      "v_id": {
+        "dependent": false,
+        "grouping": false
+      },
+      "v_age": {
+        "dependent": true,
+        "grouping": false
+      },
+      "v_score": {
+        "dependent": true,
+        "grouping": false
+      },
+      "v_edu": {
+        "dependent": false,
+        "grouping": true
+      },
+      "v_gender": {
+        "dependent": false,
+        "grouping": true
+      },
+      "v_pass": {
+        "dependent": false,
+        "grouping": true
+      },
+      "v_symptoms": {
+        "dependent": false,
+        "grouping": false
+      }
+    },
+    "keyboard_walkthrough": {
+      "step1_candidate_count": 7,
+      "step2_assign_v_age_success": true,
+      "step2_dependent_assigned": ["v_age"],
+      "step2_remaining_candidate_count": 6,
+      "step3_assign_v_id_grouping_success": false,
+      "step4_assign_v_gender_grouping_success": true,
+      "step4_grouping_assigned": ["v_gender"],
+      "step4_remaining_candidate_count": 5,
+      "step5_validate_valid": true,
+      "step6_assign_v_score_dependent_success": false,
+      "step7_remove_v_age_success": true,
+      "step7_dependent_assigned": [],
+      "step7_candidate_count": 6,
+      "step8_validate_valid": false
+    }
+  }
+}

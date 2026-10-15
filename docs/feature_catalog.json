@@ -4457,12 +4457,16 @@
       "name": "Type-aware variable pickers",
       "method": "Eligibility by scale/role with accessible keyboard alternatives",
       "reference": "M18",
-      "library": "Needs custom declarative form model",
+      "library": "Original openstat_engine declarative forms and Swift OpenStatCore",
       "phase": 0,
-      "status": "not started",
+      "status": "verified against reference values",
       "evidence": "brief",
-      "tests": [],
-      "fixtures": []
+      "tests": [
+        "engine/tests/test_store.py::test_type_aware_variable_pickers_contract"
+      ],
+      "fixtures": [
+        "engine/fixtures/foundations/variable_pickers.json"
+      ]
     },
     {
       "id": "WORK-005",
