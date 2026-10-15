@@ -4420,14 +4420,10 @@
       "reference": "M18",
       "library": "NSDocument / NSWindow",
       "phase": 0,
-      "status": "verified against reference values",
+      "status": "in progress",
       "evidence": "brief",
-      "tests": [
-        "engine/tests/test_store.py::test_native_document_windows_and_tabs_contract"
-      ],
-      "fixtures": [
-        "engine/fixtures/foundations/native_documents.json"
-      ]
+      "tests": [],
+      "fixtures": []
     },
     {
       "id": "WORK-002",
