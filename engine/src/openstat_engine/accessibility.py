@@ -162,7 +162,7 @@ class ThemePalette:
 
         return {
             "text_primary_aa": text_bg_ratio >= 4.5,
-            "text_secondary_aa": sec_bg_ratio >= 4.5 or sec_bg_ratio >= 3.0,
+            "text_secondary_aa": sec_bg_ratio >= 4.5,
             "surface_text_aa": text_surf_ratio >= 4.5,
             "accent_ui_aa": accent_bg_ratio >= 3.0,
         }

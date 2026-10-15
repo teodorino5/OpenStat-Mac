@@ -558,11 +558,11 @@ def test_extend_crosses_multiple_row_group_boundaries(
     assert last["rows"] == [[None], [None]] and last["row_ids"] == [16384, 16385]
 
 
-@pytest.mark.feature("WORK-008")
-def test_accessibility_and_appearance_contract(reference_fixture: Any, tmp_path: Path) -> None:
+def test_accessibility_engine_primitives(reference_fixture: Any, tmp_path: Path) -> None:
     from openstat_engine.accessibility import (
         THEMES,
         AccessibilityManager,
+        ThemePalette,
         calculate_contrast_ratio,
     )
     from openstat_engine.rpc import Service
@@ -639,6 +639,18 @@ def test_accessibility_and_appearance_contract(reference_fixture: Any, tmp_path:
         assert wcag["text_secondary_aa"] is True
         assert wcag["surface_text_aa"] is True
         assert wcag["accent_ui_aa"] is True
+
+    gray_text = ThemePalette(
+        name="gray_text",
+        background="#FFFFFF",
+        surface="#FFFFFF",
+        text_primary="#000000",
+        text_secondary="#898989",
+        accent="#000000",
+        border="#000000",
+    )
+    assert 3.0 < calculate_contrast_ratio("#898989", "#FFFFFF") < 4.5
+    assert gray_text.validate_wcag()["text_secondary_aa"] is False
 
     with pytest.raises(EngineError, match="error.operation_options"):
         mgr.get_theme("nonexistent_theme")
