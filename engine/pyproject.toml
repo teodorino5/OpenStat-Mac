@@ -9,7 +9,7 @@ description = "Original statistical data foundation for OpenStat Mac"
 requires-python = ">=3.12,<3.13"
 license = "MIT"
 dependencies = [
-    "narwhals==2.27.1",
+    "narwhals==2.28.0",
     "numpy==2.5.4",
     "pandas==3.0.6",
     "pyarrow>=18,<26",
